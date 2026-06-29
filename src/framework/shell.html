@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0a0d0e">
+<meta name="color-scheme" content="dark">
+<title>TORRELD</title>
+<style>
+<!-- INJECT:STYLES -->
+</style>
+</head>
+<body>
+
+<a class="skip" href="#app">Skip to content</a>
+
+<div class="topbar"><div class="wrap">
+  <div class="brandmark" id="brand"></div>
+  <div class="packs" id="packSwitcher" role="tablist" aria-label="Exercise pack"></div>
+  <nav class="topnav" id="topnav" aria-label="Section"></nav>
+</div></div>
+
+<header class="hero" id="hero"></header>
+<main class="wrap" id="app"></main>
+
+<!-- TIMER CONSOLE (shared engine — not content) -->
+<div class="console" id="console" aria-label="Training timer">
+  <div class="wrap">
+    <div class="c-left">
+      <div class="modeswitch" role="group" aria-label="Timer mode">
+        <button id="mPar" aria-pressed="true">Par</button>
+        <button id="mCyc" aria-pressed="false">Circuit</button>
+      </div>
+      <div class="armed">Drill: <b id="armedLabel">&mdash; none &mdash;</b></div>
+    </div>
+    <div class="c-center">
+      <div class="readout" id="readout" aria-live="off">1.50</div>
+      <div class="status" id="status"><span class="dot"></span>Ready</div>
+    </div>
+    <div class="c-right">
+      <div class="fields">
+        <div class="field"><label for="fPar">Par (s)</label><input id="fPar" type="number" inputmode="decimal" step="0.05" min="0.3" value="1.50"></div>
+        <div class="field"><label for="fDmin">Delay min</label><input id="fDmin" type="number" inputmode="decimal" step="0.5" min="0" value="1.5"></div>
+        <div class="field"><label for="fDmax">Delay max</label><input id="fDmax" type="number" inputmode="decimal" step="0.5" min="0" value="3.5"></div>
+        <div class="field"><label for="fReps">Reps</label><input id="fReps" type="number" inputmode="numeric" step="1" min="1" value="1" disabled></div>
+        <div class="field"><label for="fRest">Rest (s)</label><input id="fRest" type="number" inputmode="decimal" step="0.5" min="0" value="0" disabled></div>
+      </div>
+      <div class="actions">
+        <button class="btn-go" id="go">Start</button>
+        <button class="btn-ghost" id="reset">Reset</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+"use strict";
+/* TORRELD framework + packs (inlined at build time). */
+window.TORRELD = window.TORRELD || { packs: [], activeId: null };
+function registerPack(p){
+  if(!p||!p.id) return;
+  window.TORRELD.packs.push(p);
+}
+
+/* ===== Packs ===== */
+<!-- INJECT:PACKS -->
+
+/* ===== Framework ===== */
+<!-- INJECT:FRAMEWORK -->
+
+/* Boot. */
+TORRELD.boot();
+</script>
+</body>
+</html>
