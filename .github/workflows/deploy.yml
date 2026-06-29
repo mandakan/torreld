@@ -33,11 +33,6 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Set up Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
       - name: Build dist/index.html
         run: make build
 
@@ -62,5 +57,9 @@ jobs:
       - name: Deploy with Wrangler
         uses: cloudflare/wrangler-action@v3
         with:
+          # Pin wrangler 4.x. The action defaults to 3.90.0, which doesn't
+          # support assets-only Workers (no `main` script) and fails with
+          # "Missing entry-point" against our wrangler.jsonc.
+          wranglerVersion: '4'
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
