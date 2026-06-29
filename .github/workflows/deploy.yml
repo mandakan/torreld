@@ -1,0 +1,66 @@
+name: Deploy to Cloudflare
+
+# Pushes to main rebuild dist/index.html and deploy to torreld.urdr.dev via the
+# assets-only Worker defined in wrangler.jsonc. Manual re-deploys are available
+# via the workflow_dispatch trigger in the Actions tab.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Only one deploy at a time; if a newer push arrives mid-flight, cancel the
+# in-progress run and deploy the newer one instead.
+concurrency:
+  group: deploy
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://torreld.urdr.dev/
+    steps:
+      - name: Check out
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Build dist/index.html
+        run: make build
+
+      - name: Verify no unresolved inject tokens
+        run: |
+          if grep -n 'INJECT:' dist/index.html; then
+            echo "::error::dist/index.html contains unresolved <!-- INJECT:* --> tokens"
+            exit 1
+          fi
+
+      - name: Syntax-check inline JS
+        run: |
+          python3 - <<'PY'
+          import re, sys
+          src = open('dist/index.html', encoding='utf-8').read()
+          m = re.search(r'<script>(.*?)</script>', src, re.S)
+          assert m, 'no <script> found in dist/index.html'
+          open('/tmp/check.js', 'w').write(m.group(1))
+          PY
+          node --check /tmp/check.js
+
+      - name: Deploy with Wrangler
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
