@@ -1,15 +1,15 @@
-# TORRELD deploy helpers. The app is one self-contained HTML file; "building"
-# is just copying it to dist/index.html so Cloudflare serves it at the root.
-SRC  = torreld-template.html
-DIST = dist/index.html
+# TORRELD deploy helpers. The deployed artifact is one self-contained HTML
+# file; `make build` inlines src/ into dist/index.html via build.py.
+DIST    = dist/index.html
+BUILD   = build.py
+SRC     = $(wildcard src/framework/*) $(wildcard src/packs/*.js)
 
 .PHONY: build deploy clean
 
 build: $(DIST)
 
-$(DIST): $(SRC)
-	mkdir -p dist
-	cp $(SRC) $(DIST)
+$(DIST): $(BUILD) $(SRC)
+	python3 $(BUILD)
 
 # Sync the artifact, then publish the Worker (binds torreld.urdr.dev).
 deploy: build
