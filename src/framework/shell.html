@@ -23,35 +23,70 @@
 <header class="hero" id="hero"></header>
 <main class="wrap" id="app"></main>
 
-<!-- TIMER CONSOLE (shared engine — not content) -->
-<div class="console" id="console" aria-label="Training timer">
-  <div class="wrap">
-    <div class="c-left">
-      <div class="modeswitch" role="group" aria-label="Timer mode">
-        <button id="mPar" aria-pressed="true">Par</button>
-        <button id="mCyc" aria-pressed="false">Circuit</button>
+<!--
+  TIMER CONSOLE
+  Mobile: a compact bottom bar (always visible) that expands into a sheet
+  on tap. Desktop (>=860px): the bar is hidden and the panel is laid out
+  as a single horizontal row. State is driven by aria-expanded on .console.
+-->
+<aside class="console" id="console" aria-expanded="false" aria-label="Training timer">
+  <button class="console-grip"
+          id="consoleGrip"
+          type="button"
+          aria-controls="consolePanel"
+          aria-expanded="false"
+          aria-label="Expand timer">
+    <span class="grip-bar" aria-hidden="true"></span>
+  </button>
+
+  <!-- Compact bar — visible on mobile when collapsed. -->
+  <div class="console-bar" id="consoleBar">
+    <button class="bar-info"
+            id="consoleBarInfo"
+            type="button"
+            aria-controls="consolePanel"
+            aria-expanded="false"
+            aria-label="Expand timer">
+      <span class="bar-pill">Drill</span>
+      <span class="bar-label" id="armedLabel">&mdash; none &mdash;</span>
+    </button>
+    <div class="bar-readout" id="readoutMini" aria-hidden="true">1.50</div>
+    <button class="bar-go" id="goMini" type="button" aria-label="Start timer">Start</button>
+  </div>
+
+  <!-- Expanded panel — full controls. Always visible on desktop. -->
+  <div class="console-panel" id="consolePanel" inert>
+    <div class="wrap">
+      <div class="c-left">
+        <div class="modeswitch" role="group" aria-label="Timer mode">
+          <button id="mPar" type="button" aria-pressed="true">Par</button>
+          <button id="mCyc" type="button" aria-pressed="false">Circuit</button>
+        </div>
+        <div class="armed">Drill: <b id="armedLabelFull">&mdash; none &mdash;</b></div>
       </div>
-      <div class="armed">Drill: <b id="armedLabel">&mdash; none &mdash;</b></div>
-    </div>
-    <div class="c-center">
-      <div class="readout" id="readout" aria-live="off">1.50</div>
-      <div class="status" id="status"><span class="dot"></span>Ready</div>
-    </div>
-    <div class="c-right">
-      <div class="fields">
-        <div class="field"><label for="fPar">Par (s)</label><input id="fPar" type="number" inputmode="decimal" step="0.05" min="0.3" value="1.50"></div>
-        <div class="field"><label for="fDmin">Delay min</label><input id="fDmin" type="number" inputmode="decimal" step="0.5" min="0" value="1.5"></div>
-        <div class="field"><label for="fDmax">Delay max</label><input id="fDmax" type="number" inputmode="decimal" step="0.5" min="0" value="3.5"></div>
-        <div class="field"><label for="fReps">Reps</label><input id="fReps" type="number" inputmode="numeric" step="1" min="1" value="1" disabled></div>
-        <div class="field"><label for="fRest">Rest (s)</label><input id="fRest" type="number" inputmode="decimal" step="0.5" min="0" value="0" disabled></div>
+      <div class="c-center">
+        <div class="readout" id="readout" aria-live="off">1.50</div>
+        <div class="status" id="status"><span class="dot"></span>Ready</div>
       </div>
-      <div class="actions">
-        <button class="btn-go" id="go">Start</button>
-        <button class="btn-ghost" id="reset">Reset</button>
+      <div class="c-right">
+        <div class="fields">
+          <div class="field"><label for="fPar">Par (s)</label><input id="fPar" type="number" inputmode="decimal" step="0.05" min="0.3" value="1.50"></div>
+          <div class="field"><label for="fDmin">Delay min</label><input id="fDmin" type="number" inputmode="decimal" step="0.5" min="0" value="1.5"></div>
+          <div class="field"><label for="fDmax">Delay max</label><input id="fDmax" type="number" inputmode="decimal" step="0.5" min="0" value="3.5"></div>
+          <div class="field"><label for="fReps">Reps</label><input id="fReps" type="number" inputmode="numeric" step="1" min="1" value="1" disabled></div>
+          <div class="field"><label for="fRest">Rest (s)</label><input id="fRest" type="number" inputmode="decimal" step="0.5" min="0" value="0" disabled></div>
+        </div>
+        <div class="actions">
+          <button class="btn-go" id="go" type="button">Start</button>
+          <button class="btn-ghost" id="reset" type="button">Reset</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
+</aside>
+
+<!-- Scrim — dims page content when the timer sheet is expanded on mobile. -->
+<div class="scrim" id="scrim" aria-hidden="true"></div>
 
 <script>
 "use strict";

@@ -125,10 +125,19 @@
   }
 
   function wireDrills(){
+    var cards = document.querySelectorAll(".card");
     Array.prototype.forEach.call(
       document.querySelectorAll(".arm button"),
       function(b){
+        var card = b.closest(".card");
         b.addEventListener("click", function(){
+          /* Mark the armed card so users can see which drill the timer is
+             set up for when scrolling through the program. */
+          Array.prototype.forEach.call(cards, function(c){
+            c.classList.remove("armed");
+          });
+          if(card) card.classList.add("armed");
+
           var d = b.dataset;
           T.timer.arm({
             mode: d.mode,

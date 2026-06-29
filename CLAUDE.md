@@ -104,6 +104,17 @@ Strings may contain HTML and entities. Section ids referenced by `nav` are hard-
 - Audio: Web Audio `triangle` tones (start 880 Hz, par 1318 Hz). `AudioContext` is created/resumed on the first **Start** click — a browser gesture requirement, not a bug. The first beep of a session may lag slightly while audio wakes.
 - State machine: `idle → waiting → running → (rest →) … → done`. All timeouts/rAF are tracked and cleared in `clearTimers()`; reuse it, don't spawn untracked timers.
 
+### Console UX (mobile sheet, desktop strip)
+
+The fixed timer console renders two layouts off the same DOM, switched by a `min-width: 860px` media query:
+
+- **Mobile (default):** a compact ~80 px bar at the bottom (drill label, mini readout, Start/Stop). Tapping the grip handle or the label expands a bottom-sheet panel with the mode toggle, the big readout, fields, and Reset. A scrim dims the page behind the sheet; scrim-tap, ESC, or grip-tap collapses it. Arming a drill auto-expands the sheet so the user can verify the new par. State is driven by `aria-expanded` on `#console`; the panel gets the `inert` attribute when collapsed so focus and screen readers skip it. Body gets `console-open` to lock scroll while the sheet is up.
+- **Desktop (≥ 860 px):** grip, bar, and scrim are hidden; the panel is always visible and laid out as a single horizontal row (mode + label / big readout + status / fields + actions).
+
+The bar and panel share state via four pairs of synced elements (`#readout`/`#readoutMini`, `#armedLabel`/`#armedLabelFull`, `#go`/`#goMini`). `timer.js` updates all of them in lockstep via `setReadoutText`, `setReadoutClass`, `setGo`, `setLabel` — never poke one without the other.
+
+The currently armed drill is also marked with `.card.armed` in the renderer's click handler, so users can see which drill the timer is set up for without expanding the sheet.
+
 ## Design system
 
 - Dark "range/tactical". All colors are CSS custom properties in `:root` — derive new colors from tokens, don't hard-code hex in rules.
