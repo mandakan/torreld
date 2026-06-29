@@ -1,0 +1,12 @@
+{
+  // TORRELD — assets-only Worker (serves the single static HTML file).
+  // No `main` script: Cloudflare serves ./dist directly. Zero build step.
+  "name": "torreld",
+  "compatibility_date": "2026-06-29",
+  "assets": {
+    "directory": "./dist"
+  },
+  "routes": [
+    { "pattern": "torreld.urdr.dev", "custom_domain": true }
+  ]
+}

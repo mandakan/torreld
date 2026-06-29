@@ -1,0 +1,5 @@
+# Generated deploy artifact — rebuilt from torreld-template.html via `make build`.
+/dist/
+
+# Wrangler local state.
+.wrangler/

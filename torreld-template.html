@@ -1,0 +1,518 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TORRELD — training protocol template</title>
+<style>
+:root{
+  --void:#0a0d0e; --steel:#12171a; --steel2:#1a2125; --raise:#212a2e;
+  --line:#283034; --line2:#3a4549;
+  --text:#dce3e5; --muted:#8a9599; --muted2:#5d676b;
+  --amber:#ffb02e; --amber-soft:#caa15a; --amber-glow:rgba(255,176,46,.45);
+  --hot:#ff3b30; --hot-glow:rgba(255,59,48,.5); --go:#43d27a;
+  --mono: ui-monospace,"SF Mono","JetBrains Mono",Menlo,Consolas,monospace;
+  --sans: system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--void);color:var(--text);font-family:var(--sans);line-height:1.55;-webkit-font-smoothing:antialiased;padding-bottom:168px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+a{color:var(--amber);text-decoration:none;border-bottom:1px solid var(--line2)}
+a:hover{border-color:var(--amber)}
+h1,h2,h3{font-weight:800;letter-spacing:.02em;line-height:1.05;margin:0}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.32em;text-transform:uppercase;color:var(--muted);margin:0 0 14px}
+
+.topbar{position:sticky;top:0;z-index:40;background:rgba(10,13,14,.82);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:52px}
+.brandmark{font-family:var(--mono);font-weight:700;letter-spacing:.28em;font-size:13px;text-transform:uppercase}
+.brandmark b{color:var(--amber)}
+.topnav{display:flex;gap:22px;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase}
+.topnav a{color:var(--muted);border:0}
+.topnav a:hover{color:var(--text)}
+@media(max-width:640px){.topnav{display:none}}
+
+.hero{padding:84px 0 64px;border-bottom:1px solid var(--line);position:relative;overflow:hidden}
+.hero .wrap{position:relative;z-index:2}
+.hero h1{font-size:clamp(52px,12vw,128px);letter-spacing:-.01em;text-transform:uppercase}
+.hero h1 .dim{color:var(--muted2)}
+.lede{max-width:620px;margin:26px 0 0;font-size:18px;color:#c3cccf}
+.lede strong{color:var(--text);font-weight:700}
+.hero-readout{margin-top:40px;display:inline-flex;align-items:baseline;gap:16px;border:1px solid var(--line2);border-radius:4px;padding:18px 26px;background:linear-gradient(180deg,var(--steel2),var(--steel))}
+.hero-readout .num{font-family:var(--mono);font-weight:700;font-size:46px;color:var(--amber);text-shadow:0 0 22px var(--amber-glow);font-variant-numeric:tabular-nums}
+.hero-readout .lab{font-family:var(--mono);font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--muted)}
+.hero::after{content:"";position:absolute;inset:0;background:radial-gradient(60% 80% at 80% -10%,rgba(255,176,46,.07),transparent 70%);z-index:1;pointer-events:none}
+
+section{padding:64px 0;border-bottom:1px solid var(--line)}
+.section-head{display:flex;align-items:baseline;gap:16px;margin-bottom:36px}
+.section-head h2{font-size:clamp(26px,4vw,40px);text-transform:uppercase}
+.lane{font-family:var(--mono);font-size:12px;color:var(--amber);letter-spacing:.2em;border:1px solid var(--line2);border-radius:3px;padding:4px 9px;white-space:nowrap}
+.intro{max-width:680px;color:#c3cccf;margin:0 0 28px}
+
+.chain{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;align-items:stretch}
+@media(max-width:760px){.chain{grid-template-columns:1fr}.chain .arrow{display:none}}
+.node{background:var(--steel);border:1px solid var(--line);border-radius:5px;padding:20px}
+.node.root{border-color:var(--amber);box-shadow:inset 0 0 0 1px rgba(255,176,46,.12)}
+.node .tag{font-family:var(--mono);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted)}
+.node.root .tag{color:var(--amber)}
+.node h3{font-size:19px;margin:8px 0 6px;text-transform:uppercase}
+.node p{margin:0;font-size:13.5px;color:var(--muted)}
+.arrow{display:flex;align-items:center;justify-content:center;color:var(--line2);font-family:var(--mono);font-size:22px;padding:0 14px}
+.note{margin-top:30px;display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media(max-width:640px){.note{grid-template-columns:1fr}}
+.note > div{border:1px solid var(--line);border-left:2px solid var(--line2);border-radius:4px;padding:16px 18px;background:var(--steel)}
+.note h4{margin:0 0 6px;font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--text)}
+.note .can h4,.note h4.can{color:var(--go)} .note .cant h4,.note h4.cant{color:var(--hot)}
+.note p{margin:0;font-size:13.5px;color:var(--muted)}
+
+.week{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}
+@media(max-width:760px){.week{grid-template-columns:1fr 1fr}}
+@media(max-width:440px){.week{grid-template-columns:1fr}}
+.day{background:var(--steel);border:1px solid var(--line);border-radius:5px;padding:16px;min-height:150px;display:flex;flex-direction:column}
+.day .n{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--muted);text-transform:uppercase}
+.day .focus{font-weight:800;text-transform:uppercase;font-size:15px;margin:8px 0 12px}
+.day ul{margin:0;padding:0;list-style:none;font-family:var(--mono);font-size:12px;color:var(--muted);display:flex;flex-direction:column;gap:7px}
+.day li::before{content:"\203A  ";color:var(--amber-soft)}
+.day.primary{border-color:var(--amber)}
+.day.primary .focus{color:var(--amber)}
+.weeknote{margin-top:18px;font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.04em}
+.weeknote b{color:var(--amber)}
+
+.drills{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:760px){.drills{grid-template-columns:1fr}}
+.card{background:linear-gradient(180deg,var(--steel2),var(--steel));border:1px solid var(--line);border-radius:6px;padding:22px;display:flex;flex-direction:column}
+.card.span{grid-column:1/-1}
+.card.primary{border-color:var(--amber);box-shadow:0 0 0 1px rgba(255,176,46,.1)}
+.card-top{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.chip{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;padding:4px 8px;border-radius:3px;border:1px solid var(--line2);color:var(--muted)}
+.chip.prim{border-color:var(--amber);color:var(--amber)}
+.chip.par{border-color:#3a4d63;color:#7fa9d6}
+.chip.cyc{border-color:#5a4a2a;color:var(--amber-soft)}
+.card h3{font-size:21px;text-transform:uppercase;margin-bottom:8px}
+.card .why{font-size:14px;color:#c3cccf;margin:0 0 14px}
+.card ol{margin:0 0 16px;padding-left:18px;font-size:13.5px;color:var(--muted)}
+.card ol li{margin-bottom:6px}
+.spec{display:flex;gap:18px;flex-wrap:wrap;font-family:var(--mono);font-size:12px;color:var(--muted);margin-top:auto;padding-top:14px;border-top:1px solid var(--line)}
+.spec b{color:var(--text);font-weight:700}.spec .v{color:var(--amber)}
+.arm{margin-top:16px}
+.arm button{width:100%;font-family:var(--mono);font-size:12px;letter-spacing:.22em;text-transform:uppercase;background:transparent;color:var(--amber);border:1px solid var(--amber);border-radius:4px;padding:12px;cursor:pointer;transition:.15s}
+.arm button:hover{background:rgba(255,176,46,.1)}
+.arm button:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+
+.evidence-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:640px){.evidence-grid{grid-template-columns:1fr}}
+.eitem{border:1px solid var(--line);border-radius:5px;padding:18px;background:var(--steel)}
+.eitem .map{font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--amber);margin-bottom:8px}
+.eitem h3{font-size:16px;text-transform:uppercase;margin-bottom:8px}
+.eitem p{margin:0;font-size:13.5px;color:var(--muted)}
+.caveat{margin-top:20px;border-left:2px solid var(--hot);background:var(--steel);padding:14px 18px;border-radius:4px;font-size:13.5px;color:var(--muted)}
+.caveat b{color:var(--text)}
+
+.tier{margin-bottom:26px}
+.tierhead{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--amber-soft);margin:0 0 12px;display:flex;align-items:center;gap:12px}
+.tierhead::after{content:"";flex:1;height:1px;background:var(--line)}
+.refs{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:640px){.refs{grid-template-columns:1fr}}
+.ref{border:1px solid var(--line);border-radius:4px;padding:16px 18px;background:var(--steel)}
+.ref .rhead{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:6px}
+.ref .src{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--text)}
+.grade{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;padding:3px 7px;border-radius:3px;border:1px solid var(--line2);color:var(--muted);white-space:nowrap}
+.ref p{margin:0 0 8px;font-size:13px;color:var(--muted)}
+.ref a{font-family:var(--mono);font-size:12px;word-break:break-all;display:inline-block;margin-right:12px}
+.footer{padding:40px 0 60px;color:var(--muted2);font-family:var(--mono);font-size:11px;letter-spacing:.1em}
+
+.console{position:fixed;left:0;right:0;bottom:0;z-index:50;background:linear-gradient(180deg,#0e1416,#0a0d0e);border-top:1px solid var(--line2)}
+.console::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(180deg,rgba(255,255,255,.014) 0 1px,transparent 1px 3px);pointer-events:none}
+.console.flash{animation:armflash .6s ease}
+@keyframes armflash{0%{box-shadow:0 -10px 40px -10px var(--amber-glow)}100%{box-shadow:none}}
+.console .wrap{display:grid;grid-template-columns:auto 1fr auto;gap:22px;align-items:center;padding:14px 24px}
+@media(max-width:820px){.console .wrap{grid-template-columns:1fr;gap:12px;padding:12px 18px}}
+.c-left{display:flex;flex-direction:column;gap:8px;min-width:150px}
+.modeswitch{display:inline-flex;border:1px solid var(--line2);border-radius:4px;overflow:hidden;width:max-content}
+.modeswitch button{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;background:transparent;color:var(--muted);border:0;padding:7px 12px;cursor:pointer}
+.modeswitch button[aria-pressed="true"]{background:var(--amber);color:#1a1205;font-weight:700}
+.armed{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.armed b{color:var(--text)}
+.c-center{display:flex;flex-direction:column;align-items:center}
+.readout{font-family:var(--mono);font-weight:700;font-size:clamp(42px,9vw,68px);line-height:1;color:var(--amber);text-shadow:0 0 26px var(--amber-glow);font-variant-numeric:tabular-nums;transition:color .08s}
+.readout.go{color:var(--go);text-shadow:0 0 26px rgba(67,210,122,.45)}
+.readout.par{color:var(--hot);text-shadow:0 0 30px var(--hot-glow)}
+.readout.rest{color:var(--amber-soft);text-shadow:none}
+.status{font-family:var(--mono);font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--muted);margin-top:6px;min-height:14px}
+.status.live{color:var(--amber)}
+.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--muted2);margin-right:7px;vertical-align:middle}
+.status.live .dot{background:var(--amber);box-shadow:0 0 8px var(--amber);animation:blink 1s steps(2,end) infinite}
+@keyframes blink{50%{opacity:.25}}
+.c-right{display:flex;flex-direction:column;gap:10px;align-items:flex-end}
+.fields{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+.field{display:flex;flex-direction:column;gap:3px}
+.field label{font-family:var(--mono);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted2)}
+.field input{width:62px;background:var(--steel);border:1px solid var(--line2);border-radius:3px;color:var(--text);font-family:var(--mono);font-size:13px;padding:6px 8px;text-align:center}
+.field input:disabled{opacity:.35}
+.field input:focus-visible{outline:1px solid var(--amber);outline-offset:1px}
+.actions{display:flex;gap:8px}
+.btn-go{font-family:var(--mono);font-size:13px;letter-spacing:.22em;text-transform:uppercase;font-weight:700;background:var(--amber);color:#150f02;border:0;border-radius:4px;padding:11px 26px;cursor:pointer}
+.btn-go.stop{background:var(--hot);color:#fff}
+.btn-go:focus-visible{outline:2px solid #fff;outline-offset:2px}
+.btn-ghost{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;background:transparent;color:var(--muted);border:1px solid var(--line2);border-radius:4px;padding:11px 14px;cursor:pointer}
+.btn-ghost:hover{color:var(--text)}
+@media(max-width:820px){.c-right{align-items:stretch}.fields{justify-content:space-between}.actions{justify-content:space-between}.btn-go{flex:1}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.status.live .dot{animation:none}.console.flash{animation:none}}
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="wrap" id="topbar"></div></div>
+<header class="hero" id="hero"></header>
+<main class="wrap" id="app"></main>
+
+<!-- TIMER CONSOLE (shared engine — not content) -->
+<div class="console" id="console" aria-label="Training timer">
+  <div class="wrap">
+    <div class="c-left">
+      <div class="modeswitch" role="group" aria-label="Timer mode">
+        <button id="mPar" aria-pressed="true">Par</button>
+        <button id="mCyc" aria-pressed="false">Circuit</button>
+      </div>
+      <div class="armed">Drill: <b id="armedLabel">&mdash; none &mdash;</b></div>
+    </div>
+    <div class="c-center">
+      <div class="readout" id="readout" aria-live="off">1.50</div>
+      <div class="status" id="status"><span class="dot"></span>Ready</div>
+    </div>
+    <div class="c-right">
+      <div class="fields">
+        <div class="field"><label for="fPar">Par (s)</label><input id="fPar" type="number" step="0.05" min="0.3" value="1.50"></div>
+        <div class="field"><label for="fDmin">Delay min</label><input id="fDmin" type="number" step="0.5" min="0" value="1.5"></div>
+        <div class="field"><label for="fDmax">Delay max</label><input id="fDmax" type="number" step="0.5" min="0" value="3.5"></div>
+        <div class="field"><label for="fReps">Reps</label><input id="fReps" type="number" step="1" min="1" value="1" disabled></div>
+        <div class="field"><label for="fRest">Rest (s)</label><input id="fRest" type="number" step="0.5" min="0" value="0" disabled></div>
+      </div>
+      <div class="actions">
+        <button class="btn-go" id="go">Start</button>
+        <button class="btn-ghost" id="reset">Reset</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* =========================================================================
+   PROGRAM DATA  —  edit only this object to make a new program.
+   Nothing below this object needs to change.
+   ========================================================================= */
+var PROGRAM = {
+  brand:{ pre:"TORR", post:"ELD" },
+  nav:[
+    {id:"diagnosis", label:"Diagnosis"},
+    {id:"program",   label:"Program"},
+    {id:"drills",    label:"Drills"},
+    {id:"evidence",  label:"Evidence"},
+    {id:"references",label:"References"}
+  ],
+  hero:{
+    eyebrow:"Dry-fire protocol &middot; dynamic pistol shooting",
+    title:["Grip","first."],
+    lede:"Index, movement and follow-up shots aren't separate problems &mdash; they all hang on one <strong>consistent grip that survives movement</strong>. This is a par-time-driven program you run at home, built around the one lever you have when range time is rare.",
+    readout:{ num:"1.20", label:"par &middot; seconds" }
+  },
+  diagnosis:{
+    lane:"CASE",
+    title:"The diagnosis behind the program",
+    intro:"The program is built from a concrete fault analysis of a Production Optics competitor: the grip holds from the holster, but the <em>support hand degrades after movement</em>, which in turn makes the dot hard to find on presentation. The conclusion generalizes &mdash; the chain looks the same for most shooters.",
+    chain:[
+      {root:true, tag:"Root", title:"Grip", body:"Inconsistent support hand after movement. Everything below rests on this."},
+      {tag:"Symptom", title:"Index", body:"The dot isn't there on presentation. ~80% a consequence of the grip."},
+      {tag:"Secondary", title:"Movement + follow-up", body:"Improve once the grip holds. Partly trained alongside the root."}
+    ],
+    notes:{
+      can:{ title:"&#10003; What dry fire gives", body:"Grip consistency, index, presentation and &mdash; most importantly &mdash; re-establishing the grip <em>during</em> movement. That's most of the problem." },
+      cant:{ title:"&#10007; What it doesn't", body:"Grip strength under recoil, recoil control and follow-up speed need live fire. National precision disciplines transfer almost nothing here. Spend your rare live sessions there." }
+    }
+  },
+  program:{
+    lane:"5 SESSIONS",
+    title:"The week",
+    sessions:[
+      {n:"Session 01", primary:true, focus:"Grip + index", items:["Move-and-regrip","Eyes-closed index"]},
+      {n:"Session 02", primary:true, focus:"Grip + index", items:["Move-and-regrip","Grip reference"]},
+      {n:"Session 03", primary:true, focus:"Grip + index", items:["Move-and-regrip","Eyes-closed index"]},
+      {n:"Session 04", primary:false, focus:"Presentation", items:["Target-focused presentation"]},
+      {n:"Session 05", primary:false, focus:"Movement", items:["Move-and-regrip","Grip under fatigue"]}
+    ],
+    note:"10&ndash;15 min/session. Quality over volume &mdash; a bad rep doesn't count. <b>Spend ~70% of the time on Move-and-regrip</b>: it attacks the root fault, the rest follows."
+  },
+  drills:{
+    lane:"ARM",
+    title:"The drills",
+    intro:"Each card arms the timer at the bottom with a starting setup. The par times are <em>starting values</em> &mdash; adjust them and log your own.",
+    items:[
+      {
+        primary:true, span:true,
+        chips:[{cls:"prim",label:"Primary"},{cls:"cyc",label:"Circuit"},{cls:"",label:"Grip &middot; movement"}],
+        title:"Move-and-regrip",
+        why:"The root fault isn't building the grip from the holster &mdash; it's re-establishing it under dynamic load. Train the move-and-regrip rep itself; nothing else fixes it.",
+        steps:[
+          "Set up in one position. Move to the next (a couple of steps is enough).",
+          "Re-establish the support hand as the <em>first</em> thing &mdash; grip set and confirmed before the dot settles.",
+          "Freeze on arrival, check placement and pressure. If it isn't perfect, the rep doesn't count.",
+          "Slow and perfect first, then speed."
+        ],
+        timer:{mode:"circuit", par:"2.0", dmin:"1.5", dmax:"3.0", reps:"8", rest:"4"},
+        label:"Move-and-regrip"
+      },
+      {
+        chips:[{cls:"par",label:"Par"},{cls:"",label:"Index"}],
+        title:"Eyes-closed index",
+        why:"Isolates index from searching. Reveals whether the dot arrives low (presenting below the eyeline) or left/high (the support hand).",
+        steps:[
+          "Fix your eyes on an exact point on the target, then close them.",
+          "Present. Open your eyes.",
+          "The dot should sit where you were looking. Note the pattern in the miss."
+        ],
+        timer:{mode:"par", par:"1.5", dmin:"1.5", dmax:"3.5", reps:"1", rest:"0"},
+        label:"Eyes-closed index"
+      },
+      {
+        chips:[{cls:"par",label:"Par"},{cls:"",label:"Index &middot; presentation"}],
+        title:"Target-focused presentation",
+        why:"Stop hunting for the dot. Drive the gun up into your line of sight so the dot appears where your eye already is &mdash; search the glass and you're late by definition.",
+        steps:[
+          "Lock your eyes on a small exact aim point <em>before</em> the gun comes up.",
+          "Drive the gun up into that line. Bring the dot to the eye &mdash; don't dip your head.",
+          "Break on the par beep."
+        ],
+        timer:{mode:"par", par:"1.2", dmin:"1.5", dmax:"3.5", reps:"1", rest:"0"},
+        label:"Target-focused presentation"
+      },
+      {
+        chips:[{cls:"par",label:"Par"},{cls:"",label:"Grip"}],
+        title:"Grip reference",
+        why:"Build a grip you can recreate exactly without looking, using tactile reference points (magwell, trigger-guard underside, thumb rest).",
+        steps:[
+          "Build the grip, find the reference point with the support hand.",
+          "Confirm high placement, maximum contact, firm pressure, locked wrists.",
+          "Repeat until the reference sets blind, every time."
+        ],
+        timer:{mode:"par", par:"1.5", dmin:"1.5", dmax:"3.5", reps:"1", rest:"0"},
+        label:"Grip reference"
+      },
+      {
+        chips:[{cls:"cyc",label:"Circuit"},{cls:"",label:"Grip &middot; endurance"}],
+        title:"Grip under fatigue",
+        why:"The support hand gets sloppy when the forearm is tired &mdash; just like late in a stage. Train the grip in that state, not only when fresh.",
+        steps:[
+          "Run it late in the session, or after raising your heart rate.",
+          "Hold the grip to the same standard as when fresh.",
+          "Stop when quality drops &mdash; not when you could do more."
+        ],
+        timer:{mode:"circuit", par:"2.0", dmin:"1.5", dmax:"3.0", reps:"12", rest:"3"},
+        label:"Grip under fatigue"
+      }
+    ]
+  },
+  evidence:{
+    lane:"WHY IT WORKS",
+    title:"The science, mapped to the drills",
+    intro:"Most shooting advice is practitioner consensus. Where the program leans on motor-learning research, here is the mapping &mdash; and the honest limits.",
+    items:[
+      {map:"Move-and-regrip &middot; random delay", h:"Variable practice transfers better", body:"Varying the rep &mdash; random start delay, changing positions &mdash; tends to lower practice-day performance but improve retention and transfer to the unpredictable match, versus blocked repetition (the contextual-interference effect)."},
+      {map:"Dry vs live split", h:"You train what's present", body:"Motor skill is largely task- and effector-specific. Dry fire trains the draw, grip, index and presentation that are actually present; recoil and follow-up aren't present without a shot, so they need live fire. Precision pistol is a different task and transfers little."},
+      {map:"Eyes-closed index &middot; visualisation", h:"Mental rehearsal counts", body:"Mental practice produces a small-to-moderate measurable gain in meta-analysis (SMD around 0.4). Rehearsing the index and the plan in your head is real practice, not a warm-up ritual."},
+      {map:"Par timer &middot; log", h:"Measure to learn", body:"Feedback on the result drives motor learning. A par time turns a vague rep into a measured one, and a log turns a hunch about progress into data."}
+    ],
+    caveat:"<b>Honest limit.</b> The variable-practice advantage is robust in the lab but less consistent in complex, real-world tasks, and almost none of it is measured specifically in dynamic pistol shooting. Treat the science as direction, not proof &mdash; let your own timer and target data settle it."
+  },
+  references:{
+    lane:"SOURCES",
+    title:"Research",
+    tiers:[
+      {
+        tier:"Elite practitioners",
+        items:[
+          {src:"Practical Shooting Training Group", grade:"World champ / GM", body:"Stoeger, Hwansik Kim and Joel Park. Analytical recoil and grip work, vision/index, and the dry-fire-first philosophy this program is built on. Much is paywalled; the published class videos are the value.", links:[{label:"practicalshootingtraininggroup.com", url:"https://www.practicalshootingtraininggroup.com"}]},
+          {src:"Modern Samurai Project", grade:"Red-dot specialist", body:"Scott Jedlinski's system for presentation: the dot is found by the draw, not by hunting in the glass.", links:[{label:"modernsamuraiproject.com", url:"https://www.modernsamuraiproject.com/path-to-performance"}]},
+          {src:"Steve Anderson", grade:"USPSA GM", body:"The par-time dry-fire program this format mirrors (Refinement and Repetition) plus the podcast That Shooting Show.", links:[{label:"andersonshooting.com", url:"https://www.andersonshooting.com/product-page/refinement-and-repetition"}]},
+          {src:"Hwansik Kim", grade:"Top GM", body:"Analytical recoil management broken into grip, joints and stance &mdash; why locking often matters more than raw crush.", links:[{label:"No-friction grip (YouTube)", url:"https://www.youtube.com/watch?v=qYxjwAx2MD4"}]}
+        ]
+      },
+      {
+        tier:"Coaching reference",
+        items:[
+          {src:"Charlie Delta Academy", grade:"Explainer", body:"The grip &rarr; index link, and why tactile reference points produce a repeatable grip.", links:[{label:"charliedeltaacademy.com &mdash; Grip", url:"https://charliedeltaacademy.com/blogs/tips-techniques/fundamentals-part-ii-grip"}]},
+          {src:"Lanny Bassham &mdash; With Winning in Mind", grade:"Olympic champion", body:"Mental management from an Olympic gold-medal shooter; the lineage behind the match-mode mindset many practical-shooting coaches teach. Book, no single link.", links:[]}
+        ]
+      },
+      {
+        tier:"Science (peer-reviewed)",
+        items:[
+          {src:"Contextual interference &mdash; meta-analysis", grade:"Meta-analysis", body:"Random / varied practice improves retention and transfer versus blocked repetition; effect is clearer in the lab than in complex applied tasks.", links:[{label:"frontiersin.org (2024)", url:"https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2024.1377122/full"},{label:"nature.com (2024)", url:"https://www.nature.com/articles/s41598-024-65753-3"}]},
+          {src:"Specificity &amp; variability of practice", grade:"Review", body:"Motor skills are largely task-specific; transfer to untrained variations is real but suboptimal. Grounds the dry-vs-live split.", links:[{label:"pubmed.ncbi.nlm.nih.gov", url:"https://pubmed.ncbi.nlm.nih.gov/2094928/"}]},
+          {src:"Mental practice &mdash; meta-analysis", grade:"Meta-analysis", body:"Mental rehearsal yields a measurable post-acquisition gain (SMD around 0.4).", links:[{label:"ncbi.nlm.nih.gov/pmc", url:"https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4714441/"}]},
+          {src:"Schmidt &amp; Lee &mdash; Motor Learning and Performance", grade:"Textbook", body:"The standard reference for the principles above (practice schedule, specificity, feedback). Book, no single link.", links:[]}
+        ]
+      }
+    ]
+  },
+  footer:"TORRELD &middot; data-driven training template &middot; edit the PROGRAM object to build a new protocol &middot; par times are starting values, log your own &middot; standalone HTML, works offline."
+};
+
+/* =========================================================================
+   RENDERER  —  builds the page from PROGRAM. No need to edit below.
+   ========================================================================= */
+(function(){
+  "use strict";
+  var P=PROGRAM;
+  function esc(){}
+
+  // top bar
+  var navHTML = P.nav.map(function(n){return '<a href="#'+n.id+'">'+n.label+'</a>';}).join("");
+  document.getElementById("topbar").innerHTML =
+    '<div class="brandmark"><b>'+P.brand.pre+'</b>'+P.brand.post+'</div><nav class="topnav">'+navHTML+'</nav>';
+
+  // hero
+  document.getElementById("hero").innerHTML =
+    '<div class="wrap"><p class="eyebrow">'+P.hero.eyebrow+'</p>'+
+    '<h1>'+P.hero.title[0]+'<br><span class="dim">'+P.hero.title[1]+'</span></h1>'+
+    '<p class="lede">'+P.hero.lede+'</p>'+
+    '<div class="hero-readout"><span class="num">'+P.hero.readout.num+'</span><span class="lab">'+P.hero.readout.label+'</span></div></div>';
+
+  function head(lane,title){ return '<div class="section-head"><span class="lane">'+lane+'</span><h2>'+title+'</h2></div>'; }
+
+  // diagnosis
+  var d=P.diagnosis, chain="";
+  d.chain.forEach(function(node,i){
+    chain += '<div class="node'+(node.root?" root":"")+'"><div class="tag">'+node.tag+'</div><h3>'+node.title+'</h3><p>'+node.body+'</p></div>';
+    if(i<d.chain.length-1) chain += '<div class="arrow">&rarr;</div>';
+  });
+  var diagnosisHTML='<section id="diagnosis">'+head(d.lane,d.title)+
+    '<p class="intro">'+d.intro+'</p><div class="chain">'+chain+'</div>'+
+    '<div class="note"><div class="can"><h4 class="can">'+d.notes.can.title+'</h4><p>'+d.notes.can.body+'</p></div>'+
+    '<div class="cant"><h4 class="cant">'+d.notes.cant.title+'</h4><p>'+d.notes.cant.body+'</p></div></div></section>';
+
+  // program
+  var pr=P.program;
+  var days=pr.sessions.map(function(s){
+    var items=s.items.map(function(it){return '<li>'+it+'</li>';}).join("");
+    return '<div class="day'+(s.primary?" primary":"")+'"><div class="n">'+s.n+'</div><div class="focus">'+s.focus+'</div><ul>'+items+'</ul></div>';
+  }).join("");
+  var programHTML='<section id="program">'+head(pr.lane,pr.title)+'<div class="week">'+days+'</div><p class="weeknote">'+pr.note+'</p></section>';
+
+  // drills
+  var dr=P.drills;
+  var cards=dr.items.map(function(c){
+    var chips=c.chips.map(function(ch){return '<span class="chip'+(ch.cls?" "+ch.cls:"")+'">'+ch.label+'</span>';}).join("");
+    var steps=c.steps.map(function(s){return '<li>'+s+'</li>';}).join("");
+    var t=c.timer, spec='<span><b>Timer</b> <span class="v">'+(t.mode==="circuit"?"Circuit":"Par")+'</span></span><span><b>Par</b> <span class="v">'+t.par+' s</span></span>';
+    if(t.mode==="circuit") spec+='<span><b>Rest</b> <span class="v">'+t.rest+' s</span></span><span><b>Reps</b> <span class="v">'+t.reps+'</span></span>';
+    var btn='<button data-mode="'+t.mode+'" data-par="'+t.par+'" data-dmin="'+t.dmin+'" data-dmax="'+t.dmax+'" data-reps="'+t.reps+'" data-rest="'+t.rest+'" data-label="'+c.label+'">Arm timer</button>';
+    return '<div class="card'+(c.primary?" primary":"")+(c.span?" span":"")+'"><div class="card-top">'+chips+'</div>'+
+      '<h3>'+c.title+'</h3><p class="why">'+c.why+'</p><ol>'+steps+'</ol>'+
+      '<div class="spec">'+spec+'</div><div class="arm">'+btn+'</div></div>';
+  }).join("");
+  var drillsHTML='<section id="drills">'+head(dr.lane,dr.title)+'<p class="intro">'+dr.intro+'</p><div class="drills">'+cards+'</div></section>';
+
+  // evidence
+  var ev=P.evidence;
+  var eitems=ev.items.map(function(e){
+    return '<div class="eitem"><div class="map">'+e.map+'</div><h3>'+e.h+'</h3><p>'+e.body+'</p></div>';
+  }).join("");
+  var evidenceHTML='<section id="evidence">'+head(ev.lane,ev.title)+'<p class="intro">'+ev.intro+'</p>'+
+    '<div class="evidence-grid">'+eitems+'</div><div class="caveat">'+ev.caveat+'</div></section>';
+
+  // references
+  var rf=P.references;
+  var tiers=rf.tiers.map(function(tr){
+    var items=tr.items.map(function(r){
+      var links=r.links.map(function(l){return '<a href="'+l.url+'" target="_blank" rel="noopener">'+l.label+'</a>';}).join("");
+      return '<div class="ref"><div class="rhead"><span class="src">'+r.src+'</span><span class="grade">'+r.grade+'</span></div><p>'+r.body+'</p>'+links+'</div>';
+    }).join("");
+    return '<div class="tier"><div class="tierhead">'+tr.tier+'</div><div class="refs">'+items+'</div></div>';
+  }).join("");
+  var referencesHTML='<section id="references">'+head(rf.lane,rf.title)+tiers+'<p class="footer">'+P.footer+'</p></section>';
+
+  document.getElementById("app").innerHTML = diagnosisHTML+programHTML+drillsHTML+evidenceHTML+referencesHTML;
+
+  /* =======================  TIMER ENGINE  ======================= */
+  var ac=null;
+  function audio(){ if(!ac){var C=window.AudioContext||window.webkitAudioContext; if(C) ac=new C();} if(ac&&ac.state==="suspended") ac.resume(); }
+  function tone(freq,durMs,gainPeak){
+    if(!ac) return;
+    var t=ac.currentTime,o=ac.createOscillator(),g=ac.createGain();
+    o.type="triangle";o.frequency.value=freq;o.connect(g);g.connect(ac.destination);
+    g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(gainPeak||0.5,t+0.005);
+    g.gain.exponentialRampToValueAtTime(0.0001,t+durMs/1000);
+    o.start(t);o.stop(t+durMs/1000+0.03);
+  }
+  var startBeep=function(){tone(880,130,0.55);}, parBeep=function(){tone(1318,200,0.6);};
+
+  var $=function(id){return document.getElementById(id);};
+  var readout=$("readout"),statusEl=$("status"),fPar=$("fPar"),fDmin=$("fDmin"),fDmax=$("fDmax"),
+      fReps=$("fReps"),fRest=$("fRest"),goBtn=$("go"),resetBtn=$("reset"),
+      mPar=$("mPar"),mCyc=$("mCyc"),armedLabel=$("armedLabel"),consoleEl=$("console");
+
+  var mode="par",state="idle",currentRep=0,totalReps=1,runEndTs=0,restEndTs=0,
+      tWait=null,tPar=null,tRest=null,raf=null;
+
+  function num(el,def){var v=parseFloat(el.value);return isNaN(v)?def:v;}
+  function setMode(m){
+    mode=m;mPar.setAttribute("aria-pressed",m==="par");mCyc.setAttribute("aria-pressed",m==="circuit");
+    var c=(m==="circuit");fReps.disabled=!c;fRest.disabled=!c;if(!c){fReps.value=1;fRest.value=0;}
+    if(state!=="idle") stopAll(); showReady();
+  }
+  mPar.addEventListener("click",function(){setMode("par");});
+  mCyc.addEventListener("click",function(){setMode("circuit");});
+  function setStatus(txt,live){statusEl.innerHTML='<span class="dot"></span>'+txt;statusEl.classList.toggle("live",!!live);}
+  function setReadoutClass(c){readout.className="readout"+(c?(" "+c):"");}
+  function showReady(){setReadoutClass("");readout.textContent=num(fPar,1.5).toFixed(2);setStatus("Ready",false);goBtn.textContent="Start";goBtn.classList.remove("stop");}
+  function clearTimers(){if(tWait){clearTimeout(tWait);tWait=null;}if(tPar){clearTimeout(tPar);tPar=null;}if(tRest){clearTimeout(tRest);tRest=null;}if(raf){cancelAnimationFrame(raf);raf=null;}}
+  function stopAll(){clearTimers();state="idle";showReady();}
+  function loop(){
+    var now=performance.now();
+    if(state==="running"){readout.textContent=Math.max(0,(runEndTs-now)/1000).toFixed(2);}
+    else if(state==="rest"){readout.textContent=Math.max(0,(restEndTs-now)/1000).toFixed(1);}
+    raf=requestAnimationFrame(loop);
+  }
+  function beginRep(){
+    state="waiting";setReadoutClass("");readout.textContent=num(fPar,1.5).toFixed(2);
+    setStatus("Stand by &middot; rep "+currentRep+"/"+totalReps,true);
+    var dmin=num(fDmin,1.5),dmax=num(fDmax,3.5);if(dmax<dmin){var t=dmin;dmin=dmax;dmax=t;}
+    tWait=setTimeout(onGo,(dmin+Math.random()*(dmax-dmin))*1000);
+  }
+  function onGo(){
+    startBeep();state="running";setReadoutClass("go");setStatus("Go",true);
+    var parMs=num(fPar,1.5)*1000;runEndTs=performance.now()+parMs;tPar=setTimeout(onPar,parMs);
+  }
+  function onPar(){
+    parBeep();setReadoutClass("par");readout.textContent=num(fPar,1.5).toFixed(2);
+    if(mode==="circuit"&&currentRep<totalReps){
+      state="rest";setReadoutClass("rest");setStatus("Rest",true);
+      var restMs=num(fRest,0)*1000;restEndTs=performance.now()+restMs;
+      tRest=setTimeout(function(){currentRep++;beginRep();},restMs);
+    } else { state="done";setStatus("Done",false);goBtn.textContent="Start";goBtn.classList.remove("stop");if(raf){cancelAnimationFrame(raf);raf=null;} }
+  }
+  function start(){
+    audio();clearTimers();
+    totalReps=(mode==="circuit")?Math.max(1,Math.round(num(fReps,1))):1;currentRep=1;
+    goBtn.textContent="Stop";goBtn.classList.add("stop");raf=requestAnimationFrame(loop);beginRep();
+  }
+  goBtn.addEventListener("click",function(){ if(state==="idle"||state==="done"){start();}else{stopAll();} });
+  resetBtn.addEventListener("click",stopAll);
+  fPar.addEventListener("input",function(){ if(state==="idle"||state==="done") showReady(); });
+
+  Array.prototype.forEach.call(document.querySelectorAll(".arm button"),function(b){
+    b.addEventListener("click",function(){
+      var d=b.dataset;setMode(d.mode);
+      fPar.value=parseFloat(d.par).toFixed(2);fDmin.value=d.dmin;fDmax.value=d.dmax;
+      if(d.mode==="circuit"){fReps.value=d.reps;fRest.value=d.rest;}
+      armedLabel.textContent=d.label;stopAll();
+      consoleEl.classList.remove("flash");void consoleEl.offsetWidth;consoleEl.classList.add("flash");
+      consoleEl.scrollIntoView({block:"end"});
+    });
+  });
+
+  showReady();
+})();
+</script>
+</body>
+</html>
