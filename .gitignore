@@ -1,5 +1,9 @@
-# Generated deploy artifact — rebuilt from torreld-template.html via `make build`.
+# Generated deploy artifact - rebuilt from src/ via `make build`.
 /dist/
 
 # Wrangler local state.
 .wrangler/
+
+# Python bytecode cache from the build test suite.
+__pycache__/
+*.pyc
