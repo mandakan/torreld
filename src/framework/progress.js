@@ -17,17 +17,22 @@
   var DEFAULT_FLOOR = 0.6;   /* floor when a drill declares none */
 
   var store = {};            /* in-memory mirror; runtime source of truth */
+  var detected;              /* cached storage detection (undefined = not yet) */
 
   function round2(x){ return Math.round(x * 100) / 100; }
 
-  /* Feature-detect writable storage with a probe. Returns the store or null. */
+  /* Feature-detect writable storage with a probe, once. Returns the store or
+     null. Availability is stable per session, so the probe runs a single time
+     rather than on every persist(). */
   function storage(){
+    if(detected !== undefined) return detected;
     try {
       var s = window.localStorage;
       var k = "__torreld_probe__";
       s.setItem(k, "1"); s.removeItem(k);
-      return s;
-    } catch(e){ return null; }
+      detected = s;
+    } catch(e){ detected = null; }
+    return detected;
   }
 
   function load(){
@@ -83,7 +88,7 @@
       return { par: e.par, streak: 0, tightened: tightened, atFloor: e.par <= f };
     }
     persist();
-    return { par: e.par, streak: e.streak, tightened: false, atFloor: false };
+    return { par: e.par, streak: e.streak, tightened: false, atFloor: e.par <= f };
   }
 
   function recordTooTight(key, defaultPar){
@@ -118,6 +123,7 @@
     recordTooTight: recordTooTight,
     setPar: setPar,
     reset: reset,
-    resetAll: resetAll
+    resetAll: resetAll,
+    streakTarget: STREAK_TARGET
   };
 })();

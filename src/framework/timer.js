@@ -324,11 +324,12 @@
     if(!armedKey){ parMeta.hidden = true; return; }
     var cur = T.progress.getPar(armedKey, armedDefaultPar);
     var streak = T.progress.getStreak(armedKey);
+    var target = T.progress.streakTarget || 3;
     var adapted = r2(cur) !== r2(armedDefaultPar);
     var txt = (adapted
         ? "Par " + cur.toFixed(2) + " (from " + parseFloat(armedDefaultPar).toFixed(2) + ")"
         : "Par " + parseFloat(armedDefaultPar).toFixed(2))
-      + " &middot; " + streak + "/3 clean";
+      + " &middot; " + streak + "/" + target + " clean";
     parMetaText.innerHTML = txt;
     parMeta.hidden = false;
     if(parReset) parReset.hidden = !adapted;

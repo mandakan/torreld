@@ -127,3 +127,18 @@ test("degrades to session-only when storage is unavailable", () => {
   const reload = load({ noStorage: true }).progress;
   assert.strictEqual(reload.getPar(key, "1.20"), 1.2);
 });
+
+test("exposes the streak target so the UI can derive its label", () => {
+  const { progress } = load();
+  assert.strictEqual(progress.streakTarget, 3);
+});
+
+test("reports atFloor mid-streak when par already sits at the floor", () => {
+  const { progress } = load();
+  const key = "p::Drill";
+  progress.setPar(key, 0.6);                       // already at the default floor
+  const r = progress.recordMadeIt(key, "1.20", 0.6);
+  assert.strictEqual(r.streak, 1);                 // mid-streak (target is 3)
+  assert.strictEqual(r.tightened, false);
+  assert.strictEqual(r.atFloor, true);             // honest even before the trigger
+});

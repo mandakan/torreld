@@ -47,6 +47,8 @@ The whole point of the framework is that adding a training program is a content 
 
 **Default-pack ordering:** packs load alphabetically by filename. Prefix with `00-`, `10-`, etc. if you need the default-pack fallback (`packs[0]`) to land on a specific one.
 
+**Drill labels must stay quote-free.** A drill's `label` is the adaptive-par key and flows into a CSS attribute selector (`.now[data-label="..."]`) for the per-card par indicator. A `"` in a label would break that selector. Use plain text - the existing labels (`Move-and-regrip`, `Grip under load`) are the model. Optional per-drill `floor` (string seconds, e.g. `floor: "1.2"`) on a `timer` spec sets the lowest par adaptive tightening can reach; omit it to use the 0.6s default.
+
 ---
 
 ## Auto-deploy
