@@ -148,6 +148,7 @@
             dmax: d.dmax,
             reps: d.reps,
             rest: d.rest,
+            floor: d.floor,
             label: d.label
           });
         });
