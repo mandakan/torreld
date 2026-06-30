@@ -26,7 +26,7 @@ registerPack({
     hero: {
       eyebrow: "Dry-fire protocol &middot; dynamic pistol shooting",
       title: ["Stage", "in chunks."],
-      lede: "Squad walk-throughs run 2&ndash;5 minutes and the bay is contested by 5&ndash;12 shooters &mdash; you'll plan from inside the lane half the time and from outside the other half. A plan that survives the buzzer isn't a memorized movie; it's a small set of <strong>named, anchored chunks</strong> you can encode fast, hold in working memory, and patch under change. This program drills the encoding system itself.",
+      lede: "Squad walk-throughs run 2&ndash;5 minutes and the bay is contested by 5&ndash;12 shooters &mdash; L1 club through L3 national &mdash; so half the time you plan from inside the lane and the other half from outside. A plan that survives the buzzer isn't a memorized movie; it's a small set of <strong>named, anchored chunks</strong> &mdash; positions, target order, reload spots, entry and exit cues &mdash; you can encode fast, hold in working memory, and patch under change. This program drills the encoding system itself.",
       readout: { num: "10.00", label: "par &middot; seconds per chunk" }
     },
     diagnosis: {
@@ -34,12 +34,12 @@ registerPack({
       title: "The diagnosis behind the program",
       intro: "Stages don't fall apart on the line because the shooter is slow or has bad memory. They fall apart because the plan was <em>encoded as a continuous impression</em> instead of as a chunked, indexed structure &mdash; and under the buzzer, free-form impressions collapse first. The walk-through window is too short to plan from scratch on match day; the encoding system has to be automatic <em>before</em> you walk into the bay.",
       chain: [
-        { root: true, tag: "Root",      title: "Encoding",  body: "Stage taken in as a continuous experience, no chunking scheme. Without a repeatable structure &mdash; entry, anchored engagement, exit, per position &mdash; the plan can't be held under pressure." },
-        {              tag: "Symptom",   title: "Recall",    body: "Engagement order forgotten at the start position, wrong foot at entry, targets that &lsquo;weren't there in walk-through.&rsquo; ~80% a consequence of poor encoding, not bad memory." },
+        { root: true, tag: "Root",      title: "Encoding",  body: "Stage taken in as a continuous experience, no chunking scheme. Without a repeatable structure &mdash; entry, anchored engagement, reload spot, exit, per position &mdash; the plan can't be held under pressure." },
+        {              tag: "Symptom",   title: "Recall",    body: "Engagement order forgotten at the start position, reload spot missed, wrong foot at entry, targets that &lsquo;weren't there in walk-through.&rsquo; ~80% a consequence of poor encoding, not bad memory." },
         {              tag: "Secondary", title: "Re-plan",   body: "Can't patch the plan when the stage looks different on the line &mdash; crowding obscured something, you read a wall wrong, a position won't fit your draw side. Improves once encoding is automatic and one chunk can be swapped without losing the rest." }
       ],
       notes: {
-        can:  { title: "&#10003; What dry fire gives",   body: "The encoding system itself: chunking a stage into named positions, building entry/anchor/exit per position, running eye-only walk-throughs when the bay is crowded, rehearsing the plan in real time with PETTLEP imagery, re-encoding on the fly under change. Works with a printed WSB, a sketched diagram, or your memory of past stages &mdash; no bay required." },
+        can:  { title: "&#10003; What dry fire gives",   body: "The encoding system itself: chunking a stage into named positions, building entry / engagement / reload / exit per position, running eye-only walk-throughs when the bay is crowded, rehearsing the plan in real time with PETTLEP imagery, re-encoding on the fly under change. Works with a printed WSB, a sketched diagram, or your memory of past stages &mdash; no bay required." },
         cant: { title: "&#10007; What it doesn't",        body: "Match-day perception. The specific stage of the specific match still has to be walked. The payoff is that when the encoding system is automatic, your limited walk-through time is spent <em>perceiving</em> the stage instead of fighting for a plan." }
       }
     },
@@ -67,7 +67,7 @@ registerPack({
           why: "The root fault isn't bad memory or slow walking &mdash; it's that the stage was encoded as one continuous impression instead of as named, indexed chunks. Drill the encoding rep itself until one chunk &mdash; entry, ordered engagement with anchors, exit &mdash; comes out clean on the beep, every time.",
           steps: [
             "Pick a stage diagram (printed WSB, a stage you have video of, or sketched from memory). Decide position order before the beep.",
-            "On the beep, encode <em>one</em> position out loud: ENTRY (foot or eye cue you'll see arriving), ENGAGEMENT (target order with one named visual anchor per target &mdash; <em>&lsquo;T1 head-box, T2 right of T1, T3 partial behind no-shoot&rsquo;</em>), EXIT (foot or eye cue that triggers the move to the next position).",
+            "On the beep, encode <em>one</em> position out loud as four slots: ENTRY (foot or eye cue you'll see arriving), ENGAGEMENT (target order with one named visual anchor per target &mdash; <em>&lsquo;T1 head-box, T2 right of T1, T3 partial behind no-shoot&rsquo;</em>), RELOAD (where in the sequence the mag changes &mdash; <em>&lsquo;reload after T2 on the transition,&rsquo;</em> <em>&lsquo;top off on entry while eyes find T1,&rsquo;</em> or explicit <em>&lsquo;no reload here&rsquo;</em>), EXIT (foot or eye cue that triggers the move to the next position).",
             "Speak it as one continuous sentence per position &mdash; the verbalization <em>is</em> the encoding. If you hesitate or skip an anchor, the rep doesn't count.",
             "Cues are stage features (port edge, wall corner, target anchor) &mdash; never body parts.",
             "Slow and explicit first, then trim the verbalization while keeping the structure. Rotate positions and stages across the circuit."
@@ -81,7 +81,7 @@ registerPack({
           why: "Half the squad walk-throughs in a hot match don't let you into the bay &mdash; your spot is taken, the lane is full. The most efficient planning mode in that case is eyes-only: fix your gaze through every aim point in plan order from the start position or just outside. The walk-through itself becomes a multi-target quiet-eye exercise.",
           steps: [
             "Stand at the start position or anywhere outside the bay with the targets in view. Build the plan in mind first.",
-            "On the beep, lock the eye for ~1&nbsp;s on each aim point in target-engagement order &mdash; one position per rep.",
+            "On the beep, lock the eye for ~1&nbsp;s on each aim point in target-engagement order &mdash; one position per rep. If the position has a reload, the gaze lands on the magwell at that moment in the sequence before continuing to the next target.",
             "Eye lands on the entry or exit cue (port edge, foot mark, wall corner) <em>before</em> moving to the next array's first aim point.",
             "End on the exit cue of the position. If the gaze slid past any anchor instead of landing deliberately, the rep doesn't count."
           ],
@@ -107,7 +107,7 @@ registerPack({
           why: "Most walk-through time is spent waiting &mdash; you glance at a position through the gap between two squad-mates, then have to plan it later from memory. Trains the encoding throughput: how fast a 5-second look becomes a chunked, verbalizable plan.",
           steps: [
             "Pre-rep: look at one position on a stage diagram for 5&nbsp;seconds, then turn the diagram face-down. Don't pre-verbalize.",
-            "On the beep, verbalize the entry cue, the ordered engagement with one named anchor per target, and the exit cue.",
+            "On the beep, verbalize the entry cue, the ordered engagement with one named anchor per target, the reload spot (or explicit <em>&lsquo;no reload&rsquo;</em>), and the exit cue.",
             "If you hesitate or miss an anchor, the rep doesn't count &mdash; check yourself against the diagram and reset.",
             "Vary the stage and position each rep &mdash; identical look-ups lose the contextual-interference benefit."
           ],
@@ -120,7 +120,7 @@ registerPack({
           why: "Real walk-throughs surface things you missed &mdash; a no-shoot you read as hard cover, a target behind a wall corner you misread, a position that won't fit your strong-side draw from the start. The encoding system has to re-fire on one chunk <em>without losing the rest</em>. Train the swap.",
           steps: [
             "Hold a built plan in memory (use a stage you encoded earlier in the session).",
-            "Speak (or read from a pre-written prompt) a forced change: <em>&lsquo;T3 is now a hard no-shoot,&rsquo;</em> <em>&lsquo;P2 is from the right of the port, not the left,&rsquo;</em> <em>&lsquo;Engage T4 from P3, not P2.&rsquo;</em>",
+            "Speak (or read from a pre-written prompt) a forced change: <em>&lsquo;T3 is now a hard no-shoot,&rsquo;</em> <em>&lsquo;P2 is from the right of the port, not the left,&rsquo;</em> <em>&lsquo;Engage T4 from P3, not P2,&rsquo;</em> <em>&lsquo;Reload after T2 instead of on the transition.&rsquo;</em>",
             "On the beep, re-anchor the eye on the changed cue and verbalize the affected position chunk(s) with the change baked in.",
             "If the patch breaks any unchanged chunk &mdash; engagement order, anchor, exit cue &mdash; the rep doesn't count. Reset."
           ],
