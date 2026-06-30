@@ -83,6 +83,8 @@ src/
     switcher.js      Pack registry, ?pack=<id> URL persistence, boot
   packs/
     grip-first.js    One file per training program; calls registerPack()
+scripts/
+  design-sync-gen.py Dev tool: emit Claude Design preview cards from styles.css (see docs/DESIGN.md)
 build.py             Inlines src/ into dist/index.html (deterministic)
 Makefile             `make build` runs build.py; `make deploy` runs wrangler
 wrangler.jsonc       Cloudflare assets-only Worker config (torreld.urdr.dev)
