@@ -28,12 +28,14 @@ Each drill carries two pieces of state: a current par and a clean streak.
   judgment.
 - When a run reaches the `done` state, the console shows `How did that set go?`
   with two buttons: `Made it` and `Too tight`.
-- `Made it` -> streak + 1. At **3 clean in a row**, current par drops **0.1s**,
-  the streak resets to 0, and a confirmation reads `Tightened to 1.10`.
+- `Made it` -> streak + 1. At **3 clean in a row**, current par drops **0.1s**
+  and the streak resets to 0. The change shows in the par-meta line (the new
+  par with `(from <default>)`) plus a brief `.flash` highlight - there is no
+  separate confirmation toast.
 - `Too tight` -> streak resets to 0, par holds (never raises - hold only).
 - **Ignore** (start another run, or just leave it) is neutral: nothing changes.
-- Each drill has a **floor**. At the floor, par holds and the prompt reads
-  `At floor`.
+- Each drill has a **floor**. At the floor, par simply holds (no further drop);
+  the par-meta line keeps showing the floored value.
 - The streak is always visible as `n / 3 clean` so the next drop is never a
   surprise.
 
@@ -89,7 +91,8 @@ circuit mode are untouched.
   - `getStreak(key)` - current clean count.
   - `recordMadeIt(key, floor)` - increments streak; at 3 applies the 0.1s drop
     (respecting floor) and resets streak; returns the outcome (new par, whether
-    it tightened, whether at floor) so the caller can render the confirmation.
+    it tightened, whether at floor) so the caller can update the par field and
+    meta line.
   - `recordTooTight(key)` - resets streak.
   - `setPar(key, val)` - manual write-through; resets streak.
   - `reset(key)` / `resetAll()` - restore defaults.
@@ -123,11 +126,11 @@ No automated test harness exists (the build is Python concatenation). Verify by
 building and walking the rule:
 
 1. `make build`, open `dist/index.html` from `file://`.
-2. Three `Made it` taps drop par by 0.1 and show the confirmation.
+2. Three `Made it` taps drop par by 0.1, updating the par field and meta line.
 3. Reload - the adapted par and any partial streak persist (live-site path).
 4. `Too tight` holds par and resets the streak.
 5. A manual par edit sticks and resets the streak.
-6. Par stops at the floor with the `At floor` message.
+6. Par stops dropping at the floor and holds.
 7. `Reset to default` and `Reset all` restore starting values.
 8. With storage disabled, adaptation works for the session and resets on reload
    (sandbox-legal degrade).
