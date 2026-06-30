@@ -56,6 +56,14 @@
 
   <!-- Expanded panel - full controls. Always visible on desktop. -->
   <div class="console-panel" id="consolePanel" inert>
+    <!-- Adaptive-par prompt - shown only when a run finishes. -->
+    <div class="judge" id="judge" hidden>
+      <span class="judge-q" id="judgeQ">How did that set go?</span>
+      <div class="judge-btns">
+        <button class="judge-made" id="judgeMade" type="button">Made it</button>
+        <button class="judge-tight" id="judgeTight" type="button">Too tight</button>
+      </div>
+    </div>
     <div class="wrap">
       <div class="c-left">
         <div class="ctl">
@@ -73,6 +81,11 @@
           </div>
         </div>
         <div class="armed-label">Drill: <b id="armedLabelFull">- none -</b></div>
+        <div class="par-meta" id="parMeta" hidden>
+          <span id="parMetaText"></span>
+          <button class="par-reset" id="parReset" type="button" hidden>Reset</button>
+        </div>
+        <button class="prog-reset-all" id="progResetAll" type="button">Reset progression</button>
       </div>
       <div class="c-center">
         <div class="readout" id="readout" aria-live="off">1.50</div>
