@@ -13,6 +13,8 @@ from __future__ import annotations
 import glob
 import pathlib
 import re
+import shutil
+import subprocess
 import sys
 import urllib.parse
 
@@ -163,6 +165,19 @@ def render_stub(meta: dict, origin: str) -> str:
         '</body>\n'
         '</html>\n'
     )
+
+
+def rasterize(svg_path, png_path, width: int, height: int, background=None) -> bool:
+    """SVG -> PNG via rsvg-convert. Returns False (no-op) if the tool is absent."""
+    exe = shutil.which("rsvg-convert")
+    if not exe:
+        return False
+    cmd = [exe, "-w", str(width), "-h", str(height)]
+    if background:
+        cmd += ["-b", background]
+    cmd += ["-o", str(png_path), str(svg_path)]
+    subprocess.run(cmd, check=True)
+    return True
 
 
 def read(p: pathlib.Path) -> str:

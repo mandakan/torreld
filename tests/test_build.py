@@ -132,5 +132,28 @@ class TestFaviconAndHead(unittest.TestCase):
         self.assertIn('name="twitter:card" content="summary_large_image"', head)
 
 
+class TestRasterize(unittest.TestCase):
+    def test_returns_false_and_skips_when_tool_missing(self):
+        from unittest import mock
+        with mock.patch("build.shutil.which", return_value=None):
+            with mock.patch("build.subprocess.run") as run:
+                ok = build.rasterize("a.svg", "a.png", 32, 32)
+        self.assertFalse(ok)
+        run.assert_not_called()
+
+    def test_invokes_rsvg_convert_when_present(self):
+        from unittest import mock
+        with mock.patch("build.shutil.which", return_value="/usr/bin/rsvg-convert"):
+            with mock.patch("build.subprocess.run") as run:
+                ok = build.rasterize("a.svg", "a.png", 64, 48, background="#0a0d0e")
+        self.assertTrue(ok)
+        args = run.call_args[0][0]
+        self.assertIn("/usr/bin/rsvg-convert", args)
+        self.assertIn("-w", args)
+        self.assertIn("64", args)
+        self.assertIn("-b", args)
+        self.assertIn("#0a0d0e", args)
+
+
 if __name__ == "__main__":
     unittest.main()
