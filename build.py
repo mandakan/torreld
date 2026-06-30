@@ -197,22 +197,56 @@ def main() -> int:
 
     pack_files = sorted(glob.glob(PACK_GLOB))
     if not pack_files:
-        print("no packs in src/packs/ — at least one is required", file=sys.stderr)
+        print("no packs in src/packs/ - at least one is required", file=sys.stderr)
         return 1
     packs = "\n\n".join(read(pathlib.Path(p)) for p in pack_files)
 
+    head = render_head(favicon_data_uri(FAVICON_SVG), SITE_ORIGIN)
     out = (
-        shell
+        shell.replace("<!-- INJECT:HEAD -->", head)
         .replace("<!-- INJECT:STYLES -->", styles)
         .replace("<!-- INJECT:PACKS -->", packs)
         .replace("<!-- INJECT:FRAMEWORK -->", framework)
     )
 
     DIST.mkdir(exist_ok=True)
-    target = DIST / "index.html"
-    target.write_text(out, encoding="utf-8")
+    (DIST / "index.html").write_text(out, encoding="utf-8")
+
+    # ---- favicon + OG + per-pack share stubs ----
+    og_template = read(SRC / "framework" / "og-template.svg")
+    og_dir = DIST / "og"
+    og_dir.mkdir(exist_ok=True)
+
+    (DIST / "favicon.svg").write_text(FAVICON_SVG, encoding="utf-8")
+    rasterized = rasterize(DIST / "favicon.svg", DIST / "favicon.png", 32, 32)
+    rasterize(DIST / "favicon.svg", DIST / "apple-touch-icon.png", 180, 180,
+              background="#0a0d0e")
+
+    def emit_og(name: str, title: str, tagline: str):
+        svg_path = og_dir / (name + ".svg")
+        svg_path.write_text(render_og_svg(og_template, title, tagline),
+                            encoding="utf-8")
+        rasterize(svg_path, og_dir / (name + ".png"), 1200, 630)
+
+    emit_og("default", SITE_TITLE, SITE_TAGLINE)
+
+    for p in pack_files:
+        stem = pathlib.Path(p).stem
+        meta = extract_pack_meta(read(pathlib.Path(p)), stem)
+        emit_og(stem, meta["title"], meta["tagline"])
+        stub_dir = DIST / "p" / stem
+        stub_dir.mkdir(parents=True, exist_ok=True)
+        (stub_dir / "index.html").write_text(render_stub(meta, SITE_ORIGIN),
+                                             encoding="utf-8")
+
     pack_names = [pathlib.Path(p).stem for p in pack_files]
-    print(f"built {target}  ({len(out):,} bytes, {len(pack_files)} pack(s): {', '.join(pack_names)})")
+    print(
+        f"built {DIST/'index.html'}  ({len(out):,} bytes, "
+        f"{len(pack_files)} pack(s): {', '.join(pack_names)})"
+    )
+    if not rasterized:
+        print("note: rsvg-convert not found - wrote SVGs only, skipped PNGs "
+              "(install librsvg2-bin for OG/favicon PNGs)", file=sys.stderr)
     return 0
 
 

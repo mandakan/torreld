@@ -155,5 +155,41 @@ class TestRasterize(unittest.TestCase):
         self.assertIn("#0a0d0e", args)
 
 
+class TestBuildIntegration(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        import subprocess as sp
+        root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        cls.dist = os.path.join(root, "dist")
+        sp.run([sys.executable, "build.py"], cwd=root, check=True)
+
+    def _read(self, *parts):
+        with open(os.path.join(self.dist, *parts), encoding="utf-8") as fh:
+            return fh.read()
+
+    def test_index_has_inline_favicon_and_no_inject_tokens(self):
+        html = self._read("index.html")
+        self.assertIn('rel="icon" type="image/svg+xml" href="data:image/svg+xml,', html)
+        self.assertNotIn("INJECT:", html)
+
+    def test_favicon_svg_written(self):
+        self.assertTrue(os.path.exists(os.path.join(self.dist, "favicon.svg")))
+
+    def test_per_pack_stub_and_og_svg_exist(self):
+        for pid in ("grip-first", "reloads", "stage-planning"):
+            self.assertTrue(os.path.exists(os.path.join(self.dist, "p", pid, "index.html")), pid)
+            self.assertTrue(os.path.exists(os.path.join(self.dist, "og", pid + ".svg")), pid)
+
+    def test_stub_has_absolute_og_image(self):
+        html = self._read("p", "reloads", "index.html")
+        self.assertIn(
+            '<meta property="og:image" content="https://torreld.urdr.dev/og/reloads.png">',
+            html,
+        )
+
+    def test_default_og_svg_exists(self):
+        self.assertTrue(os.path.exists(os.path.join(self.dist, "og", "default.svg")))
+
+
 if __name__ == "__main__":
     unittest.main()
