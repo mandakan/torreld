@@ -83,6 +83,47 @@ def render_og_svg(template: str, title: str, tagline: str) -> str:
     )
 
 
+def render_stub(meta: dict, origin: str) -> str:
+    pid = meta["id"]
+    title = escape_xml(meta["title"])
+    desc = escape_xml(meta["description"])
+    app_url = origin + "/?pack=" + pid
+    stub_url = origin + "/p/" + pid
+    img = origin + "/og/" + pid + ".png"
+    return (
+        '<!doctype html>\n'
+        '<html lang="en">\n'
+        '<head>\n'
+        '<meta charset="utf-8">\n'
+        '<meta name="viewport" content="width=device-width, initial-scale=1">\n'
+        '<title>' + title + ' - TORRELD</title>\n'
+        '<meta name="description" content="' + desc + '">\n'
+        '<link rel="canonical" href="' + app_url + '">\n'
+        '<link rel="icon" type="image/svg+xml" href="/favicon.svg">\n'
+        '<link rel="icon" type="image/png" href="/favicon.png">\n'
+        '<meta property="og:type" content="website">\n'
+        '<meta property="og:site_name" content="TORRELD">\n'
+        '<meta property="og:title" content="' + title + '">\n'
+        '<meta property="og:description" content="' + desc + '">\n'
+        '<meta property="og:url" content="' + stub_url + '">\n'
+        '<meta property="og:image" content="' + img + '">\n'
+        '<meta property="og:image:width" content="1200">\n'
+        '<meta property="og:image:height" content="630">\n'
+        '<meta property="og:image:alt" content="' + title + ' - TORRELD dry-fire training">\n'
+        '<meta name="twitter:card" content="summary_large_image">\n'
+        '<meta name="twitter:title" content="' + title + '">\n'
+        '<meta name="twitter:description" content="' + desc + '">\n'
+        '<meta name="twitter:image" content="' + img + '">\n'
+        '<script>location.replace("/?pack=' + pid + '" + location.hash);</script>\n'
+        '</head>\n'
+        '<body>\n'
+        '<noscript><meta http-equiv="refresh" content="0;url=/?pack=' + pid + '">'
+        '<p><a href="/?pack=' + pid + '">Open TORRELD - ' + title + '</a></p></noscript>\n'
+        '</body>\n'
+        '</html>\n'
+    )
+
+
 def read(p: pathlib.Path) -> str:
     return p.read_text(encoding="utf-8")
 

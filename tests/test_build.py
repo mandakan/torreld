@@ -74,5 +74,44 @@ class TestRenderOgSvg(unittest.TestCase):
         self.assertIn("...", out)
 
 
+class TestRenderStub(unittest.TestCase):
+    META = {
+        "id": "reloads",
+        "title": "Reloads dry-fire",
+        "description": "Look-in and carrier index.",
+    }
+
+    def setUp(self):
+        self.html = build.render_stub(self.META, "https://torreld.urdr.dev")
+
+    def test_canonical_points_to_app_url(self):
+        self.assertIn(
+            '<link rel="canonical" href="https://torreld.urdr.dev/?pack=reloads">',
+            self.html,
+        )
+
+    def test_og_image_is_absolute_png(self):
+        self.assertIn(
+            '<meta property="og:image" content="https://torreld.urdr.dev/og/reloads.png">',
+            self.html,
+        )
+
+    def test_og_url_is_stub_url(self):
+        self.assertIn(
+            '<meta property="og:url" content="https://torreld.urdr.dev/p/reloads">',
+            self.html,
+        )
+
+    def test_twitter_large_card(self):
+        self.assertIn('name="twitter:card" content="summary_large_image"', self.html)
+
+    def test_body_redirects_preserving_hash(self):
+        self.assertIn('location.replace("/?pack=reloads" + location.hash)', self.html)
+
+    def test_noscript_fallback_present(self):
+        self.assertIn('http-equiv="refresh"', self.html)
+        self.assertIn('href="/?pack=reloads"', self.html)
+
+
 if __name__ == "__main__":
     unittest.main()
