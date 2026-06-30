@@ -92,11 +92,16 @@ h1,h2,h3,h4{font-weight:800;letter-spacing:.02em;line-height:1.1;margin:0}
   border-bottom:1px solid var(--line);
   padding-top:var(--safe-top);
 }
+/* Mobile-first: brand on its own line, the pack rail full-width below it.
+   At phone widths the chips fit the content box without scrolling; on
+   narrower devices the rail scrolls within its own row (see .packs) and
+   never collides with the brand. Desktop restores a single row below. */
 .topbar .wrap{
   display:grid;
-  grid-template-columns:auto minmax(0,1fr);
+  grid-template-columns:minmax(0,1fr);
   align-items:center;
-  gap:12px;
+  gap:10px;
+  padding-block:9px;
   min-height:52px;
 }
 .brandmark{
@@ -118,7 +123,10 @@ h1,h2,h3,h4{font-weight:800;letter-spacing:.02em;line-height:1.1;margin:0}
   scroll-snap-type:x proximity;
   margin:0;
   min-width:0;
-  justify-self:end;
+  /* Fade the trailing edge so a chip cut off by scroll reads as "more ->".
+     When the chips fit, the fade falls over empty space and is invisible. */
+  -webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 18px),transparent);
+  mask-image:linear-gradient(90deg,#000 calc(100% - 18px),transparent);
 }
 .packs::-webkit-scrollbar{display:none}
 .packs:empty{display:none}
@@ -150,7 +158,7 @@ h1,h2,h3,h4{font-weight:800;letter-spacing:.02em;line-height:1.1;margin:0}
 
 .topnav{display:none}
 @media(min-width:860px){
-  .topbar .wrap{grid-template-columns:auto minmax(0,1fr) auto;gap:22px}
+  .topbar .wrap{grid-template-columns:auto minmax(0,1fr) auto;gap:22px;padding-block:0}
   .topnav{
     display:flex;
     gap:22px;
