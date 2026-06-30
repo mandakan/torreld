@@ -191,5 +191,19 @@ class TestBuildIntegration(unittest.TestCase):
         self.assertTrue(os.path.exists(os.path.join(self.dist, "og", "default.svg")))
 
 
+class TestPackShareCopy(unittest.TestCase):
+    def _meta(self, stem):
+        root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        with open(os.path.join(root, "src", "packs", stem + ".js"), encoding="utf-8") as fh:
+            return build.extract_pack_meta(fh.read(), stem)
+
+    def test_each_pack_has_nonempty_share_tagline_and_specific_description(self):
+        for stem in ("grip-first", "reloads", "stage-planning"):
+            m = self._meta(stem)
+            self.assertTrue(m["tagline"], stem)
+            self.assertNotEqual(m["description"], build.SITE_DESCRIPTION, stem)
+            self.assertLessEqual(len(m["tagline"]), 48, stem)
+
+
 if __name__ == "__main__":
     unittest.main()

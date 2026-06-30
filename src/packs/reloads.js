@@ -14,6 +14,11 @@ registerPack({
   id: "reloads",
   name: "Reloads",
   documentTitle: "TORRELD - Reloads dry-fire",
+  share: {
+    title: "Reloads dry-fire",
+    tagline: "The mag goes where you look",
+    description: "A par-time-driven dry-fire program that builds the look-in and carrier index until the seat happens without thought.",
+  },
   data: {
     brand: { pre: "TORR", post: "ELD" },
     nav: [
