@@ -956,3 +956,40 @@ section{padding:40px 0;border-bottom:1px solid var(--line)}
   section{break-inside:avoid;border-color:#999}
   a{color:#000;border-bottom:0}
 }
+
+/* ===== Adaptive par - judgment prompt + progression meta ===== */
+.judge{
+  display:flex; align-items:center; gap:12px; flex-wrap:wrap;
+  padding:10px var(--gutter);
+  border-bottom:1px solid var(--line);
+  background:var(--steel2);
+}
+.judge[hidden]{ display:none; }
+.judge-q{ font:600 14px/1.2 var(--sans); color:var(--text); }
+.judge-btns{ display:flex; gap:8px; margin-left:auto; }
+.judge-btns button{
+  min-height:var(--tap); padding:0 18px;
+  border-radius:var(--radius); cursor:pointer;
+  font:600 14px var(--sans);
+}
+.judge-made{ background:var(--go); color:#04140a; border:1px solid var(--go); }
+.judge-tight{ background:transparent; color:var(--muted); border:1px solid var(--line2); }
+
+.par-meta{
+  display:flex; align-items:center; gap:8px; margin-top:6px;
+  font:500 12px var(--mono); color:var(--muted);
+}
+.par-meta[hidden]{ display:none; }
+.par-meta.flash{ animation:parflash .9s ease-out; }
+@keyframes parflash{ 0%{ color:var(--amber); } 100%{ color:var(--muted); } }
+
+.par-reset, .prog-reset-all{
+  background:none; border:0; padding:2px 4px; cursor:pointer;
+  color:var(--amber-soft); font:500 12px var(--sans);
+  text-decoration:underline;
+}
+.par-reset[hidden]{ display:none; }
+.prog-reset-all{ margin-top:8px; display:inline-block; }
+
+.now{ margin-left:6px; color:var(--go); font:600 11px var(--mono); }
+.now[hidden]{ display:none; }
