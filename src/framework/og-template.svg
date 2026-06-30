@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="f" x1="0" y1="1" x2="0" y2="0">
+      <stop offset="0" stop-color="#ff5a12"/>
+      <stop offset=".5" stop-color="#ffb02e"/>
+      <stop offset="1" stop-color="#ffe0a0"/>
+    </linearGradient>
+    <mask id="t">
+      <path d="M50 6 C57 22 64 31 68 47 C72 62 67 82 53 91 C49 94 45 94 41 91 C27 82 22 62 27 47 C31 36 40 40 43 30 C45 40 49 38 49 30 C49 18 47 16 50 6 Z" fill="#fff"/>
+      <path d="M33 52 H67 V62 H56 V86 H44 V62 H33 Z" fill="#000"/>
+    </mask>
+  </defs>
+  <rect width="1200" height="630" fill="#0a0d0e"/>
+  <rect x="0" y="0" width="1200" height="8" fill="#ffb02e"/>
+  <g transform="translate(960 130) scale(3.4)">
+    <rect width="100" height="100" fill="url(#f)" mask="url(#t)"/>
+  </g>
+  <text x="80" y="150" font-family="DejaVu Sans Mono, monospace" font-size="34" letter-spacing="8" font-weight="700"><tspan fill="#ffb02e">TORR</tspan><tspan fill="#dce3e5">ELD</tspan></text>
+  <text x="80" y="370" font-family="DejaVu Sans, Helvetica, sans-serif" font-size="96" font-weight="800" fill="#dce3e5">{{TITLE}}</text>
+  <text x="80" y="440" font-family="DejaVu Sans, Helvetica, sans-serif" font-size="40" fill="#8a9599">{{TAGLINE}}</text>
+  <text x="80" y="560" font-family="DejaVu Sans Mono, monospace" font-size="24" letter-spacing="3" fill="#5d676b">dry-fire training / torreld.urdr.dev</text>
+</svg>

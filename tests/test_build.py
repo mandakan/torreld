@@ -56,5 +56,23 @@ class TestExtractPackMeta(unittest.TestCase):
         self.assertEqual(m["name"], "whatever")
 
 
+class TestRenderOgSvg(unittest.TestCase):
+    TPL = '<svg>{{TITLE}}|{{TAGLINE}}</svg>'
+
+    def test_fills_tokens(self):
+        out = build.render_og_svg(self.TPL, "Reloads", "look-in")
+        self.assertEqual(out, "<svg>Reloads|look-in</svg>")
+
+    def test_escapes_and_has_no_raw_angle_brackets_in_values(self):
+        out = build.render_og_svg(self.TPL, "A & <b>", "")
+        self.assertIn("A &amp; &lt;b&gt;", out)
+
+    def test_truncates_long_title(self):
+        long = "x" * 80
+        out = build.render_og_svg(self.TPL, long, "")
+        self.assertNotIn("x" * 80, out)
+        self.assertIn("...", out)
+
+
 if __name__ == "__main__":
     unittest.main()

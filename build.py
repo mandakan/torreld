@@ -76,6 +76,13 @@ def extract_pack_meta(text: str, stem: str) -> dict:
     }
 
 
+def render_og_svg(template: str, title: str, tagline: str) -> str:
+    return (
+        template.replace("{{TITLE}}", escape_xml(truncate(title, 30)))
+        .replace("{{TAGLINE}}", escape_xml(truncate(tagline, 48)))
+    )
+
+
 def read(p: pathlib.Path) -> str:
     return p.read_text(encoding="utf-8")
 
