@@ -9,12 +9,12 @@ Routing entry for TORRELD. Start here, then jump to the focused doc that fits th
 TORRELD is a **dry-fire training pack runner** built on three convictions:
 
 - **Range time is rare; dry fire is cheap.** A well-structured, par-time-driven dry-fire session beats sporadic live fire for most skills (grip, index, presentation, movement).
-- **Programs are content.** A "pack" is a self-contained training protocol — diagnosis, weekly plan, drills, evidence, sources. The framework renders any pack. Adding a new program = dropping one JS file in `src/packs/`. No framework changes needed.
-- **Mobile-first because that's where reps happen.** Users have a phone propped up on a magazine in the living room — not a desktop. Every UI decision serves that scenario first.
+- **Programs are content.** A "pack" is a self-contained training protocol - diagnosis, weekly plan, drills, evidence, sources. The framework renders any pack. Adding a new program = dropping one JS file in `src/packs/`. No framework changes needed.
+- **Mobile-first because that's where reps happen.** Users have a phone propped up on a magazine in the living room - not a desktop. Every UI decision serves that scenario first.
 
 No backend, no accounts, no tracking. A single self-contained HTML file that opens from `file://` and works offline.
 
-The current program is grip-first dry-fire for IPSC Production Optics, but the data model is content-agnostic — any "drills + evidence + references" curriculum fits.
+The current program is grip-first dry-fire for IPSC Production Optics, but the data model is content-agnostic - any "drills + evidence + references" curriculum fits.
 
 Live: **https://torreld.urdr.dev/**
 
@@ -22,7 +22,7 @@ Live: **https://torreld.urdr.dev/**
 
 ## TL;DR routing
 
-| You want to… | Touch | Doc |
+| You want to... | Touch | Doc |
 |---|---|---|
 | Add a new training program | Copy `src/packs/grip-first.js` → `src/packs/<your-pack>.js`, edit `id` / `name` / `data` | [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md) |
 | Tweak text/data in an existing pack | `src/packs/<pack>.js` | [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the data shape |
@@ -38,16 +38,27 @@ Live: **https://torreld.urdr.dev/**
 These guardrails are non-negotiable. If a change requires breaking one, update this section in the same PR with the rationale.
 
 - **Single self-contained artifact, zero runtime dependencies.** Sources live in `src/`, but the build inlines everything into one `dist/index.html`. The deployed file must open correctly from `file://` with no server, no CDN, no fetch.
-- **No external network at runtime.** No CDNs, no web fonts — system font stacks only. It has to work offline.
-- **No `localStorage` / `sessionStorage` / IndexedDB** in the committed source. The deployed file is previewed in a sandbox that forbids browser storage. Persistence is a roadmap item and, when added, must degrade gracefully when storage is unavailable. Preferences that need to survive a reload (pack selection, audio profile) persist via query params + `history.replaceState` — `?pack=<id>`, `?sound=quiet` — never via storage.
+- **No external network at runtime.** No CDNs, no web fonts - system font stacks only. It has to work offline.
+- **No `localStorage` / `sessionStorage` / IndexedDB** in the committed source. The deployed file is previewed in a sandbox that forbids browser storage. Persistence is a roadmap item and, when added, must degrade gracefully when storage is unavailable. Preferences that need to survive a reload (pack selection, audio profile) persist via query params + `history.replaceState` - `?pack=<id>`, `?sound=quiet` - never via storage.
 - **Vanilla JS only** (roughly ES5-level, no framework, no transpile). The build step (Python file concatenation) is the only tooling; no bundler, no minifier, no TypeScript.
-- **Author-trusted content, rendered via `innerHTML`.** The renderer injects pack data as HTML, so copy may contain tags like `<em>` and HTML entities. **Never** feed untrusted/user input into pack data or into the render path — that would be an XSS hole. If runtime user input is ever needed, switch that path to `textContent`/DOM nodes.
+- **Author-trusted content, rendered via `innerHTML`.** The renderer injects pack data as HTML, so copy may contain tags like `<em>` and HTML entities. **Never** feed untrusted/user input into pack data or into the render path - that would be an XSS hole. If runtime user input is ever needed, switch that path to `textContent`/DOM nodes.
+
+---
+
+## Writing style (pack copy and these docs)
+
+Plain ASCII, no LLM slop. Applies to all rendered pack copy and to the docs in this repo.
+
+- **ASCII punctuation only.** Use a single hyphen `-` for dashes. No double hyphen `--`, no em-dash character, no `&mdash;` or `&ndash;` entity. Use `...` for an ellipsis and straight quotes `'` `"` - no `&lsquo;`/`&rsquo;` curly-quote entities. The render path is `innerHTML`, so a literal ` - ` displays fine; there is never a reason to reach for a dash entity.
+- **No slop phrases or LLM tells.** Avoid delve, leverage, seamless, robust, harness, unlock, paradigm, synergy and the rest. Delete the word rather than swap in another vague intensifier.
+- **No reflexive "not X but Y", and no rule-of-three cadence.** State the claim directly. Real lists (names, ordered steps, the diagnosis chain) are fine; antithesis and tricolons used for rhythm read as machine-written. Vary sentence shape.
+- **Allowed entities:** `&middot;` (chip and readout separator), `&rarr;` (where an arrow is the meaning), `&nbsp;` (number-and-unit glue), and the symbol entities like `&#10003;`. These are structural, not prose dashes.
 
 ---
 
 ## Sub-agents: pick the cheapest model that fits
 
-When you delegate work via `Agent`, `Workflow`, or any other fan-out, **specify `model:` explicitly** &mdash; don't let sub-agents inherit the parent's model. Token cost in a fan-out multiplies by the number of agents, so the tier choice is the largest single lever. Default down, not up.
+When you delegate work via `Agent`, `Workflow`, or any other fan-out, **specify `model:` explicitly** - don't let sub-agents inherit the parent's model. Token cost in a fan-out multiplies by the number of agents, so the tier choice is the largest single lever. Default down, not up.
 
 | Tier | Use for |
 |---|---|
@@ -96,4 +107,4 @@ dist/index.html      Generated artifact (gitignored)
 - **More packs**: any "drills + evidence + references" curriculum fits the model.
 
 ### Gotcha for any "split data into JSON" idea
-Moving pack data to `.json` and `fetch()`-ing it **breaks `file://` offline use** (CORS). Packs must remain JS files inlined at build time, or accept a server requirement — document the trade-off here if that ever changes.
+Moving pack data to `.json` and `fetch()`-ing it **breaks `file://` offline use** (CORS). Packs must remain JS files inlined at build time, or accept a server requirement - document the trade-off here if that ever changes.
