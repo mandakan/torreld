@@ -737,6 +737,22 @@ section{padding:40px 0;border-bottom:1px solid var(--line)}
   padding:4px 16px 16px;
 }
 
+/* Labeled control group — same shape used by the Timer and Sound switches. */
+.ctl{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  align-items:flex-start;
+}
+.ctl-label{
+  font-family:var(--mono);
+  font-size:10px;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--muted2);
+  line-height:1;
+}
+
 .modeswitch{
   display:inline-flex;
   border:1px solid var(--line2);

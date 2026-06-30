@@ -39,7 +39,7 @@ These guardrails are non-negotiable. If a change requires breaking one, update t
 
 - **Single self-contained artifact, zero runtime dependencies.** Sources live in `src/`, but the build inlines everything into one `dist/index.html`. The deployed file must open correctly from `file://` with no server, no CDN, no fetch.
 - **No external network at runtime.** No CDNs, no web fonts — system font stacks only. It has to work offline.
-- **No `localStorage` / `sessionStorage` / IndexedDB** in the committed source. The deployed file is previewed in a sandbox that forbids browser storage. Persistence is a roadmap item and, when added, must degrade gracefully when storage is unavailable. Pack selection persists via the `?pack=<id>` query param via `history.replaceState` — never via storage.
+- **No `localStorage` / `sessionStorage` / IndexedDB** in the committed source. The deployed file is previewed in a sandbox that forbids browser storage. Persistence is a roadmap item and, when added, must degrade gracefully when storage is unavailable. Preferences that need to survive a reload (pack selection, audio profile) persist via query params + `history.replaceState` — `?pack=<id>`, `?sound=quiet` — never via storage.
 - **Vanilla JS only** (roughly ES5-level, no framework, no transpile). The build step (Python file concatenation) is the only tooling; no bundler, no minifier, no TypeScript.
 - **Author-trusted content, rendered via `innerHTML`.** The renderer injects pack data as HTML, so copy may contain tags like `<em>` and HTML entities. **Never** feed untrusted/user input into pack data or into the render path — that would be an XSS hole. If runtime user input is ever needed, switch that path to `textContent`/DOM nodes.
 
