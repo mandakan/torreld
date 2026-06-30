@@ -14,6 +14,11 @@ registerPack({
   id: "stage-planning",
   name: "Stage planning",
   documentTitle: "TORRELD - Stage planning dry-fire",
+  share: {
+    title: "Stage-planning dry-fire",
+    tagline: "Named, anchored chunks that survive the buzzer",
+    description: "Drills the encoding system itself - positions, target order, reload spots, entry and exit cues you can hold in working memory and patch under change.",
+  },
   data: {
     brand: { pre: "TORR", post: "ELD" },
     nav: [

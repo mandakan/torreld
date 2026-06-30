@@ -14,6 +14,11 @@ registerPack({
   id: "grip-first",
   name: "Grip-first",
   documentTitle: "TORRELD - Grip-first dry-fire",
+  share: {
+    title: "Grip-first dry-fire",
+    tagline: "The one lever when range time is rare",
+    description: "A par-time-driven dry-fire program built around a grip that survives movement - the root that index, movement, and follow-up all hang on.",
+  },
   data: {
     brand: { pre: "TORR", post: "ELD" },
     nav: [
