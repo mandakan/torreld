@@ -69,7 +69,8 @@
       var t = c.timer;
       var spec = '<span><b>Timer</b> <span class="v">' +
         (t.mode === "circuit" ? "Circuit" : "Par") +
-        '</span></span><span><b>Par</b> <span class="v">' + t.par + ' s</span></span>';
+        '</span></span><span><b>Par</b> <span class="v">' + t.par + ' s</span>' +
+        '<span class="now" data-label="' + c.label + '" data-default="' + t.par + '" hidden></span></span>';
       if(t.mode === "circuit"){
         spec += '<span><b>Rest</b> <span class="v">' + t.rest + ' s</span></span>' +
                 '<span><b>Reps</b> <span class="v">' + t.reps + '</span></span>';
@@ -81,6 +82,7 @@
         ' data-dmax="' + t.dmax + '"' +
         ' data-reps="' + t.reps + '"' +
         ' data-rest="' + t.rest + '"' +
+        ' data-floor="' + (t.floor != null ? t.floor : "") + '"' +
         ' data-label="' + c.label + '">Arm timer</button>';
       return '<div class="card' + (c.primary ? " primary" : "") + (c.span ? " span" : "") + '">' +
         '<div class="card-top">' + chips + '</div>' +
@@ -153,6 +155,40 @@
     );
   }
 
+  function nowKey(packId, label){ return packId + "::" + label; }
+  function r2(x){ return Math.round(x * 100) / 100; }
+
+  function paintNow(span, packId){
+    var label = span.getAttribute("data-label");
+    var def = parseFloat(span.getAttribute("data-default"));
+    var cur = (T.progress) ? T.progress.getPar(nowKey(packId, label), def) : def;
+    if(r2(cur) !== r2(def)){
+      span.textContent = "now " + cur.toFixed(2) + "s";
+      span.hidden = false;
+    } else {
+      span.textContent = "";
+      span.hidden = true;
+    }
+  }
+  function refreshAllCardNow(){
+    var pid = T.activeId;
+    Array.prototype.forEach.call(
+      document.querySelectorAll(".now"),
+      function(s){ paintNow(s, pid); }
+    );
+  }
+  function updateCardNow(label, cur, def){
+    var span = document.querySelector('.now[data-label="' + label + '"]');
+    if(!span) return;
+    if(r2(cur) !== r2(def)){
+      span.textContent = "now " + parseFloat(cur).toFixed(2) + "s";
+      span.hidden = false;
+    } else {
+      span.textContent = "";
+      span.hidden = true;
+    }
+  }
+
   function render(packId){
     var pack = T.packs.find(function(p){ return p.id === packId; });
     if(!pack) return;
@@ -175,7 +211,10 @@
       renderReferences(P.references, P.footer);
 
     wireDrills();
+    refreshAllCardNow();
   }
 
   T.render = render;
+  T.updateCardNow = updateCardNow;
+  T.refreshAllCardNow = refreshAllCardNow;
 })();
