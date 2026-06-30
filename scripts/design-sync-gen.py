@@ -209,7 +209,7 @@ card("hero/hero.html", "Hero", "Hero block",
      w=900, h=460)
 
 card("hero/readout-badge.html", "Hero", "Readout badge",
-     "Inline number + label, amber glow",
+     "Inline number + label (static, no glow)",
      '<p class="ds-h">Hero readout badge</p>'
      '<div class="hero-readout"><span class="num">1.50</span>'
      '<span class="lab">Par seconds</span></div>',
