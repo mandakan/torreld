@@ -60,4 +60,29 @@ These are non-regression standards. A change that breaks one of these should not
 
 ---
 
+## Claude Design sync
+
+The design system is mirrored to a [claude.ai/design](https://claude.ai/design) project so the tokens and components can be browsed and extended visually. The mirror is a **one-way snapshot**, not a live link: the repo stays the source of truth, and changes made in the Claude Design project do not flow back automatically.
+
+- **Project ID:** `011f583b-8581-4124-a438-8811c9195e21` ("TORRELD Design System")
+- **Generator:** [`../scripts/design-sync-gen.py`](../scripts/design-sync-gen.py) - reads the live `src/framework/styles.css` and emits 21 self-contained preview cards. Dev tool only; not part of `make build`.
+- **Bundle output:** `~/.claude-tmp/torreld-ds/bundle/` - disposable upload staging, not tracked.
+
+### Resync after a token or component change
+
+The push uses the `DesignSync` tool, so these are steps a Claude session runs, not shell commands you run directly (except the generator):
+
+1. `python3 scripts/design-sync-gen.py` - regenerate the bundle from current styles.
+2. `DesignSync finalize_plan` - `writes: ["**/*.html"]`, `deletes: []`, `localDir` = the bundle dir.
+3. `DesignSync write_files` - upload all 21 files (uses the plan's `planId`).
+4. `DesignSync register_assets` - **the step that's easy to forget.** Uploaded files do not appear as cards until they are registered. We skip the self-check app that would normally compile a `_ds_manifest.json` (it needs a `package.json`; TORRELD has none), so cards are created by this explicit call instead. Without it the pane shows zero cards.
+
+Card groups: Foundations (4), Navigation (2), Hero (2), Content (4), Drills (2), References (1), Timer (3), Controls (3).
+
+### Pulling refinements back
+
+When something refined in the Claude Design project should ship, read it down with `DesignSync get_file` / `list_files` and translate it into `styles.css` (and a pack, if it is content) by hand. Keeping the round-trip one direction at a time - explore in Design, fold the keepers back here, then resync - avoids drift between the two.
+
+---
+
 See also: [ARCHITECTURE.md](ARCHITECTURE.md) · [CONTRIBUTING.md](CONTRIBUTING.md) · [`../CLAUDE.md`](../CLAUDE.md)
