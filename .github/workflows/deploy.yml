@@ -33,15 +33,29 @@ jobs:
         with:
           python-version: '3.x'
 
+      - name: Install SVG rasterizer
+        run: sudo apt-get update && sudo apt-get install -y librsvg2-bin
+
+      - name: Run build tests
+        run: python3 -m unittest discover -s tests -t .
+
       - name: Build dist/index.html
         run: make build
 
-      - name: Verify no unresolved inject tokens
+      - name: Verify build outputs
         run: |
           if grep -n 'INJECT:' dist/index.html; then
             echo "::error::dist/index.html contains unresolved <!-- INJECT:* --> tokens"
             exit 1
           fi
+          test -f dist/favicon.png || { echo "::error::missing dist/favicon.png"; exit 1; }
+          test -f dist/og/default.png || { echo "::error::missing dist/og/default.png"; exit 1; }
+          for pid in grip-first reloads stage-planning; do
+            test -f "dist/og/$pid.png" || { echo "::error::missing dist/og/$pid.png"; exit 1; }
+            test -f "dist/p/$pid/index.html" || { echo "::error::missing stub for $pid"; exit 1; }
+            grep -q "https://torreld.urdr.dev/og/$pid.png" "dist/p/$pid/index.html" \
+              || { echo "::error::stub $pid missing absolute og:image"; exit 1; }
+          done
 
       - name: Syntax-check inline JS
         run: |
