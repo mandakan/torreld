@@ -12,7 +12,7 @@ make build           # writes dist/index.html
 
 `make build` runs `build.py`, which inlines `src/framework/styles.css`, `src/packs/*.js`, and `src/framework/{timer,renderer,switcher}.js` into the `<!-- INJECT:* -->` tokens in `src/framework/shell.html`. See [ARCHITECTURE.md → Build pipeline](ARCHITECTURE.md#build-pipeline) for the token table.
 
-The output is byte-self-contained — same sources → same bytes. `dist/` is gitignored; never hand-edit `dist/index.html`.
+The output is byte-self-contained - same sources → same bytes. `dist/` is gitignored; never hand-edit `dist/index.html`.
 
 In addition to `dist/index.html`, the build also emits:
 
@@ -36,7 +36,7 @@ Install locally:
 python3 -m unittest discover -s tests -t .
 ```
 
-**Functional check** — open `dist/index.html` in a browser:
+**Functional check** - open `dist/index.html` in a browser:
 - Arm a drill; the sheet should auto-expand on mobile and the card should glow.
 - Run a par and a circuit; confirm beeps and the readout color transitions (amber standby → green Go → red Par → amber-soft Rest).
 - Resize to 390 px wide; the console should collapse to a ~80 px compact bar.
@@ -52,7 +52,7 @@ PY
 node --check /tmp/check.js
 ```
 
-**Headless cross-viewport check** — drive Playwright at multiple viewports to exercise the mobile sheet and the desktop strip. The Cloudflare verification in PR #1 / #4 has been done this way; see those PRs' verification sections for the script shape.
+**Headless cross-viewport check** - drive Playwright at multiple viewports to exercise the mobile sheet and the desktop strip. The Cloudflare verification in PR #1 / #4 has been done this way; see those PRs' verification sections for the script shape.
 
 ---
 
@@ -69,7 +69,7 @@ Every push to `main` triggers `.github/workflows/deploy.yml`:
 5. `make build`
 6. Verify: no unresolved `<!-- INJECT:* -->` tokens; `favicon.png`, `og/default.png`, and every pack's PNG and stub exist
 7. `node --check` on the inline JS
-8. `cloudflare/wrangler-action@v3` with **`wranglerVersion: '4'`** (pinned — wrangler 3 doesn't support assets-only Workers and will fail with `Missing entry-point`)
+8. `cloudflare/wrangler-action@v3` with **`wranglerVersion: '4'`** (pinned - wrangler 3 doesn't support assets-only Workers and will fail with `Missing entry-point`)
 
 **Required repo secrets:** `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`. The token needs:
 
@@ -77,7 +77,7 @@ Every push to `main` triggers `.github/workflows/deploy.yml`:
 - Zone → Workers Routes → Edit (for the `urdr.dev` zone, to keep the `torreld.urdr.dev` custom domain binding)
 - Account → Account Settings → Read
 
-**Concurrency:** group `deploy`, `cancel-in-progress: true` — if a newer commit lands mid-deploy, the older deploy is canceled and the newer one takes its place. The Cloudflare upload is atomic per call, so canceling mid-flight is safe.
+**Concurrency:** group `deploy`, `cancel-in-progress: true` - if a newer commit lands mid-deploy, the older deploy is canceled and the newer one takes its place. The Cloudflare upload is atomic per call, so canceling mid-flight is safe.
 
 **Failure handling:** a failed deploy leaves the previous version live. Check the Actions tab → "Deploy to Cloudflare" workflow for logs. The environment URL surfaces as `https://torreld.urdr.dev/`.
 
@@ -95,7 +95,7 @@ CLOUDFLARE_API_TOKEN=...  CLOUDFLARE_ACCOUNT_ID=...  make deploy
 
 ## Host details
 
-The deploy target is a **Cloudflare Worker serving static assets** (not Cloudflare Pages — Pages is fix-only now; Cloudflare steers new projects to Workers). `wrangler.jsonc` declares an assets-only Worker (no server code) pointing at `dist/`, with `torreld.urdr.dev` as a custom domain.
+The deploy target is a **Cloudflare Worker serving static assets** (not Cloudflare Pages - Pages is fix-only now; Cloudflare steers new projects to Workers). `wrangler.jsonc` declares an assets-only Worker (no server code) pointing at `dist/`, with `torreld.urdr.dev` as a custom domain.
 
 The `urdr.dev` zone lives in the `admin@hedvigholding.se` Cloudflare account.
 

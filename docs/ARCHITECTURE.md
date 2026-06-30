@@ -8,12 +8,12 @@ How TORRELD assembles, boots, and renders. Read [`../CLAUDE.md`](../CLAUDE.md) f
 
 `dist/index.html` is assembled from `src/` at build time. Inside the single `<script>` at runtime, the layers initialize in this order:
 
-1. **Pack registry bootstrap** — `window.TORRELD = { packs: [], activeId: null }` and the `registerPack(p)` helper.
-2. **Packs** (`src/packs/*.js`) — each file calls `registerPack({ id, name, documentTitle, share?, data })`. The optional `share` block holds `{ title, tagline, description }` used by the build to generate per-pack OG images and share stubs; it has no effect at runtime. `data` is the PROGRAM object (see "Data model" below).
-3. **Framework** (`src/framework/timer.js`, `renderer.js`, `switcher.js`, in that load order) — attach `TORRELD.timer`, `TORRELD.render`, `TORRELD.setActivePack`, and `TORRELD.boot`.
-4. **Boot** — `TORRELD.boot()` reads `?pack=<id>` (falling back to the first registered pack), renders it, draws the switcher chips (hidden when only one pack is registered), and wires the timer.
+1. **Pack registry bootstrap** - `window.TORRELD = { packs: [], activeId: null }` and the `registerPack(p)` helper.
+2. **Packs** (`src/packs/*.js`) - each file calls `registerPack({ id, name, documentTitle, share?, data })`. The optional `share` block holds `{ title, tagline, description }` used by the build to generate per-pack OG images and share stubs; it has no effect at runtime. `data` is the PROGRAM object (see "Data model" below).
+3. **Framework** (`src/framework/timer.js`, `renderer.js`, `switcher.js`, in that load order) - attach `TORRELD.timer`, `TORRELD.render`, `TORRELD.setActivePack`, and `TORRELD.boot`.
+4. **Boot** - `TORRELD.boot()` reads `?pack=<id>` (falling back to the first registered pack), renders it, draws the switcher chips (hidden when only one pack is registered), and wires the timer.
 
-The timer **console markup is static HTML** in the shell (`#console`), not rendered from pack data — it's shared UI, not content.
+The timer **console markup is static HTML** in the shell (`#console`), not rendered from pack data - it's shared UI, not content.
 
 Page section order: top bar (brand → pack switcher → section nav) → hero → diagnosis → program → drills → evidence → references → footer → fixed timer console.
 
@@ -40,7 +40,7 @@ After writing `dist/index.html` the build also emits static assets for social sh
 
 1. `extract_pack_meta(text, stem)` reads each pack's `name`, `documentTitle`, and optional `share` block by first-match regex.
 2. For each pack (and a site-level default), `render_og_svg` fills `{{TITLE}}` and `{{TAGLINE}}` tokens in `src/framework/og-template.svg` and writes `dist/og/<id>.svg`. If `rsvg-convert` is present, it rasterizes that to `dist/og/<id>.png` (1200x630).
-3. `render_stub` writes `dist/p/<id>/index.html` — a static page with canonical, og, and twitter meta pointing at the absolute PNG URL, plus an inline `location.replace()` that redirects browsers to `/?pack=<id>` (preserving the hash) and a `<noscript>` meta-refresh fallback.
+3. `render_stub` writes `dist/p/<id>/index.html` - a static page with canonical, og, and twitter meta pointing at the absolute PNG URL, plus an inline `location.replace()` that redirects browsers to `/?pack=<id>` (preserving the hash) and a `<noscript>` meta-refresh fallback.
 4. The same flame SVG used for the favicon (a `linearGradient` masked by the T shape) is embedded in the OG template as the card's accent element.
 
 PNGs are live-site-only assets. They are referenced by absolute URL and are not fetched at runtime or for `file://` use. See [BUILD.md](BUILD.md) for the rasterizer install command and the test runner.
@@ -93,26 +93,26 @@ references:  { lane, title,
 footer:      string
 ```
 
-Strings may contain HTML and entities — content is author-trusted (see the constraint in [`../CLAUDE.md`](../CLAUDE.md)). Section ids referenced by `nav` are hard-coded in the renderer (`diagnosis`, `program`, `drills`, `evidence`, `references`); adding a brand-new *section type* means adding a render function in `renderer.js`, not just data.
+Strings may contain HTML and entities - content is author-trusted (see the constraint in [`../CLAUDE.md`](../CLAUDE.md)). Section ids referenced by `nav` are hard-coded in the renderer (`diagnosis`, `program`, `drills`, `evidence`, `references`); adding a brand-new *section type* means adding a render function in `renderer.js`, not just data.
 
 ---
 
 ## Timer engine contract
 
 Two modes:
-- **par** — random delay (`dmin`–`dmax` s) → start beep → countdown to `par` → par beep. One rep.
-- **circuit** — same, then a `rest` countdown, looped `reps` times.
+- **par** - random delay (`dmin`-`dmax` s) → start beep → countdown to `par` → par beep. One rep.
+- **circuit** - same, then a `rest` countdown, looped `reps` times.
 
 Arming a drill calls `TORRELD.timer.arm(spec)` with the timer + label from the drill's data. The renderer wires this; no `data-*` attributes are leaked into the DOM beyond the arm button itself.
 
 **Audio:** Web Audio, two switchable profiles selected by the Sound toggle in the console panel:
 
-- **Match** (default) — a piercing, sustained IPSC-range-timer-style buzzer. Sawtooth + square fundamental layered with odd-harmonic sines through a `WaveShaper` (tanh soft-clip), flat envelope, snap release. Loud — start 2700 Hz · 400 ms; par 1500 Hz · 260 ms.
-- **Quiet** — a single `triangle` tone with fast attack and exponential decay. Start 880 Hz · 130 ms; par 1318 Hz · 200 ms. For shared living spaces.
+- **Match** (default) - a piercing, sustained IPSC-range-timer-style buzzer. Sawtooth + square fundamental layered with odd-harmonic sines through a `WaveShaper` (tanh soft-clip), flat envelope, snap release. Loud - start 2700 Hz · 400 ms; par 1500 Hz · 260 ms.
+- **Quiet** - a single `triangle` tone with fast attack and exponential decay. Start 880 Hz · 130 ms; par 1318 Hz · 200 ms. For shared living spaces.
 
-The choice persists via `?sound=quiet` (`?sound=match` is the implicit default and is stripped from the URL on selection). Toggling the switch previews the active profile so the user can pick by ear. `AudioContext` is created/resumed on the first **Start** click or **Sound** toggle — a browser gesture requirement, not a bug. The first beep of a session may lag slightly while audio wakes.
+The choice persists via `?sound=quiet` (`?sound=match` is the implicit default and is stripped from the URL on selection). Toggling the switch previews the active profile so the user can pick by ear. `AudioContext` is created/resumed on the first **Start** click or **Sound** toggle - a browser gesture requirement, not a bug. The first beep of a session may lag slightly while audio wakes.
 
-**State machine:** `idle → waiting → running → (rest →) … → done`. All timeouts/rAF are tracked and cleared in `clearTimers()`; reuse it, don't spawn untracked timers.
+**State machine:** `idle → waiting → running → (rest →) ... → done`. All timeouts/rAF are tracked and cleared in `clearTimers()`; reuse it, don't spawn untracked timers.
 
 ---
 
@@ -123,7 +123,7 @@ The fixed timer console renders two layouts off the same DOM, switched by a `min
 - **Mobile (default):** a compact ~80 px bar at the bottom (drill label, mini readout, Start/Stop). Tapping the grip handle or the label expands a bottom-sheet panel with the mode toggle, the big readout, fields, and Reset. A scrim dims the page behind the sheet; scrim-tap, ESC, or grip-tap collapses it. Arming a drill auto-expands the sheet so the user can verify the new par. State is driven by `aria-expanded` on `#console`; the panel gets the `inert` attribute when collapsed so focus and screen readers skip it. Body gets `console-open` to lock scroll while the sheet is up.
 - **Desktop (≥ 860 px):** grip, bar, and scrim are hidden; the panel is always visible and laid out as a single horizontal row (mode + label / big readout + status / fields + actions).
 
-The bar and panel share state via four pairs of synced elements (`#readout`/`#readoutMini`, `#armedLabel`/`#armedLabelFull`, `#go`/`#goMini`). `timer.js` updates all of them in lockstep via `setReadoutText`, `setReadoutClass`, `setGo`, `setLabel` — never poke one without the other.
+The bar and panel share state via four pairs of synced elements (`#readout`/`#readoutMini`, `#armedLabel`/`#armedLabelFull`, `#go`/`#goMini`). `timer.js` updates all of them in lockstep via `setReadoutText`, `setReadoutClass`, `setGo`, `setLabel` - never poke one without the other.
 
 The currently armed drill is also marked with `.card.armed` in the renderer's click handler, so users can see which drill the timer is set up for without expanding the sheet.
 
