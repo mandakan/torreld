@@ -12,11 +12,11 @@
   </defs>
   <rect width="1200" height="630" fill="#0a0d0e"/>
   <rect x="0" y="0" width="1200" height="8" fill="#ffb02e"/>
-  <g transform="translate(960 130) scale(3.4)">
+  <g transform="translate(980 130) scale(3.4)">
     <rect width="100" height="100" fill="url(#f)" mask="url(#t)"/>
   </g>
   <text x="80" y="150" font-family="DejaVu Sans Mono, monospace" font-size="34" letter-spacing="8" font-weight="700"><tspan fill="#ffb02e">TORR</tspan><tspan fill="#dce3e5">ELD</tspan></text>
-  <text x="80" y="370" font-family="DejaVu Sans, Helvetica, sans-serif" font-size="96" font-weight="800" fill="#dce3e5">{{TITLE}}</text>
+  <text x="80" y="368" font-family="DejaVu Sans, Helvetica, sans-serif" font-size="{{TITLESIZE}}" font-weight="800" fill="#dce3e5">{{TITLE}}</text>
   <text x="80" y="440" font-family="DejaVu Sans, Helvetica, sans-serif" font-size="40" fill="#8a9599">{{TAGLINE}}</text>
   <text x="80" y="560" font-family="DejaVu Sans Mono, monospace" font-size="24" letter-spacing="3" fill="#5d676b">dry-fire training / torreld.urdr.dev</text>
 </svg>

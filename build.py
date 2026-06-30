@@ -99,9 +99,24 @@ def extract_pack_meta(text: str, stem: str) -> dict:
     }
 
 
+def _title_font_size(title: str) -> int:
+    """Pick a title size that fits the ~860px of card width left of the flame.
+
+    The OG template renders the title at x=80 with the flame starting near
+    x=980, so a long title at a fixed 96px would overrun the flame. Scale the
+    size down by title length (estimating ~0.6*size average glyph advance for
+    the bold sans stack) and clamp to a readable band.
+    """
+    if not title:
+        return 96
+    return max(40, min(96, int(860 / (0.6 * len(title)))))
+
+
 def render_og_svg(template: str, title: str, tagline: str) -> str:
+    t = truncate(title, 30)
     return (
-        template.replace("{{TITLE}}", escape_xml(truncate(title, 30)))
+        template.replace("{{TITLE}}", escape_xml(t))
+        .replace("{{TITLESIZE}}", str(_title_font_size(t)))
         .replace("{{TAGLINE}}", escape_xml(truncate(tagline, 48)))
     )
 

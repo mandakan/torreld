@@ -75,6 +75,19 @@ class TestRenderOgSvg(unittest.TestCase):
         self.assertNotIn("x" * 80, out)
         self.assertIn("...", out)
 
+    def test_title_font_size_shrinks_for_long_titles(self):
+        short = build._title_font_size("Reloads")
+        longt = build._title_font_size("Stage-planning dry-fire")
+        self.assertEqual(short, 96)             # short title hits the cap
+        self.assertLess(longt, short)           # long title scales down
+        self.assertGreaterEqual(longt, 40)      # never below the readable floor
+
+    def test_titlesize_token_is_filled(self):
+        tpl = '<text font-size="{{TITLESIZE}}">{{TITLE}}</text>'
+        out = build.render_og_svg(tpl, "Reloads dry-fire", "")
+        self.assertNotIn("{{TITLESIZE}}", out)
+        self.assertRegex(out, r'font-size="\d+"')
+
 
 class TestRenderStub(unittest.TestCase):
     META = {
