@@ -1,7 +1,7 @@
-/* Renderer — builds the page from a PROGRAM data object.
+/* Renderer - builds the page from a PROGRAM data object.
  *
  * Author-trusted content rendered via innerHTML so copy can contain <em>,
- * &mdash; etc. NEVER pass untrusted/user-supplied strings to render().
+ * - etc. NEVER pass untrusted/user-supplied strings to render().
  */
 (function(){
   var T = window.TORRELD;
@@ -161,7 +161,7 @@
     var P = pack.data;
 
     if(pack.documentTitle) document.title = pack.documentTitle;
-    else document.title = (pack.name || "TORRELD") + " — TORRELD";
+    else document.title = (pack.name || "TORRELD") + " - TORRELD";
 
     renderTopbar(P);
     renderHero(P);

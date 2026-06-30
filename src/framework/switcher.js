@@ -1,4 +1,4 @@
-/* Pack switcher — UI + URL persistence.
+/* Pack switcher - UI + URL persistence.
  *
  * - Hidden when only one pack is registered (clean default).
  * - Active pack persists via ?pack=<id> query param (no storage permissions needed).
@@ -28,7 +28,7 @@
   function renderSwitcher(){
     var el = document.getElementById("packSwitcher");
     if(!el) return;
-    // Hidden by CSS via :empty when only one pack — but populate anyway for ARIA.
+    // Hidden by CSS via :empty when only one pack - but populate anyway for ARIA.
     if(T.packs.length <= 1){ el.innerHTML = ""; return; }
     el.innerHTML = T.packs.map(function(p){
       var pressed = (p.id === T.activeId) ? "true" : "false";

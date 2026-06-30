@@ -217,7 +217,7 @@ If you've used the lens to **contradict** a practitioner-source claim, the evide
 1. Copy `src/packs/grip-first.js` → `src/packs/<your-pack>.js`. Don't start from a blank file — the data shape is non-trivial and the existing file documents it.
 2. Edit `id` (kebab, stable, used in `?pack=<id>` URLs), `name` (short label for the chip), `documentTitle` (used as `<title>`).
 3. Fill in the eight sections of `data` — `brand`, `nav`, `hero`, `diagnosis`, `program`, `drills`, `evidence`, `references`, `footer`. Schema in [`docs/ARCHITECTURE.md`](../../../docs/ARCHITECTURE.md#data-model-pack-data-field).
-4. **HTML entities, not literal characters.** The render path is `innerHTML`. Use `&mdash;` not `—`, `&middot;` not `·`, `&rarr;` not `→`. Existing packs are the reference; match them.
+4. **ASCII dashes; entities only for non-dash symbols.** The render path is `innerHTML`, so a literal ` - ` displays fine. Use a single hyphen `-` for dashes (never `&mdash;`, `&ndash;`, double hyphen, or a raw em-dash), `...` for an ellipsis, and straight quotes (not `&lsquo;`/`&rsquo;`). Keep `&middot;` for the chip/readout separator and `&rarr;` where an arrow is the meaning. See the Writing style rule in [`CLAUDE.md`](../../../CLAUDE.md). Existing packs are the reference; match them.
 5. **Author-trusted only.** Never wire runtime user input into pack data — it would be an XSS hole. If you ever need user-supplied strings in a drill name, switch that path to `textContent` in `renderer.js`.
 6. Leave the `footer` line as in the existing packs unless the pack genuinely needs a different one.
 
@@ -253,7 +253,7 @@ Full build/deploy detail in [`docs/BUILD.md`](../../../docs/BUILD.md). Branching
 - **Constant-feedback steps.** "After every rep, score yourself" — overrides the bandwidth feedback the par beep already provides (#4).
 - **Soft quality criteria.** "Try to be smooth" doesn't tell the user when a rep doesn't count. Make it binary.
 - **Citing what you haven't verified.** Don't paste URLs from memory. `WebFetch` or drop the link. Prefer DOI links for peer-reviewed work.
-- **Hard-coded characters in HTML strings.** Em-dash, middle-dot, arrow — use the entity form, match the existing packs.
+- **Dash entities or fancy typography in strings.** Use a single ASCII hyphen for dashes, `...` for ellipsis, straight quotes - never `&mdash;`/`&ndash;` or a raw em-dash. Keep `&middot;` and `&rarr;` only for those symbols. Match the existing packs.
 - **Symptom-grade par times.** A GM time as the starting par teaches the user to fail. Start at intermediate; let them ratchet down (#5, #7).
 - **A `caveat` that hedges nothing.** If the section reads as if the science settles the question, the user will trust it too far. The lens is mostly from lab tasks and other sports — say so.
 - **Quoting practitioner advice the lens flags without contradicting it.** If a tier-1 source says "do 500 reps a day," either don't cite that claim or cite it and call it out.

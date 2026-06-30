@@ -1,8 +1,8 @@
-/* Timer engine — par + circuit modes + sheet UX.
+/* Timer engine - par + circuit modes + sheet UX.
  *
  * Public surface (attached to TORRELD on init):
- *   TORRELD.timer.init()              — wires DOM (called once at boot)
- *   TORRELD.timer.arm(spec)           — armed by a drill button click
+ *   TORRELD.timer.init()              - wires DOM (called once at boot)
+ *   TORRELD.timer.arm(spec)           - armed by a drill button click
  *
  * State machine: idle -> waiting -> running -> (rest ->) ... -> done
  * All pending timeouts/rAF are tracked and cleared together in clearTimers().
@@ -15,12 +15,12 @@
  * Audio: WebAudio. Two profiles toggled at runtime:
  *   - "match"   (default): piercing, sustained, IPSC-range-timer-style buzzer.
  *                          Saw + square fundamental layered with odd-harmonic
- *                          sines, soft-clipped, flat envelope. Loud — mimics
+ *                          sines, soft-clipped, flat envelope. Loud - mimics
  *                          a CED7000/PACT at a match.
  *   - "quiet" : gentle triangle tones with exponential decay. The original
  *                          low-distraction profile for living-room practice.
  * The preference persists via the `?sound=quiet` URL param (default = match).
- * AudioContext is created/resumed on the first Start click — a browser gesture
+ * AudioContext is created/resumed on the first Start click - a browser gesture
  * requirement, not a bug. First beep of a session may lag slightly while
  * audio wakes.
  */
@@ -40,7 +40,7 @@
     if(ac && ac.state === "suspended") ac.resume();
   }
 
-  /* Quiet profile — single triangle tone, fast attack, exponential decay.
+  /* Quiet profile - single triangle tone, fast attack, exponential decay.
      Low-distraction; appropriate for shared spaces. */
   function quietTone(freq, durMs, gainPeak){
     if(!ac) return;
@@ -58,12 +58,12 @@
     o.stop(t + durMs/1000 + 0.03);
   }
 
-  /* Match profile — piercing, sustained buzzer to mimic an IPSC range
+  /* Match profile - piercing, sustained buzzer to mimic an IPSC range
      timer at a match. A sawtooth + square fundamental layered with odd-
      harmonic sines gives a square-wave-like timbre with strong energy in
-     the 2–5 kHz band where the ear is most sensitive. A WaveShaper applies
+     the 2-5 kHz band where the ear is most sensitive. A WaveShaper applies
      tanh soft-clipping to keep peaks from destroying the device DAC. The
-     envelope holds flat for almost the full duration, then snaps off —
+     envelope holds flat for almost the full duration, then snaps off -
      that's what makes a range-timer beep feel like an alarm, not a tone. */
   function matchBeep(freq, durMs){
     if(!ac) return;
@@ -72,7 +72,7 @@
         master = ac.createGain(),
         shaper = ac.createWaveShaper();
 
-    /* tanh-shaped soft clip — rounds peaks instead of digital clipping. */
+    /* tanh-shaped soft clip - rounds peaks instead of digital clipping. */
     var n = 1024, curve = new Float32Array(n);
     for(var i = 0; i < n; i++){
       var x = (i * 2 / n) - 1;
@@ -142,7 +142,7 @@
   }
   /* Demo the new profile when the user toggles, so they can hear it
      immediately without firing a full rep. Only after a user gesture
-     (this click) — which also satisfies the AudioContext requirement. */
+     (this click) - which also satisfies the AudioContext requirement. */
   function previewBeep(){
     audio();
     startBeep();
@@ -365,7 +365,7 @@
       if(changed) previewBeep();
     });
 
-    /* Start/Stop — both buttons trigger the same action */
+    /* Start/Stop - both buttons trigger the same action */
     goBtn.addEventListener("click", startOrStop);
     if(goMini){
       goMini.addEventListener("click", function(e){

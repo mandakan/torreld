@@ -1,4 +1,4 @@
-/* TORRELD framework styles — mobile-first, no external assets, no web fonts. */
+/* TORRELD framework styles - mobile-first, no external assets, no web fonts. */
 
 /* ===== Design tokens ===== */
 :root{
@@ -737,7 +737,7 @@ section{padding:40px 0;border-bottom:1px solid var(--line)}
   padding:4px 16px 16px;
 }
 
-/* Labeled control group — same shape used by the Timer and Sound switches. */
+/* Labeled control group - same shape used by the Timer and Sound switches. */
 .ctl{
   display:flex;
   flex-direction:column;
