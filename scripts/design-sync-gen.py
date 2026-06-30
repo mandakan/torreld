@@ -209,7 +209,7 @@ card("hero/hero.html", "Hero", "Hero block",
      w=900, h=460)
 
 card("hero/readout-badge.html", "Hero", "Readout badge",
-     "Inline number + label, amber glow",
+     "Inline number + label (static, no glow)",
      '<p class="ds-h">Hero readout badge</p>'
      '<div class="hero-readout"><span class="num">1.50</span>'
      '<span class="lab">Par seconds</span></div>',
@@ -309,14 +309,17 @@ card("drills/drill-card.html", "Drills", "Drill card",
      w=900, h=560)
 
 card("drills/chips.html", "Drills", "Chips",
-     "Default, primary, par and circuit variants",
+     "Single accent: neutral default, amber primary",
      '<p class="ds-h">Chips</p>'
      '<div class="card-top" style="margin:0">'
      '<span class="chip">Default</span>'
      '<span class="chip prim">Primary</span>'
      '<span class="chip par">Par</span>'
-     '<span class="chip cyc">Circuit</span></div>',
-     w=520, h=120)
+     '<span class="chip cyc">Circuit</span></div>'
+     '<p class="ds-note">One chip treatment. The .par and .cyc classes still flow '
+     'from pack data but render as the neutral chip - the label carries the meaning, '
+     'color stays a single accent.</p>',
+     w=520, h=160)
 
 # ----------------------------------------------------------------------------
 # REFERENCES
@@ -368,7 +371,7 @@ card("timer/console-desktop.html", "Timer", "Timer console - desktop",
      '<div class="modeswitch"><button aria-pressed="true">Par</button><button>Circuit</button></div></div>'
      '<div class="ctl"><span class="ctl-label">Sound</span>'
      '<div class="modeswitch"><button aria-pressed="true">Match</button><button>Quiet</button></div></div>'
-     '<div class="armed">Drill: <b>Draw to first shot</b></div></div>'
+     '<div class="armed-label">Drill: <b>Draw to first shot</b></div></div>'
      '<div class="c-center"><div class="readout">1.50</div>'
      '<div class="status"><span class="dot"></span>Ready</div></div>'
      '<div class="c-right"><div class="fields">'
