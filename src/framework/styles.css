@@ -64,7 +64,7 @@ h1,h2,h3,h4{font-weight:800;letter-spacing:.02em;line-height:1.1;margin:0}
 .eyebrow{
   font-family:var(--mono);
   font-size:11px;
-  letter-spacing:.28em;
+  letter-spacing:.16em;
   text-transform:uppercase;
   color:var(--muted);
   margin:0 0 14px;
@@ -102,7 +102,7 @@ h1,h2,h3,h4{font-weight:800;letter-spacing:.02em;line-height:1.1;margin:0}
 .brandmark{
   font-family:var(--mono);
   font-weight:700;
-  letter-spacing:.28em;
+  letter-spacing:.18em;
   font-size:13px;
   text-transform:uppercase;
   white-space:nowrap;
@@ -156,7 +156,7 @@ h1,h2,h3,h4{font-weight:800;letter-spacing:.02em;line-height:1.1;margin:0}
     gap:22px;
     font-family:var(--mono);
     font-size:11px;
-    letter-spacing:.18em;
+    letter-spacing:.12em;
     text-transform:uppercase;
   }
   .topnav a{
@@ -206,7 +206,6 @@ h1,h2,h3,h4{font-weight:800;letter-spacing:.02em;line-height:1.1;margin:0}
   font-weight:700;
   font-size:clamp(34px,8vw,46px);
   color:var(--amber);
-  text-shadow:0 0 22px var(--amber-glow);
   font-variant-numeric:tabular-nums;
   line-height:1;
 }
@@ -216,14 +215,6 @@ h1,h2,h3,h4{font-weight:800;letter-spacing:.02em;line-height:1.1;margin:0}
   letter-spacing:.24em;
   text-transform:uppercase;
   color:var(--muted);
-}
-.hero::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:radial-gradient(60% 80% at 80% -10%,rgba(255,176,46,.07),transparent 70%);
-  z-index:1;
-  pointer-events:none;
 }
 @media(min-width:720px){
   .hero{padding:72px 0 56px}
@@ -407,10 +398,13 @@ section{padding:40px 0;border-bottom:1px solid var(--line)}
   flex-wrap:wrap;
   margin-bottom:12px;
 }
+/* One chip treatment: default neutral, .prim amber. The .par / .cyc classes
+   still come through from pack data but intentionally render as the neutral
+   chip - the label carries the meaning, color stays a single accent. */
 .chip{
   font-family:var(--mono);
   font-size:10px;
-  letter-spacing:.16em;
+  letter-spacing:.1em;
   text-transform:uppercase;
   padding:4px 8px;
   border-radius:3px;
@@ -418,8 +412,6 @@ section{padding:40px 0;border-bottom:1px solid var(--line)}
   color:var(--muted);
 }
 .chip.prim{border-color:var(--amber);color:var(--amber)}
-.chip.par{border-color:#3a4d63;color:#7fa9d6}
-.chip.cyc{border-color:#5a4a2a;color:var(--amber-soft)}
 .card h3{font-size:20px;text-transform:uppercase;margin-bottom:8px;line-height:1.15}
 .card .why{font-size:14.5px;color:#c3cccf;margin:0 0 14px;line-height:1.55}
 .card ol{margin:0 0 16px;padding-left:18px;font-size:14px;color:var(--muted);line-height:1.65}
@@ -444,7 +436,7 @@ section{padding:40px 0;border-bottom:1px solid var(--line)}
   min-height:var(--tap);
   font-family:var(--mono);
   font-size:13px;
-  letter-spacing:.22em;
+  letter-spacing:.1em;
   text-transform:uppercase;
   background:transparent;
   color:var(--amber);
@@ -458,10 +450,11 @@ section{padding:40px 0;border-bottom:1px solid var(--line)}
 .arm button:active{background:rgba(255,176,46,.18)}
 .arm button:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
 
-/* Show which card is currently armed in the timer. */
+/* Show which card is currently armed in the timer. Border plus a faint inset
+   ring only - no outer glow; the live readout is the one element that glows. */
 .card.armed{
   border-color:var(--amber);
-  box-shadow:0 0 0 1px rgba(255,176,46,.18), 0 0 24px -8px var(--amber-glow);
+  box-shadow:inset 0 0 0 1px rgba(255,176,46,.16);
 }
 .card.armed .arm button{background:rgba(255,176,46,.1)}
 
@@ -588,13 +581,6 @@ section{padding:40px 0;border-bottom:1px solid var(--line)}
   display:flex;
   flex-direction:column;
   max-height:calc(100dvh - 16px);
-}
-.console::before{
-  content:"";
-  position:absolute;
-  inset:0;
-  background:repeating-linear-gradient(180deg,rgba(255,255,255,.014) 0 1px,transparent 1px 3px);
-  pointer-events:none;
 }
 .console.flash{animation:armflash .6s ease}
 @keyframes armflash{
@@ -780,7 +766,9 @@ section{padding:40px 0;border-bottom:1px solid var(--line)}
 }
 .modeswitch button:focus-visible{outline:2px solid var(--amber);outline-offset:-2px}
 
-.armed{
+/* Console "armed drill" label. Named .armed-label, not .armed, so it never
+   collides with the .card.armed card-state selector. */
+.armed-label{
   font-family:var(--mono);
   font-size:11px;
   letter-spacing:.14em;
@@ -788,7 +776,7 @@ section{padding:40px 0;border-bottom:1px solid var(--line)}
   color:var(--muted);
   margin-top:6px;
 }
-.armed b{color:var(--text)}
+.armed-label b{color:var(--text)}
 
 .c-center{display:flex;flex-direction:column;align-items:center;gap:6px}
 .readout{
