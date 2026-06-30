@@ -19,7 +19,7 @@ SRC = ROOT / "src"
 DIST = ROOT / "dist"
 SHELL = SRC / "framework" / "shell.html"
 STYLES = SRC / "framework" / "styles.css"
-FRAMEWORK_ORDER = ["timer.js", "renderer.js", "switcher.js"]
+FRAMEWORK_ORDER = ["progress.js", "timer.js", "renderer.js", "switcher.js"]
 PACK_GLOB = str(SRC / "packs" / "*.js")
 
 
