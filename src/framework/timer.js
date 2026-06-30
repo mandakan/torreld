@@ -1,19 +1,25 @@
-/* Timer engine — par + circuit modes.
+/* Timer engine — par + circuit modes + sheet UX.
  *
  * Public surface (attached to TORRELD on init):
- *   TORRELD.timer.init()              — wires DOM (must be called once after first render)
+ *   TORRELD.timer.init()              — wires DOM (called once at boot)
  *   TORRELD.timer.arm(spec)           — armed by a drill button click
  *
  * State machine: idle -> waiting -> running -> (rest ->) ... -> done
  * All pending timeouts/rAF are tracked and cleared together in clearTimers().
  *
- * Audio: WebAudio triangle tones. AudioContext is created/resumed on the first
- * Start click — a browser gesture requirement, not a bug. First beep may lag
- * slightly while audio wakes.
+ * Mobile UX: the console is a compact bar by default. The grip handle, the
+ * compact bar's label area, the scrim, and the ESC key all toggle the
+ * expanded sheet. Arming a drill auto-expands the sheet so the user sees
+ * the new params; tapping outside collapses it again.
+ *
+ * Audio: WebAudio triangle tones. AudioContext is created/resumed on the
+ * first Start click — a browser gesture requirement, not a bug. First beep
+ * of a session may lag slightly while audio wakes.
  */
 (function(){
   var T = window.TORRELD;
 
+  /* ----- Audio ----- */
   var ac = null;
   function audio(){
     if(!ac){
@@ -40,11 +46,16 @@
   var startBeep = function(){ tone(880, 130, 0.55); };
   var parBeep   = function(){ tone(1318, 200, 0.6); };
 
+  /* ----- DOM refs (resolved in init) ----- */
   var $ = function(id){ return document.getElementById(id); };
+  var consoleEl, scrim, grip, barInfo, bar,
+      readout, readoutMini,
+      armedLabel, armedLabelFull,
+      statusEl, fPar, fDmin, fDmax, fReps, fRest,
+      goBtn, goMini, resetBtn,
+      mPar, mCyc;
 
-  var readout, statusEl, fPar, fDmin, fDmax, fReps, fRest, goBtn, resetBtn,
-      mPar, mCyc, armedLabel, consoleEl;
-
+  /* ----- State ----- */
   var mode = "par",
       state = "idle",
       currentRep = 0,
@@ -55,6 +66,62 @@
 
   function num(el, def){ var v = parseFloat(el.value); return isNaN(v) ? def : v; }
 
+  /* ----- Sync helpers (keep bar + panel in lockstep) ----- */
+  function setReadoutText(txt){
+    readout.textContent = txt;
+    if(readoutMini) readoutMini.textContent = txt;
+  }
+  function setReadoutClass(c){
+    readout.className = "readout" + (c ? (" " + c) : "");
+    if(readoutMini) readoutMini.className = "bar-readout" + (c ? (" " + c) : "");
+  }
+  function setStatus(txt, live){
+    statusEl.innerHTML = '<span class="dot"></span>' + txt;
+    statusEl.classList.toggle("live", !!live);
+  }
+  function setGo(text, stop){
+    goBtn.textContent = text;
+    goBtn.classList.toggle("stop", !!stop);
+    if(goMini){
+      goMini.textContent = text;
+      goMini.classList.toggle("stop", !!stop);
+      goMini.setAttribute("aria-label", (stop ? "Stop timer" : "Start timer"));
+    }
+  }
+  function setLabel(txt){
+    if(armedLabel) armedLabel.textContent = txt;
+    if(armedLabelFull) armedLabelFull.textContent = txt;
+  }
+
+  /* ----- Sheet expand / collapse ----- */
+  function setExpanded(expand){
+    var v = !!expand;
+    consoleEl.setAttribute("aria-expanded", v ? "true" : "false");
+    if(grip){
+      grip.setAttribute("aria-expanded", v ? "true" : "false");
+      grip.setAttribute("aria-label", v ? "Collapse timer" : "Expand timer");
+    }
+    if(barInfo){
+      barInfo.setAttribute("aria-expanded", v ? "true" : "false");
+      barInfo.setAttribute("aria-label", v ? "Collapse timer" : "Expand timer");
+    }
+    if(scrim){
+      scrim.classList.toggle("active", v);
+      scrim.setAttribute("aria-hidden", v ? "false" : "true");
+    }
+    if(v){
+      consoleEl.querySelector(".console-panel").removeAttribute("inert");
+      document.body.classList.add("console-open");
+    } else {
+      consoleEl.querySelector(".console-panel").setAttribute("inert", "");
+      document.body.classList.remove("console-open");
+    }
+  }
+  function toggleExpanded(){
+    setExpanded(consoleEl.getAttribute("aria-expanded") !== "true");
+  }
+
+  /* ----- Timer engine ----- */
   function setMode(m){
     mode = m;
     mPar.setAttribute("aria-pressed", m === "par");
@@ -66,20 +133,11 @@
     if(state !== "idle") stopAll();
     showReady();
   }
-
-  function setStatus(txt, live){
-    statusEl.innerHTML = '<span class="dot"></span>' + txt;
-    statusEl.classList.toggle("live", !!live);
-  }
-  function setReadoutClass(c){
-    readout.className = "readout" + (c ? (" " + c) : "");
-  }
   function showReady(){
     setReadoutClass("");
-    readout.textContent = num(fPar, 1.5).toFixed(2);
+    setReadoutText(num(fPar, 1.5).toFixed(2));
     setStatus("Ready", false);
-    goBtn.textContent = "Start";
-    goBtn.classList.remove("stop");
+    setGo("Start", false);
   }
   function clearTimers(){
     if(tWait){ clearTimeout(tWait); tWait = null; }
@@ -92,17 +150,16 @@
   function loop(){
     var now = performance.now();
     if(state === "running"){
-      readout.textContent = Math.max(0, (runEndTs - now)/1000).toFixed(2);
+      setReadoutText(Math.max(0, (runEndTs - now)/1000).toFixed(2));
     } else if(state === "rest"){
-      readout.textContent = Math.max(0, (restEndTs - now)/1000).toFixed(1);
+      setReadoutText(Math.max(0, (restEndTs - now)/1000).toFixed(1));
     }
     raf = requestAnimationFrame(loop);
   }
-
   function beginRep(){
     state = "waiting";
     setReadoutClass("");
-    readout.textContent = num(fPar, 1.5).toFixed(2);
+    setReadoutText(num(fPar, 1.5).toFixed(2));
     setStatus("Stand by &middot; rep " + currentRep + "/" + totalReps, true);
     var dmin = num(fDmin, 1.5), dmax = num(fDmax, 3.5);
     if(dmax < dmin){ var t = dmin; dmin = dmax; dmax = t; }
@@ -120,7 +177,7 @@
   function onPar(){
     parBeep();
     setReadoutClass("par");
-    readout.textContent = num(fPar, 1.5).toFixed(2);
+    setReadoutText(num(fPar, 1.5).toFixed(2));
     if(mode === "circuit" && currentRep < totalReps){
       state = "rest";
       setReadoutClass("rest");
@@ -131,8 +188,7 @@
     } else {
       state = "done";
       setStatus("Done", false);
-      goBtn.textContent = "Start";
-      goBtn.classList.remove("stop");
+      setGo("Start", false);
       if(raf){ cancelAnimationFrame(raf); raf = null; }
     }
   }
@@ -141,12 +197,15 @@
     clearTimers();
     totalReps = (mode === "circuit") ? Math.max(1, Math.round(num(fReps, 1))) : 1;
     currentRep = 1;
-    goBtn.textContent = "Stop";
-    goBtn.classList.add("stop");
+    setGo("Stop", true);
     raf = requestAnimationFrame(loop);
     beginRep();
   }
+  function startOrStop(){
+    if(state === "idle" || state === "done") start(); else stopAll();
+  }
 
+  /* ----- Arming a drill (called from renderer) ----- */
   function arm(spec){
     setMode(spec.mode);
     fPar.value = parseFloat(spec.par).toFixed(2);
@@ -156,30 +215,64 @@
       fReps.value = spec.reps;
       fRest.value = spec.rest;
     }
-    armedLabel.textContent = spec.label;
+    setLabel(spec.label);
     stopAll();
     consoleEl.classList.remove("flash");
     void consoleEl.offsetWidth;
     consoleEl.classList.add("flash");
-    consoleEl.scrollIntoView({ block: "end", behavior: "smooth" });
+    setExpanded(true);
   }
 
+  /* ----- Init ----- */
   function init(){
-    readout = $("readout"); statusEl = $("status");
-    fPar = $("fPar"); fDmin = $("fDmin"); fDmax = $("fDmax");
-    fReps = $("fReps"); fRest = $("fRest");
-    goBtn = $("go"); resetBtn = $("reset");
-    mPar = $("mPar"); mCyc = $("mCyc");
-    armedLabel = $("armedLabel"); consoleEl = $("console");
+    consoleEl = $("console");
+    scrim     = $("scrim");
+    grip      = $("consoleGrip");
+    barInfo   = $("consoleBarInfo");
+    bar       = $("consoleBar");
 
+    readout       = $("readout");
+    readoutMini   = $("readoutMini");
+    armedLabel    = $("armedLabel");
+    armedLabelFull= $("armedLabelFull");
+    statusEl      = $("status");
+
+    fPar  = $("fPar");  fDmin = $("fDmin"); fDmax = $("fDmax");
+    fReps = $("fReps"); fRest = $("fRest");
+    goBtn = $("go");    goMini = $("goMini"); resetBtn = $("reset");
+    mPar  = $("mPar");  mCyc = $("mCyc");
+
+    /* Mode toggle */
     mPar.addEventListener("click", function(){ setMode("par"); });
     mCyc.addEventListener("click", function(){ setMode("circuit"); });
-    goBtn.addEventListener("click", function(){
-      if(state === "idle" || state === "done") start(); else stopAll();
-    });
+
+    /* Start/Stop — both buttons trigger the same action */
+    goBtn.addEventListener("click", startOrStop);
+    if(goMini){
+      goMini.addEventListener("click", function(e){
+        e.stopPropagation();        /* prevent bubbling to bar-info toggle */
+        startOrStop();
+      });
+    }
     resetBtn.addEventListener("click", stopAll);
+
+    /* Live update of the Ready readout when Par is edited */
     fPar.addEventListener("input", function(){
       if(state === "idle" || state === "done") showReady();
+    });
+
+    /* Sheet toggles */
+    if(grip)    grip.addEventListener("click", toggleExpanded);
+    if(barInfo) barInfo.addEventListener("click", toggleExpanded);
+    if(scrim)   scrim.addEventListener("click", function(){ setExpanded(false); });
+
+    /* ESC to dismiss the sheet when expanded. */
+    document.addEventListener("keydown", function(e){
+      if(e.key !== "Escape") return;
+      if(consoleEl.getAttribute("aria-expanded") === "true"){
+        setExpanded(false);
+        if(barInfo) barInfo.focus();
+      }
     });
 
     showReady();
