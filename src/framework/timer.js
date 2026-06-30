@@ -156,6 +156,7 @@
       statusEl, fPar, fDmin, fDmax, fReps, fRest,
       goBtn, goMini, resetBtn,
       mPar, mCyc;
+  var judge, judgeMade, judgeTight, parMeta, parMetaText, parReset, progResetAll;
   /* sndMatchBtn / sndQuietBtn are declared above in the Audio section. */
 
   /* ----- State ----- */
@@ -166,6 +167,8 @@
       runEndTs = 0,
       restEndTs = 0,
       tWait = null, tPar = null, tRest = null, raf = null;
+  var armedKey = null, armedDefaultPar = 1.5, armedFloor = null, armedLabelText = "";
+  function r2(x){ return Math.round(x * 100) / 100; }
 
   function num(el, def){ var v = parseFloat(el.value); return isNaN(v) ? def : v; }
 
@@ -293,9 +296,11 @@
       setStatus("Done", false);
       setGo("Start", false);
       if(raf){ cancelAnimationFrame(raf); raf = null; }
+      if(armedKey){ showJudge(); setExpanded(true); }
     }
   }
   function start(){
+    hideJudge();
     audio();
     clearTimers();
     totalReps = (mode === "circuit") ? Math.max(1, Math.round(num(fReps, 1))) : 1;
@@ -308,10 +313,89 @@
     if(state === "idle" || state === "done") start(); else stopAll();
   }
 
+  /* ----- Adaptive par UI helpers ----- */
+  function drillKey(label){ return (T.activeId || "?") + "::" + label; }
+
+  function showJudge(){ if(judge) judge.hidden = false; }
+  function hideJudge(){ if(judge) judge.hidden = true; }
+
+  function updateParMeta(){
+    if(!parMeta) return;
+    if(!armedKey){ parMeta.hidden = true; return; }
+    var cur = T.progress.getPar(armedKey, armedDefaultPar);
+    var streak = T.progress.getStreak(armedKey);
+    var adapted = r2(cur) !== r2(armedDefaultPar);
+    var txt = (adapted
+        ? "Par " + cur.toFixed(2) + " (from " + parseFloat(armedDefaultPar).toFixed(2) + ")"
+        : "Par " + parseFloat(armedDefaultPar).toFixed(2))
+      + " &middot; " + streak + "/3 clean";
+    parMetaText.innerHTML = txt;
+    parMeta.hidden = false;
+    if(parReset) parReset.hidden = !adapted;
+  }
+
+  function flashMeta(){
+    if(!parMeta) return;
+    parMeta.classList.remove("flash");
+    void parMeta.offsetWidth;
+    parMeta.classList.add("flash");
+  }
+
+  function onMadeIt(){
+    if(!armedKey){ hideJudge(); return; }
+    var res = T.progress.recordMadeIt(armedKey, armedDefaultPar, armedFloor);
+    if(res.tightened){
+      fPar.value = res.par.toFixed(2);
+      if(state === "idle" || state === "done") showReady();
+      flashMeta();
+      if(T.updateCardNow) T.updateCardNow(armedLabelText, res.par, armedDefaultPar);
+    }
+    updateParMeta();
+    hideJudge();
+  }
+
+  function onTooTight(){
+    if(!armedKey){ hideJudge(); return; }
+    T.progress.recordTooTight(armedKey, armedDefaultPar);
+    updateParMeta();
+    hideJudge();
+  }
+
+  function onParReset(){
+    if(!armedKey) return;
+    T.progress.reset(armedKey);
+    fPar.value = parseFloat(armedDefaultPar).toFixed(2);
+    if(state === "idle" || state === "done") showReady();
+    if(T.updateCardNow) T.updateCardNow(armedLabelText, armedDefaultPar, armedDefaultPar);
+    updateParMeta();
+  }
+
+  function onResetAll(){
+    T.progress.resetAll();
+    if(armedKey){
+      fPar.value = parseFloat(armedDefaultPar).toFixed(2);
+      if(state === "idle" || state === "done") showReady();
+    }
+    if(T.refreshAllCardNow) T.refreshAllCardNow();
+    updateParMeta();
+  }
+
+  function onParEdit(){
+    if(!armedKey) return;
+    var v = num(fPar, armedDefaultPar);
+    T.progress.setPar(armedKey, v);
+    if(T.updateCardNow) T.updateCardNow(armedLabelText, v, armedDefaultPar);
+    updateParMeta();
+  }
+
   /* ----- Arming a drill (called from renderer) ----- */
   function arm(spec){
     setMode(spec.mode);
-    fPar.value = parseFloat(spec.par).toFixed(2);
+    armedLabelText = spec.label;
+    armedKey = drillKey(spec.label);
+    armedDefaultPar = parseFloat(spec.par);
+    armedFloor = (spec.floor != null && spec.floor !== "") ? parseFloat(spec.floor) : null;
+    fPar.value = parseFloat(T.progress.getPar(armedKey, spec.par)).toFixed(2);
     fDmin.value = spec.dmin;
     fDmax.value = spec.dmax;
     if(spec.mode === "circuit"){
@@ -324,6 +408,8 @@
     void consoleEl.offsetWidth;
     consoleEl.classList.add("flash");
     setExpanded(true);
+    hideJudge();
+    updateParMeta();
   }
 
   /* ----- Init ----- */
@@ -344,6 +430,13 @@
     fReps = $("fReps"); fRest = $("fRest");
     goBtn = $("go");    goMini = $("goMini"); resetBtn = $("reset");
     mPar  = $("mPar");  mCyc = $("mCyc");
+    judge        = $("judge");
+    judgeMade    = $("judgeMade");
+    judgeTight   = $("judgeTight");
+    parMeta      = $("parMeta");
+    parMetaText  = $("parMetaText");
+    parReset     = $("parReset");
+    progResetAll = $("progResetAll");
     sndMatchBtn = $("sndMatch");
     sndQuietBtn = $("sndQuiet");
 
@@ -374,6 +467,11 @@
       });
     }
     resetBtn.addEventListener("click", stopAll);
+    if(judgeMade)    judgeMade.addEventListener("click", onMadeIt);
+    if(judgeTight)   judgeTight.addEventListener("click", onTooTight);
+    if(parReset)     parReset.addEventListener("click", onParReset);
+    if(progResetAll) progResetAll.addEventListener("click", onResetAll);
+    fPar.addEventListener("change", onParEdit);
 
     /* Live update of the Ready readout when Par is edited */
     fPar.addEventListener("input", function(){
