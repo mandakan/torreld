@@ -67,8 +67,8 @@ registerPack({
           why: "The root fault isn't building the grip from the holster &mdash; it's re-establishing it under dynamic load. Train the move-and-regrip rep itself; nothing else fixes it.",
           steps: [
             "Set up in one position. Move to the next (a couple of steps is enough).",
-            "Re-establish the support hand as the <em>first</em> thing &mdash; grip set and confirmed before the dot settles.",
-            "Freeze on arrival, check placement and pressure. If it isn't perfect, the rep doesn't count.",
+            "Eyes find the next aim point as you move; re-establish the support hand as the <em>first</em> thing &mdash; grip set and confirmed before the dot settles.",
+            "Freeze on arrival, check the grip against the Grip-reference checks. If it isn't perfect, the rep doesn't count.",
             "Slow and perfect first, then speed."
           ],
           timer: { mode: "circuit", par: "2.0", dmin: "1.5", dmax: "3.0", reps: "8", rest: "4" },
@@ -92,8 +92,9 @@ registerPack({
           why: "Stop hunting for the dot. Drive the gun up into your line of sight so the dot appears where your eye already is &mdash; search the glass and you're late by definition.",
           steps: [
             "Lock your eyes on a small exact aim point <em>before</em> the gun comes up.",
-            "Drive the gun up into that line. Bring the dot to the eye &mdash; don't dip your head.",
-            "Break on the par beep."
+            "Drive the gun up into that line. Bring the dot to the eye &mdash; keep your eyes locked on the aim point as the gun arrives.",
+            "Break on the par beep.",
+            "If the dot isn't on the aim point as the beep fires, the rep doesn't count."
           ],
           timer: { mode: "par", par: "1.2", dmin: "1.5", dmax: "3.5", reps: "1", rest: "0" },
           label: "Target-focused presentation"
@@ -103,8 +104,9 @@ registerPack({
           title: "Grip reference",
           why: "Build a grip you can recreate exactly without looking, using tactile reference points (magwell, trigger-guard underside, thumb rest).",
           steps: [
-            "Build the grip, find the reference point with the support hand.",
-            "Confirm high placement, maximum contact, firm pressure, locked wrists.",
+            "Eyes up on a distant aim point &mdash; the grip is built by feel, not by looking down at the gun.",
+            "Build the grip; the support hand finds the same reference point every time.",
+            "Confirm: thumb in the same place, full contact on the same area of the gun, same commitment.",
             "Repeat until the reference sets blind, every time."
           ],
           timer: { mode: "par", par: "1.5", dmin: "1.5", dmax: "3.5", reps: "1", rest: "0" },
@@ -116,7 +118,7 @@ registerPack({
           why: "The support hand gets sloppy when the forearm is tired &mdash; just like late in a stage. Train the grip in that state, not only when fresh.",
           steps: [
             "Run it late in the session, or after raising your heart rate.",
-            "Hold the grip to the same standard as when fresh.",
+            "Hold the grip to the same Grip-reference checks as when fresh &mdash; same thumb placement, same contact, same eye fix.",
             "Stop when quality drops &mdash; not when you could do more."
           ],
           timer: { mode: "circuit", par: "2.0", dmin: "1.5", dmax: "3.0", reps: "12", rest: "3" },
@@ -132,6 +134,7 @@ registerPack({
         { map: "Move-and-regrip &middot; random delay", h: "Variable practice transfers better", body: "Varying the rep &mdash; random start delay, changing positions &mdash; tends to lower practice-day performance but improve retention and transfer to the unpredictable match, versus blocked repetition (the contextual-interference effect)." },
         { map: "Dry vs live split",                     h: "You train what's present",          body: "Motor skill is largely task- and effector-specific. Dry fire trains the draw, grip, index and presentation that are actually present; recoil and follow-up aren't present without a shot, so they need live fire. Precision pistol is a different task and transfers little." },
         { map: "Eyes-closed index &middot; visualisation", h: "Mental rehearsal counts",         body: "Mental practice produces a small-to-moderate measurable gain in meta-analysis (SMD around 0.4). Rehearsing the index and the plan in your head is real practice, not a warm-up ritual." },
+        { map: "Target-focused presentation &middot; vision-first", h: "Vision leads the hand",  body: "In aiming tasks, elite performers show a longer pre-action fixation on the target (the &lsquo;quiet eye&rsquo;), and cueing on the movement <em>effect</em> &mdash; target, dot, gun trajectory &mdash; produces faster learning and better performance than cueing on body parts (external focus of attention). Lock the eye on the aim point first, then send the gun." },
         { map: "Par timer &middot; log",                h: "Measure to learn",                   body: "Feedback on the result drives motor learning. A par time turns a vague rep into a measured one, and a log turns a hunch about progress into data." }
       ],
       caveat: "<b>Honest limit.</b> The variable-practice advantage is robust in the lab but less consistent in complex, real-world tasks, and almost none of it is measured specifically in dynamic pistol shooting. Treat the science as direction, not proof &mdash; let your own timer and target data settle it."
@@ -161,6 +164,8 @@ registerPack({
           items: [
             { src: "Contextual interference &mdash; meta-analysis", grade: "Meta-analysis", body: "Random / varied practice improves retention and transfer versus blocked repetition; effect is clearer in the lab than in complex applied tasks.", links: [{ label: "frontiersin.org (2024)", url: "https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2024.1377122/full" }, { label: "nature.com (2024)", url: "https://www.nature.com/articles/s41598-024-65753-3" }] },
             { src: "Specificity &amp; variability of practice",   grade: "Review",         body: "Motor skills are largely task-specific; transfer to untrained variations is real but suboptimal. Grounds the dry-vs-live split.", links: [{ label: "pubmed.ncbi.nlm.nih.gov", url: "https://pubmed.ncbi.nlm.nih.gov/2094928/" }] },
+            { src: "Vickers (1996) &mdash; Visual control when aiming at a far target", grade: "Foundational paper", body: "Elite performers show a longer final fixation on the target before initiating movement (the &lsquo;quiet eye&rsquo;), which appears to organise the motor plan and reduce variability. Direct grounding for the vision-first drill steps.", links: [{ label: "pubmed.ncbi.nlm.nih.gov", url: "https://pubmed.ncbi.nlm.nih.gov/8934848/" }] },
+            { src: "Wulf (2013) &mdash; Attentional focus and motor learning", grade: "15-year review", body: "External focus of attention (cueing on the movement effect &mdash; target, dot trajectory) consistently produces faster learning and better performance than internal focus (cueing on body parts). Replicated across hundreds of studies.", links: [{ label: "doi.org", url: "https://doi.org/10.1080/1750984X.2012.723728" }] },
             { src: "Mental practice &mdash; meta-analysis",       grade: "Meta-analysis",  body: "Mental rehearsal yields a measurable post-acquisition gain (SMD around 0.4).", links: [{ label: "ncbi.nlm.nih.gov/pmc", url: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4714441/" }] },
             { src: "Schmidt &amp; Lee &mdash; Motor Learning and Performance", grade: "Textbook", body: "The standard reference for the principles above (practice schedule, specificity, feedback). Book, no single link.", links: [] }
           ]
