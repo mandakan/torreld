@@ -71,7 +71,7 @@ registerPack({
             "Freeze on arrival, check the grip against the Grip-reference checks. If it isn't perfect, the rep doesn't count.",
             "Slow and perfect first, then speed."
           ],
-          timer: { mode: "circuit", par: "2.0", dmin: "1.5", dmax: "3.0", reps: "8", rest: "4" },
+          timer: { mode: "circuit", par: "2.0", dmin: "1.5", dmax: "3.0", reps: "8", rest: "4", floor: "1.2" },
           label: "Move-and-regrip"
         },
         {
@@ -83,7 +83,7 @@ registerPack({
             "Present. Open your eyes.",
             "The dot should sit where you were looking. Note the pattern in the miss."
           ],
-          timer: { mode: "par", par: "1.5", dmin: "1.5", dmax: "3.5", reps: "1", rest: "0" },
+          timer: { mode: "par", par: "1.5", dmin: "1.5", dmax: "3.5", reps: "1", rest: "0", floor: "1.0" },
           label: "Eyes-closed index"
         },
         {
@@ -96,7 +96,7 @@ registerPack({
             "Break on the par beep.",
             "If the dot isn't on the aim point as the beep fires, the rep doesn't count."
           ],
-          timer: { mode: "par", par: "1.2", dmin: "1.5", dmax: "3.5", reps: "1", rest: "0" },
+          timer: { mode: "par", par: "1.2", dmin: "1.5", dmax: "3.5", reps: "1", rest: "0", floor: "0.9" },
           label: "Target-focused presentation"
         },
         {
@@ -109,7 +109,7 @@ registerPack({
             "Confirm the thumb is in the same place and the support hand has full contact on the same area of the gun.",
             "Repeat until the reference sets blind, every time."
           ],
-          timer: { mode: "par", par: "1.5", dmin: "1.5", dmax: "3.5", reps: "1", rest: "0" },
+          timer: { mode: "par", par: "1.5", dmin: "1.5", dmax: "3.5", reps: "1", rest: "0", floor: "1.0" },
           label: "Grip reference"
         },
         {
@@ -122,7 +122,7 @@ registerPack({
             "Freeze on arrival and check the grip against the Grip-reference checks - same thumb placement, same contact, same commitment.",
             "If the contact slipped or the thumb wandered, the rep doesn't count. Stop the circuit at the first rep you can't pass cleanly."
           ],
-          timer: { mode: "circuit", par: "2.2", dmin: "1.5", dmax: "3.5", reps: "10", rest: "5" },
+          timer: { mode: "circuit", par: "2.2", dmin: "1.5", dmax: "3.5", reps: "10", rest: "5", floor: "1.4" },
           label: "Grip under load"
         }
       ]
