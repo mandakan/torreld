@@ -77,7 +77,12 @@ Two modes:
 
 Arming a drill calls `TORRELD.timer.arm(spec)` with the timer + label from the drill's data. The renderer wires this; no `data-*` attributes are leaked into the DOM beyond the arm button itself.
 
-**Audio:** Web Audio `triangle` tones (start 880 Hz, par 1318 Hz). `AudioContext` is created/resumed on the first **Start** click — a browser gesture requirement, not a bug. The first beep of a session may lag slightly while audio wakes.
+**Audio:** Web Audio, two switchable profiles selected by the Sound toggle in the console panel:
+
+- **Match** (default) — a piercing, sustained IPSC-range-timer-style buzzer. Sawtooth + square fundamental layered with odd-harmonic sines through a `WaveShaper` (tanh soft-clip), flat envelope, snap release. Loud — start 2700 Hz · 400 ms; par 1500 Hz · 260 ms.
+- **Quiet** — a single `triangle` tone with fast attack and exponential decay. Start 880 Hz · 130 ms; par 1318 Hz · 200 ms. For shared living spaces.
+
+The choice persists via `?sound=quiet` (`?sound=match` is the implicit default and is stripped from the URL on selection). Toggling the switch previews the active profile so the user can pick by ear. `AudioContext` is created/resumed on the first **Start** click or **Sound** toggle — a browser gesture requirement, not a bug. The first beep of a session may lag slightly while audio wakes.
 
 **State machine:** `idle → waiting → running → (rest →) … → done`. All timeouts/rAF are tracked and cleared in `clearTimers()`; reuse it, don't spawn untracked timers.
 

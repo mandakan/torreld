@@ -12,15 +12,26 @@
  * expanded sheet. Arming a drill auto-expands the sheet so the user sees
  * the new params; tapping outside collapses it again.
  *
- * Audio: WebAudio triangle tones. AudioContext is created/resumed on the
- * first Start click — a browser gesture requirement, not a bug. First beep
- * of a session may lag slightly while audio wakes.
+ * Audio: WebAudio. Two profiles toggled at runtime:
+ *   - "match"   (default): piercing, sustained, IPSC-range-timer-style buzzer.
+ *                          Saw + square fundamental layered with odd-harmonic
+ *                          sines, soft-clipped, flat envelope. Loud — mimics
+ *                          a CED7000/PACT at a match.
+ *   - "quiet" : gentle triangle tones with exponential decay. The original
+ *                          low-distraction profile for living-room practice.
+ * The preference persists via the `?sound=quiet` URL param (default = match).
+ * AudioContext is created/resumed on the first Start click — a browser gesture
+ * requirement, not a bug. First beep of a session may lag slightly while
+ * audio wakes.
  */
 (function(){
   var T = window.TORRELD;
 
   /* ----- Audio ----- */
   var ac = null;
+  var audioMode = "match";   /* "match" | "quiet" */
+  var sndMatchBtn = null, sndQuietBtn = null;
+
   function audio(){
     if(!ac){
       var C = window.AudioContext || window.webkitAudioContext;
@@ -28,7 +39,10 @@
     }
     if(ac && ac.state === "suspended") ac.resume();
   }
-  function tone(freq, durMs, gainPeak){
+
+  /* Quiet profile — single triangle tone, fast attack, exponential decay.
+     Low-distraction; appropriate for shared spaces. */
+  function quietTone(freq, durMs, gainPeak){
     if(!ac) return;
     var t = ac.currentTime,
         o = ac.createOscillator(),
@@ -43,8 +57,96 @@
     o.start(t);
     o.stop(t + durMs/1000 + 0.03);
   }
-  var startBeep = function(){ tone(880, 130, 0.55); };
-  var parBeep   = function(){ tone(1318, 200, 0.6); };
+
+  /* Match profile — piercing, sustained buzzer to mimic an IPSC range
+     timer at a match. A sawtooth + square fundamental layered with odd-
+     harmonic sines gives a square-wave-like timbre with strong energy in
+     the 2–5 kHz band where the ear is most sensitive. A WaveShaper applies
+     tanh soft-clipping to keep peaks from destroying the device DAC. The
+     envelope holds flat for almost the full duration, then snaps off —
+     that's what makes a range-timer beep feel like an alarm, not a tone. */
+  function matchBeep(freq, durMs){
+    if(!ac) return;
+    var t = ac.currentTime,
+        d = durMs / 1000,
+        master = ac.createGain(),
+        shaper = ac.createWaveShaper();
+
+    /* tanh-shaped soft clip — rounds peaks instead of digital clipping. */
+    var n = 1024, curve = new Float32Array(n);
+    for(var i = 0; i < n; i++){
+      var x = (i * 2 / n) - 1;
+      curve[i] = Math.tanh(x * 2.4);
+    }
+    shaper.curve = curve;
+    shaper.oversample = "2x";
+
+    master.gain.setValueAtTime(0.0001, t);
+    master.gain.linearRampToValueAtTime(0.9, t + 0.008);
+    master.gain.setValueAtTime(0.9, t + Math.max(0, d - 0.02));
+    master.gain.linearRampToValueAtTime(0.0001, t + d);
+
+    master.connect(shaper);
+    shaper.connect(ac.destination);
+
+    /* Layered oscillators feed the master gain → shaper → out. */
+    var voices = [
+      { type: "sawtooth", freq: freq,       gain: 0.40 },
+      { type: "square",   freq: freq,       gain: 0.25 },
+      { type: "sine",     freq: freq * 3,   gain: 0.18 },
+      { type: "sine",     freq: freq * 5,   gain: 0.10 }
+    ];
+    voices.forEach(function(v){
+      var o = ac.createOscillator(),
+          g = ac.createGain();
+      o.type = v.type;
+      o.frequency.value = v.freq;
+      g.gain.value = v.gain;
+      o.connect(g);
+      g.connect(master);
+      o.start(t);
+      o.stop(t + d + 0.05);
+    });
+  }
+
+  var startBeep = function(){
+    if(audioMode === "match") matchBeep(2700, 400);
+    else                       quietTone(880, 130, 0.55);
+  };
+  var parBeep = function(){
+    if(audioMode === "match") matchBeep(1500, 260);
+    else                       quietTone(1318, 200, 0.6);
+  };
+
+  function writeSoundUrl(){
+    try {
+      var u = new URL(window.location.href);
+      if(audioMode === "match") u.searchParams.delete("sound");
+      else                       u.searchParams.set("sound", audioMode);
+      history.replaceState(null, "", u.toString());
+    } catch(e) {}
+  }
+  function readSoundUrl(){
+    try {
+      var u = new URL(window.location.href);
+      var v = u.searchParams.get("sound");
+      if(v === "quiet" || v === "match") return v;
+    } catch(e) {}
+    return "match";
+  }
+  function setAudioMode(m){
+    audioMode = (m === "quiet") ? "quiet" : "match";
+    if(sndMatchBtn) sndMatchBtn.setAttribute("aria-pressed", audioMode === "match" ? "true" : "false");
+    if(sndQuietBtn) sndQuietBtn.setAttribute("aria-pressed", audioMode === "quiet" ? "true" : "false");
+    writeSoundUrl();
+  }
+  /* Demo the new profile when the user toggles, so they can hear it
+     immediately without firing a full rep. Only after a user gesture
+     (this click) — which also satisfies the AudioContext requirement. */
+  function previewBeep(){
+    audio();
+    startBeep();
+  }
 
   /* ----- DOM refs (resolved in init) ----- */
   var $ = function(id){ return document.getElementById(id); };
@@ -54,6 +156,7 @@
       statusEl, fPar, fDmin, fDmax, fReps, fRest,
       goBtn, goMini, resetBtn,
       mPar, mCyc;
+  /* sndMatchBtn / sndQuietBtn are declared above in the Audio section. */
 
   /* ----- State ----- */
   var mode = "par",
@@ -241,10 +344,26 @@
     fReps = $("fReps"); fRest = $("fRest");
     goBtn = $("go");    goMini = $("goMini"); resetBtn = $("reset");
     mPar  = $("mPar");  mCyc = $("mCyc");
+    sndMatchBtn = $("sndMatch");
+    sndQuietBtn = $("sndQuiet");
 
     /* Mode toggle */
     mPar.addEventListener("click", function(){ setMode("par"); });
     mCyc.addEventListener("click", function(){ setMode("circuit"); });
+
+    /* Sound profile toggle. Reflect initial state from URL, then on each
+       click switch + preview the new beep so the choice is audible. */
+    setAudioMode(readSoundUrl());
+    if(sndMatchBtn) sndMatchBtn.addEventListener("click", function(){
+      var changed = audioMode !== "match";
+      setAudioMode("match");
+      if(changed) previewBeep();
+    });
+    if(sndQuietBtn) sndQuietBtn.addEventListener("click", function(){
+      var changed = audioMode !== "quiet";
+      setAudioMode("quiet");
+      if(changed) previewBeep();
+    });
 
     /* Start/Stop — both buttons trigger the same action */
     goBtn.addEventListener("click", startOrStop);

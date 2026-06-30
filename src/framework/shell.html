@@ -58,9 +58,19 @@
   <div class="console-panel" id="consolePanel" inert>
     <div class="wrap">
       <div class="c-left">
-        <div class="modeswitch" role="group" aria-label="Timer mode">
-          <button id="mPar" type="button" aria-pressed="true">Par</button>
-          <button id="mCyc" type="button" aria-pressed="false">Circuit</button>
+        <div class="ctl">
+          <span class="ctl-label">Timer</span>
+          <div class="modeswitch" role="group" aria-label="Timer mode">
+            <button id="mPar" type="button" aria-pressed="true">Par</button>
+            <button id="mCyc" type="button" aria-pressed="false">Circuit</button>
+          </div>
+        </div>
+        <div class="ctl">
+          <span class="ctl-label">Sound</span>
+          <div class="modeswitch" role="group" aria-label="Beep profile">
+            <button id="sndMatch" type="button" aria-pressed="true">Match</button>
+            <button id="sndQuiet" type="button" aria-pressed="false">Quiet</button>
+          </div>
         </div>
         <div class="armed">Drill: <b id="armedLabelFull">&mdash; none &mdash;</b></div>
       </div>
