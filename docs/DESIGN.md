@@ -29,6 +29,20 @@ These four states map 1:1 to readout color classes (`.go`, `.par`, `.rest`, defa
 - Monospace for data, labels, the timer readout, and chips.
 - The large monospace timer readout is the page's signature element. **Spend visual boldness there; keep everything else quiet.**
 
+### Brand mark
+
+The mark is a flame with a transparent T cut out of it. The name TORRELD is Swedish for "dry fire" (torr = dry, eld = fire), so the flame is the concept and the T is the initial.
+
+Shape: a single flame path filled with a bottom-to-top linear gradient (`#ff5a12` -> `#ffb02e` -> `#ffe0a0`), masked by a compound shape that knocks out a bold T. The T is seated at the flame's waist so the flame licks off the top of the letter - the cutout shows the background rather than a colored stroke.
+
+The locked SVG source lives in two places:
+- The `FAVICON_SVG` constant in `build.py` (single-line, inlined as a `data:` URI into `dist/index.html` and written to `dist/favicon.svg`)
+- `src/framework/og-template.svg` (placed at 340% scale in the upper-right corner of the 1200x630 OG card as a decorative accent)
+
+OG card color tokens: void background `#0a0d0e`, amber rule `#ffb02e` (8px horizontal bar at the top), type set in DejaVu Sans / DejaVu Sans Mono for deterministic rasterization across environments.
+
+Do not alter the gradient stops or T cutout geometry without updating both source locations.
+
 ### Responsive
 
 Mobile-first. Base styles target mobile; `min-width` media queries scale up.

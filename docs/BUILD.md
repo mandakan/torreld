@@ -14,9 +14,27 @@ make build           # writes dist/index.html
 
 The output is byte-self-contained — same sources → same bytes. `dist/` is gitignored; never hand-edit `dist/index.html`.
 
+In addition to `dist/index.html`, the build also emits:
+
+- `dist/favicon.svg` and `dist/favicon.png` / `dist/apple-touch-icon.png`
+- `dist/og/default.{svg,png}` and `dist/og/<id>.{svg,png}` per pack
+- `dist/p/<id>/index.html` per-pack share stubs (carry static OG meta and redirect to `/?pack=<id>`)
+
+SVG->PNG rasterization uses `rsvg-convert` (from `librsvg`). When the tool is absent the build skips PNGs and prints a one-line warning. PNGs are only required for the live site - social crawlers fetch them by absolute URL. `file://` offline use does not need them.
+
+Install locally:
+- Linux: `sudo apt-get install -y librsvg2-bin`
+- macOS: `brew install librsvg`
+
 ---
 
 ## Verify (local)
+
+**Build tests** (unit + integration, no browser needed):
+
+```sh
+python3 -m unittest discover -s tests -t .
+```
 
 **Functional check** — open `dist/index.html` in a browser:
 - Arm a drill; the sheet should auto-expand on mobile and the card should glow.
@@ -46,10 +64,12 @@ Every push to `main` triggers `.github/workflows/deploy.yml`:
 
 1. Checkout
 2. `actions/setup-python@v5` (Python 3.x)
-3. `make build`
-4. Verify no unresolved `<!-- INJECT:* -->` tokens slipped through
-5. `node --check` on the inline JS
-6. `cloudflare/wrangler-action@v3` with **`wranglerVersion: '4'`** (pinned — wrangler 3 doesn't support assets-only Workers and will fail with `Missing entry-point`)
+3. `sudo apt-get install -y librsvg2-bin` (SVG rasterizer; needed for OG and favicon PNGs)
+4. `python3 -m unittest discover -s tests -t .` (build unit + integration tests)
+5. `make build`
+6. Verify: no unresolved `<!-- INJECT:* -->` tokens; `favicon.png`, `og/default.png`, and every pack's PNG and stub exist
+7. `node --check` on the inline JS
+8. `cloudflare/wrangler-action@v3` with **`wranglerVersion: '4'`** (pinned — wrangler 3 doesn't support assets-only Workers and will fail with `Missing entry-point`)
 
 **Required repo secrets:** `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`. The token needs:
 

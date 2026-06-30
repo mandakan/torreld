@@ -49,6 +49,10 @@ The whole point of the framework is that adding a training program is a content 
 
 **Drill labels must stay quote-free.** A drill's `label` is the adaptive-par key and flows into a CSS attribute selector (`.now[data-label="..."]`) for the per-card par indicator. A `"` in a label would break that selector. Use plain text - the existing labels (`Move-and-regrip`, `Grip under load`) are the model. Optional per-drill `floor` (string seconds, e.g. `floor: "1.2"`) on a `timer` spec sets the lowest par adaptive tightening can reach; omit it to use the 0.6s default.
 
+**Optional `share` block** — add a top-level `share: { title, tagline, description }` object to give the pack a tailored social card. All three fields are plain single-line ASCII strings; use a straight single quote if the copy needs an apostrophe. When the block is present the build generates `dist/og/<id>.svg/.png` and a share stub at `dist/p/<id>/index.html`; when absent it falls back to the pack `name` for title, an empty tagline, and the site description. Keep `tagline` at 48 characters or under.
+
+**Metadata ordering contract** — the build extracts `name`, `documentTitle`, and `share` by first-match regex. These top-level keys must appear in the JS source before any nested arrays (e.g., the `drills` array inside `data`) that could contain the same key names. All current packs follow the convention: metadata first, then `data`.
+
 ---
 
 ## Auto-deploy

@@ -37,7 +37,7 @@ Live: **https://torreld.urdr.dev/**
 
 These guardrails are non-negotiable. If a change requires breaking one, update this section in the same PR with the rationale.
 
-- **Single self-contained artifact, zero runtime dependencies.** Sources live in `src/`, but the build inlines everything into one `dist/index.html`. The deployed file must open correctly from `file://` with no server, no CDN, no fetch.
+- **Single self-contained artifact, zero runtime dependencies.** Sources live in `src/`, but the build inlines everything into one `dist/index.html`. The deployed file must open correctly from `file://` with no server, no CDN, no fetch. The offline/`file://` guarantee covers `index.html` and its inlined `data:`-URI favicon. The OG card PNGs under `dist/og/` are live-site-only assets fetched by social crawlers; they are referenced by absolute URL and are not needed for offline use.
 - **No external network at runtime.** No CDNs, no web fonts - system font stacks only. It has to work offline.
 - **No `localStorage` / `sessionStorage` / IndexedDB** in the committed source. The deployed file is previewed in a sandbox that forbids browser storage. Persistence is a roadmap item and, when added, must degrade gracefully when storage is unavailable. Preferences that need to survive a reload (pack selection, audio profile) persist via query params + `history.replaceState` - `?pack=<id>`, `?sound=quiet` - never via storage. The adaptive-par feature is the first sanctioned exception: it uses feature-detected `localStorage` (`torreld.progress.v1`) that degrades to in-memory session-only state when storage is unavailable, so the committed file still runs in the no-storage preview. See `docs/superpowers/specs/2026-06-30-adaptive-par-design.md`.
 - **Vanilla JS only** (roughly ES5-level, no framework, no transpile). The build step (Python file concatenation) is the only tooling; no bundler, no minifier, no TypeScript.
@@ -78,6 +78,7 @@ src/
   framework/
     shell.html       HTML skeleton with <!-- INJECT:* --> tokens
     styles.css       Mobile-first styles, design tokens at :root
+    og-template.svg  1200x630 OG card template (tokens filled per pack at build)
     timer.js         Shot-timer engine (par + circuit, Web Audio) + sheet UX
     renderer.js      Builds page sections from a pack's data
     switcher.js      Pack registry, ?pack=<id> URL persistence, boot
@@ -85,18 +86,26 @@ src/
     grip-first.js    One file per training program; calls registerPack()
 scripts/
   design-sync-gen.py Dev tool: emit Claude Design preview cards from styles.css (see docs/DESIGN.md)
-build.py             Inlines src/ into dist/index.html (deterministic)
+tests/
+  test_build.py      Unit + integration tests for build.py
+build.py             Inlines src/ into dist/index.html and emits favicon/OG/stubs (deterministic)
 Makefile             `make build` runs build.py; `make deploy` runs wrangler
 wrangler.jsonc       Cloudflare assets-only Worker config (torreld.urdr.dev)
 .github/workflows/
-  deploy.yml         Push-to-main → build → wrangler deploy
+  deploy.yml         Push-to-main -> build -> wrangler deploy
 CLAUDE.md            This file (orientation + routing)
 docs/
   ARCHITECTURE.md    Boot, build pipeline, data model, timer, console UX
   BUILD.md           make build, verify recipes, automated + manual deploy
   CONTRIBUTING.md    Branches, commits, PRs, adding a pack, auto-deploy
   DESIGN.md          Design system, color semantics, quality floor
-dist/index.html      Generated artifact (gitignored)
+dist/                Generated artifacts (gitignored)
+  index.html         Single self-contained app (favicon inlined as data: URI)
+  favicon.svg        Brand mark SVG
+  favicon.png        32x32 rasterized (requires rsvg-convert)
+  apple-touch-icon.png  180x180 rasterized (requires rsvg-convert)
+  og/                OG card images; SVG always written, PNG when rsvg-convert present
+  p/<id>/index.html  Per-pack share stubs; redirect to /?pack=<id>
 ```
 
 ---

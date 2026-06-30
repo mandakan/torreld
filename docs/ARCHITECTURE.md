@@ -9,7 +9,7 @@ How TORRELD assembles, boots, and renders. Read [`../CLAUDE.md`](../CLAUDE.md) f
 `dist/index.html` is assembled from `src/` at build time. Inside the single `<script>` at runtime, the layers initialize in this order:
 
 1. **Pack registry bootstrap** — `window.TORRELD = { packs: [], activeId: null }` and the `registerPack(p)` helper.
-2. **Packs** (`src/packs/*.js`) — each file calls `registerPack({ id, name, documentTitle, data })`. `data` is the PROGRAM object (see "Data model" below).
+2. **Packs** (`src/packs/*.js`) — each file calls `registerPack({ id, name, documentTitle, share?, data })`. The optional `share` block holds `{ title, tagline, description }` used by the build to generate per-pack OG images and share stubs; it has no effect at runtime. `data` is the PROGRAM object (see "Data model" below).
 3. **Framework** (`src/framework/timer.js`, `renderer.js`, `switcher.js`, in that load order) — attach `TORRELD.timer`, `TORRELD.render`, `TORRELD.setActivePack`, and `TORRELD.boot`.
 4. **Boot** — `TORRELD.boot()` reads `?pack=<id>` (falling back to the first registered pack), renders it, draws the switcher chips (hidden when only one pack is registered), and wires the timer.
 
@@ -21,23 +21,51 @@ Page section order: top bar (brand → pack switcher → section nav) → hero �
 
 ## Build pipeline
 
-`build.py` reads `src/framework/shell.html` and substitutes three tokens:
+`build.py` reads `src/framework/shell.html` and substitutes four tokens:
 
 | Token | Replaced with |
 |-------|---------------|
+| `<!-- INJECT:HEAD -->`      | favicon `data:` URI + site-wide meta and OG tags |
 | `<!-- INJECT:STYLES -->`    | `src/framework/styles.css` |
 | `<!-- INJECT:PACKS -->`     | concatenation of every `src/packs/*.js`, sorted by filename |
-| `<!-- INJECT:FRAMEWORK -->` | `timer.js + renderer.js + switcher.js` (in that order) |
+| `<!-- INJECT:FRAMEWORK -->` | `progress.js + timer.js + renderer.js + switcher.js` (in that order) |
 
 The output (`dist/index.html`) is byte-self-contained. Same sources → same artifact.
 
 Pack load order matters for the default-pack fallback (`packs[0]`). Default sort is alphabetical by filename. Prefix with `00-`, `10-`, etc. if you need explicit ordering.
+
+### OG images and share stubs
+
+After writing `dist/index.html` the build also emits static assets for social sharing:
+
+1. `extract_pack_meta(text, stem)` reads each pack's `name`, `documentTitle`, and optional `share` block by first-match regex.
+2. For each pack (and a site-level default), `render_og_svg` fills `{{TITLE}}` and `{{TAGLINE}}` tokens in `src/framework/og-template.svg` and writes `dist/og/<id>.svg`. If `rsvg-convert` is present, it rasterizes that to `dist/og/<id>.png` (1200x630).
+3. `render_stub` writes `dist/p/<id>/index.html` — a static page with canonical, og, and twitter meta pointing at the absolute PNG URL, plus an inline `location.replace()` that redirects browsers to `/?pack=<id>` (preserving the hash) and a `<noscript>` meta-refresh fallback.
+4. The same flame SVG used for the favicon (a `linearGradient` masked by the T shape) is embedded in the OG template as the card's accent element.
+
+PNGs are live-site-only assets. They are referenced by absolute URL and are not fetched at runtime or for `file://` use. See [BUILD.md](BUILD.md) for the rasterizer install command and the test runner.
 
 See [BUILD.md](BUILD.md) for how to run the build.
 
 ---
 
 ## Data model (pack `data` field)
+
+Top-level pack fields registered with `registerPack()`:
+
+```
+id:            string   // stable; used in ?pack=<id> URLs and as the stem for OG/stub paths
+name:          string   // short label shown in the switcher chip
+documentTitle: string   // applied to <title> when this pack is active
+share?:        {        // optional; used only at build time for OG images and share stubs
+  title:       string,  // pack headline for the OG card (plain ASCII, one line)
+  tagline:     string,  // subtitle line, <= 48 chars (plain ASCII, one line)
+  description: string,  // meta description (plain ASCII, one line)
+}
+data:          object   // PROGRAM object (shape below)
+```
+
+The `data` object:
 
 ```
 brand:       { pre, post }                       // "TORR" + "ELD" in the masthead
