@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""TORRELD build — inline every source file into a single dist/index.html.
+"""TORRELD build - inline every source file into a single dist/index.html.
 
 Reads src/framework/shell.html and substitutes:
   <!-- INJECT:STYLES    -->  -> src/framework/styles.css
