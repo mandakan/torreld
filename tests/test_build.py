@@ -113,5 +113,24 @@ class TestRenderStub(unittest.TestCase):
         self.assertIn('href="/?pack=reloads"', self.html)
 
 
+class TestFaviconAndHead(unittest.TestCase):
+    def test_favicon_svg_is_single_line_and_has_mask(self):
+        self.assertNotIn("\n", build.FAVICON_SVG)
+        self.assertIn("<mask", build.FAVICON_SVG)
+        self.assertIn("linearGradient", build.FAVICON_SVG)
+
+    def test_data_uri_prefix_and_encoding(self):
+        uri = build.favicon_data_uri("<svg><rect/></svg>")
+        self.assertTrue(uri.startswith("data:image/svg+xml,"))
+        self.assertNotIn("<", uri)  # angle brackets must be percent-encoded
+        self.assertIn("%3C", uri)
+
+    def test_render_head_has_icon_and_default_og(self):
+        head = build.render_head("data:image/svg+xml,FAKE", "https://torreld.urdr.dev")
+        self.assertIn('rel="icon" type="image/svg+xml" href="data:image/svg+xml,FAKE"', head)
+        self.assertIn('<meta property="og:image" content="https://torreld.urdr.dev/og/default.png">', head)
+        self.assertIn('name="twitter:card" content="summary_large_image"', head)
+
+
 if __name__ == "__main__":
     unittest.main()

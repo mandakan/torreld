@@ -31,6 +31,23 @@ SITE_DESCRIPTION = (
     "Par-time-driven dry-fire training packs. Mobile-first, offline, no accounts."
 )
 
+FAVICON_SVG = (
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">'
+    '<defs>'
+    '<linearGradient id="f" x1="0" y1="1" x2="0" y2="0">'
+    '<stop offset="0" stop-color="#ff5a12"/>'
+    '<stop offset=".5" stop-color="#ffb02e"/>'
+    '<stop offset="1" stop-color="#ffe0a0"/>'
+    '</linearGradient>'
+    '<mask id="t">'
+    '<path d="M50 6 C57 22 64 31 68 47 C72 62 67 82 53 91 C49 94 45 94 41 91 C27 82 22 62 27 47 C31 36 40 40 43 30 C45 40 49 38 49 30 C49 18 47 16 50 6 Z" fill="#fff"/>'
+    '<path d="M33 52 H67 V62 H56 V86 H44 V62 H33 Z" fill="#000"/>'
+    '</mask>'
+    '</defs>'
+    '<rect width="100" height="100" fill="url(#f)" mask="url(#t)"/>'
+    '</svg>'
+)
+
 
 def escape_xml(s: str) -> str:
     return (
@@ -80,6 +97,30 @@ def render_og_svg(template: str, title: str, tagline: str) -> str:
     return (
         template.replace("{{TITLE}}", escape_xml(truncate(title, 30)))
         .replace("{{TAGLINE}}", escape_xml(truncate(tagline, 48)))
+    )
+
+
+def favicon_data_uri(svg: str) -> str:
+    return "data:image/svg+xml," + urllib.parse.quote(svg, safe="")
+
+
+def render_head(favicon_uri: str, origin: str) -> str:
+    img = origin + "/og/default.png"
+    desc = escape_xml(SITE_DESCRIPTION)
+    return (
+        '<link rel="icon" type="image/svg+xml" href="' + favicon_uri + '">\n'
+        '<link rel="apple-touch-icon" href="/apple-touch-icon.png">\n'
+        '<meta name="description" content="' + desc + '">\n'
+        '<meta property="og:type" content="website">\n'
+        '<meta property="og:site_name" content="TORRELD">\n'
+        '<meta property="og:title" content="TORRELD - dry-fire training">\n'
+        '<meta property="og:description" content="' + desc + '">\n'
+        '<meta property="og:url" content="' + origin + '/">\n'
+        '<meta property="og:image" content="' + img + '">\n'
+        '<meta property="og:image:width" content="1200">\n'
+        '<meta property="og:image:height" content="630">\n'
+        '<meta name="twitter:card" content="summary_large_image">\n'
+        '<meta name="twitter:image" content="' + img + '">'
     )
 
 
