@@ -45,6 +45,21 @@ These guardrails are non-negotiable. If a change requires breaking one, update t
 
 ---
 
+## Sub-agents: pick the cheapest model that fits
+
+When you delegate work via `Agent`, `Workflow`, or any other fan-out, **specify `model:` explicitly** &mdash; don't let sub-agents inherit the parent's model. Token cost in a fan-out multiplies by the number of agents, so the tier choice is the largest single lever. Default down, not up.
+
+| Tier | Use for |
+|---|---|
+| `haiku` | Mechanical lookups, single-file extracts, simple summarisation, syntax checks |
+| `sonnet` | Routine planning, code reading, multi-file research, structured drafts |
+| `opus` | The one synthesiser-of-record stage; hardest design or judgement |
+| `fable` | Long-form prose where Fable's voice fits |
+
+Reserve Opus for the synthesis or hardest-judgement step, not the fan-out workers. If you're unsure, start with `sonnet` and only escalate when a sub-agent visibly underperforms. This rule applies to *any* sub-agent spawn in this repo, including the `new-pack` skill's research phases and code-review fan-outs.
+
+---
+
 ## Repository layout
 
 ```
