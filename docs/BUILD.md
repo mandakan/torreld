@@ -89,7 +89,9 @@ When CI is broken or you need to ship from a laptop:
 CLOUDFLARE_API_TOKEN=...  CLOUDFLARE_ACCOUNT_ID=...  make deploy
 ```
 
-`make deploy` builds and then runs `wrangler deploy`. Use wrangler ≥ 4 (`npx wrangler@latest deploy` is a safe substitute if no `wrangler` is on PATH). If you're authenticated via OAuth instead of an API token, a fresh `wrangler login` may be needed when the cached token expires.
+`make deploy` builds and then runs `wrangler deploy`. Use wrangler >= 4 (`npx wrangler@latest deploy` is a safe substitute if no `wrangler` is on PATH). If you're authenticated via OAuth instead of an API token, a fresh `wrangler login` may be needed when the cached token expires.
+
+A manual deploy from a machine without `rsvg-convert` ships stubs whose `og:image` points at a PNG that was never generated (social unfurls will 404 on the image); install `librsvg2-bin` (Linux: `sudo apt-get install -y librsvg2-bin`, macOS: `brew install librsvg`) before a manual deploy, or rely on CI which installs it automatically.
 
 ---
 

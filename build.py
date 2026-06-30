@@ -74,7 +74,11 @@ def _field(text: str, key: str):
 
 
 def _share_block(text: str) -> str:
-    """Inner text of the top-level `share: { ... }` object, or ''."""
+    """Inner text of the top-level `share: { ... }` object, or ''.
+
+    The regex matches non-greedily to the first `}`, so share field values
+    must not contain a literal `}`.
+    """
     m = re.search(r'\bshare\s*:\s*\{(.*?)\}', text, re.S)
     return m.group(1) if m else ""
 
@@ -111,6 +115,9 @@ def render_head(favicon_uri: str, origin: str) -> str:
     desc = escape_xml(SITE_DESCRIPTION)
     return (
         '<link rel="icon" type="image/svg+xml" href="' + favicon_uri + '">\n'
+        # apple-touch-icon is a live-site-only asset (site-relative path); it will
+        # not load under file://, which is harmless -- the inline data: favicon
+        # covers offline use.
         '<link rel="apple-touch-icon" href="/apple-touch-icon.png">\n'
         '<meta name="description" content="' + desc + '">\n'
         '<meta property="og:type" content="website">\n'
@@ -128,11 +135,14 @@ def render_head(favicon_uri: str, origin: str) -> str:
 
 def render_stub(meta: dict, origin: str) -> str:
     pid = meta["id"]
+    # pid_attr is the HTML-attribute-safe form (defense-in-depth: no-op for valid
+    # [a-z0-9-] slugs, but guards against a hypothetical id containing " or &).
+    pid_attr = escape_xml(pid)
     title = escape_xml(meta["title"])
     desc = escape_xml(meta["description"])
-    app_url = origin + "/?pack=" + pid
-    stub_url = origin + "/p/" + pid
-    img = origin + "/og/" + pid + ".png"
+    app_url = origin + "/?pack=" + pid_attr
+    stub_url = origin + "/p/" + pid_attr
+    img = origin + "/og/" + pid_attr + ".png"
     return (
         '<!doctype html>\n'
         '<html lang="en">\n'
@@ -157,14 +167,34 @@ def render_stub(meta: dict, origin: str) -> str:
         '<meta name="twitter:title" content="' + title + '">\n'
         '<meta name="twitter:description" content="' + desc + '">\n'
         '<meta name="twitter:image" content="' + img + '">\n'
+        # pid is a validated [a-z0-9-] slug (see validate_pack_id), so JS-string
+        # interpolation is safe here without HTML escaping.
         '<script>location.replace("/?pack=' + pid + '" + location.hash);</script>\n'
         '</head>\n'
         '<body>\n'
-        '<noscript><meta http-equiv="refresh" content="0;url=/?pack=' + pid + '">'
-        '<p><a href="/?pack=' + pid + '">Open TORRELD - ' + title + '</a></p></noscript>\n'
+        '<noscript><meta http-equiv="refresh" content="0;url=/?pack=' + pid_attr + '">'
+        '<p><a href="/?pack=' + pid_attr + '">Open TORRELD - ' + title + '</a></p></noscript>\n'
         '</body>\n'
         '</html>\n'
     )
+
+
+_SLUG_RE = re.compile(r'^[a-z0-9][a-z0-9-]*$')
+
+
+def validate_pack_id(js_id: str, stem: str) -> "str | None":
+    """Return an error message if js_id is invalid, or None if it's fine.
+
+    Valid: js_id matches stem AND stem is a [a-z0-9][a-z0-9-]* slug.
+    """
+    if not _SLUG_RE.match(stem):
+        return f"pack id {stem!r} is not a valid slug (must match [a-z0-9][a-z0-9-]*)"
+    if js_id != stem:
+        return (
+            f"pack id mismatch: JS registers {js_id!r} but filename stem is {stem!r} "
+            f"(they must match)"
+        )
+    return None
 
 
 def rasterize(svg_path, png_path, width: int, height: int, background=None) -> bool:
@@ -199,6 +229,17 @@ def main() -> int:
     if not pack_files:
         print("no packs in src/packs/ - at least one is required", file=sys.stderr)
         return 1
+
+    # Validate each pack's JS-registered id against its filename stem.
+    for p in pack_files:
+        stem = pathlib.Path(p).stem
+        text = read(pathlib.Path(p))
+        js_id = _field(text, "id")
+        err = validate_pack_id(js_id or "", stem)
+        if err:
+            print(f"::error:: {p}: {err}", file=sys.stderr)
+            return 1
+
     packs = "\n\n".join(read(pathlib.Path(p)) for p in pack_files)
 
     head = render_head(favicon_data_uri(FAVICON_SVG), SITE_ORIGIN)

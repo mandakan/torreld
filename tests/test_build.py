@@ -1,5 +1,7 @@
 import os
+import shutil
 import sys
+import tempfile
 import unittest
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -112,6 +114,19 @@ class TestRenderStub(unittest.TestCase):
         self.assertIn('http-equiv="refresh"', self.html)
         self.assertIn('href="/?pack=reloads"', self.html)
 
+    def test_pid_with_quote_escaped_in_html_attributes(self):
+        # Fix 1: pid must be escape_xml'd in attribute contexts (defense-in-depth).
+        # The raw quote must not break out of any HTML attribute.
+        meta = {"id": 'x"y', "title": "Test", "description": "Test desc"}
+        html = build.render_stub(meta, "https://example.com")
+        # Canonical href, og:url, og:image, noscript href -- all must use &quot;
+        self.assertIn('href="https://example.com/?pack=x&quot;y"', html)
+        self.assertIn('content="https://example.com/p/x&quot;y"', html)
+        self.assertIn('content="https://example.com/og/x&quot;y.png"', html)
+        # noscript fallback attributes must also be escaped
+        self.assertIn('content="0;url=/?pack=x&quot;y"', html)
+        self.assertIn('href="/?pack=x&quot;y"', html)
+
 
 class TestFaviconAndHead(unittest.TestCase):
     def test_favicon_svg_is_single_line_and_has_mask(self):
@@ -203,6 +218,78 @@ class TestPackShareCopy(unittest.TestCase):
             self.assertTrue(m["tagline"], stem)
             self.assertNotEqual(m["description"], build.SITE_DESCRIPTION, stem)
             self.assertLessEqual(len(m["tagline"]), 48, stem)
+
+
+class TestValidatePackId(unittest.TestCase):
+    # Fix 3: validate_pack_id(js_id, stem) -> str|None
+
+    def test_valid_slug_matching_stem(self):
+        self.assertIsNone(build.validate_pack_id("grip-first", "grip-first"))
+
+    def test_valid_simple_slug(self):
+        self.assertIsNone(build.validate_pack_id("reloads", "reloads"))
+
+    def test_id_not_matching_stem_returns_error(self):
+        err = build.validate_pack_id("grip-second", "grip-first")
+        self.assertIsNotNone(err)
+        self.assertIn("grip-first", err)
+
+    def test_bad_slug_uppercase_returns_error(self):
+        err = build.validate_pack_id("Foo", "Foo")
+        self.assertIsNotNone(err)
+
+    def test_bad_slug_underscore_returns_error(self):
+        err = build.validate_pack_id("a_b", "a_b")
+        self.assertIsNotNone(err)
+
+    def test_bad_slug_starts_with_dash_returns_error(self):
+        err = build.validate_pack_id("-foo", "-foo")
+        self.assertIsNotNone(err)
+
+
+class TestBuildIntegration(unittest.TestCase):
+    # Fix 4: build into a temp dir, not the repo's dist/
+    @classmethod
+    def setUpClass(cls):
+        import subprocess as sp
+        root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        cls._tmpdir = tempfile.TemporaryDirectory()
+        tmp = cls._tmpdir.name
+        shutil.copy2(os.path.join(root, "build.py"), tmp)
+        shutil.copytree(os.path.join(root, "src"), os.path.join(tmp, "src"))
+        sp.run([sys.executable, "build.py"], cwd=tmp, check=True)
+        cls.dist = os.path.join(tmp, "dist")
+
+    @classmethod
+    def tearDownClass(cls):
+        cls._tmpdir.cleanup()
+
+    def _read(self, *parts):
+        with open(os.path.join(self.dist, *parts), encoding="utf-8") as fh:
+            return fh.read()
+
+    def test_index_has_inline_favicon_and_no_inject_tokens(self):
+        html = self._read("index.html")
+        self.assertIn('rel="icon" type="image/svg+xml" href="data:image/svg+xml,', html)
+        self.assertNotIn("INJECT:", html)
+
+    def test_favicon_svg_written(self):
+        self.assertTrue(os.path.exists(os.path.join(self.dist, "favicon.svg")))
+
+    def test_per_pack_stub_and_og_svg_exist(self):
+        for pid in ("grip-first", "reloads", "stage-planning"):
+            self.assertTrue(os.path.exists(os.path.join(self.dist, "p", pid, "index.html")), pid)
+            self.assertTrue(os.path.exists(os.path.join(self.dist, "og", pid + ".svg")), pid)
+
+    def test_stub_has_absolute_og_image(self):
+        html = self._read("p", "reloads", "index.html")
+        self.assertIn(
+            '<meta property="og:image" content="https://torreld.urdr.dev/og/reloads.png">',
+            html,
+        )
+
+    def test_default_og_svg_exists(self):
+        self.assertTrue(os.path.exists(os.path.join(self.dist, "og", "default.svg")))
 
 
 if __name__ == "__main__":
