@@ -25,7 +25,10 @@
   --console-h: 92px;
 }
 @media(min-width:860px){
-  :root{ --console-h: 124px; --gutter: 24px; }
+  /* Desktop keeps the full timer panel pinned open, so the reservation must
+     match its real height (~204px) - otherwise the last page content slips
+     into the dead zone beneath the fixed console. */
+  :root{ --console-h: 204px; --gutter: 24px; }
 }
 
 /* ===== Reset / base ===== */
