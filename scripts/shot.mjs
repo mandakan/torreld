@@ -6,7 +6,7 @@
 //
 // Usage:
 //   node scripts/shot.mjs                          # dist/index.html at mobile + desktop
-//   node scripts/shot.mjs '?pack=hfo-masters'      # same file, with a query string
+//   node scripts/shot.mjs '?pack=non-standard-starts'  # same file, with a query string
 //   node scripts/shot.mjs https://torreld.urdr.dev/   # any URL (http/https/file)
 //   node scripts/shot.mjs --out /tmp/shots            # choose the output directory
 //

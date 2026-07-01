@@ -1,10 +1,12 @@
-/* HFO Masters match-prep - IPSC Production Optics / dynamic pistol.
+/* Non-standard starts dry-fire - IPSC Production Optics / dynamic pistol.
  *
- * A match-specific taper for HFO Masters 2026 (Hacksjobanan, Level III,
- * 30 Jul - 2 Aug 2026). Targets the three stages that deny a clean
- * loaded-and-holstered draw, plus the steel platform that has to hold
- * when the support hand is disrupted. Stage facts are from the published
- * HFO Masters 2026 stage briefings (Shoot'n Score It).
+ * Trains the firing grip through starts that deny a clean loaded-and-holstered
+ * draw - a rack folded into the draw, a table pick-up-and-load, an occupied
+ * support hand - plus the steel platform that has to hold when the support
+ * hand is disrupted. Built as a taper against the HFO Masters 2026 stages
+ * (Hacksjobanan, Level III, 30 Jul - 2 Aug 2026) that punish these leaks
+ * hardest; the match is the worked example, the skill is the point. Stage
+ * facts are from the published HFO Masters 2026 briefings (Shoot'n Score It).
  *
  * Pack contract:
  *   id            - stable identifier used in ?pack=<id> URLs
@@ -17,13 +19,13 @@
  * rendered via innerHTML. Never feed runtime user input into these.
  */
 registerPack({
-  id: "hfo-masters",
-  name: "HFO Masters",
-  documentTitle: "TORRELD - HFO Masters match-prep",
+  id: "non-standard-starts",
+  name: "Non-standard starts",
+  documentTitle: "TORRELD - Non-standard starts dry-fire",
   share: {
-    title: "HFO Masters match-prep",
+    title: "Non-standard starts dry-fire",
     tagline: "Grip the start, hold the steel",
-    description: "A par-time dry-fire taper for HFO Masters 2026: the three stages that deny a clean draw, plus the steel platform that holds when the support hand is disrupted.",
+    description: "A par-time dry-fire taper for starts that deny a clean draw - a rack on the draw, a table pick-up-and-load, an occupied support hand - plus the steel platform that holds when the support hand is disrupted. Worked against the HFO Masters 2026 stages.",
   },
   data: {
     brand: { pre: "TORR", post: "ELD" },
@@ -35,9 +37,9 @@ registerPack({
       { id: "references", label: "References" }
     ],
     hero: {
-      eyebrow: "Match-prep protocol &middot; HFO Masters 2026",
+      eyebrow: "Dry-fire overlay &middot; dynamic pistol shooting",
       title: ["Grip", "the start."],
-      lede: "Three HFO stages deny the normal loaded-and-holstered draw: a rack folded into the draw, a table pick-up-and-load, a support hand tied to a string. Same root, three starts - <strong>the firing grip has to survive a non-standard start</strong>, then hold a steel array. This is a par-time dry-fire taper onto the match.",
+      lede: "Three starts deny the normal loaded-and-holstered draw: a rack folded into the draw, a table pick-up-and-load, a support hand tied to a string. Same root, three starts - <strong>the firing grip has to survive a non-standard start</strong>, then hold a steel array. This is a par-time dry-fire taper, worked against the HFO Masters 2026 stages that punish it hardest.",
       readout: { num: "2.50", label: "par &middot; seconds" }
     },
     diagnosis: {
