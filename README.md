@@ -10,6 +10,10 @@
 A dry-fire training-pack runner. Mobile-first, offline, no backend - a single
 self-contained HTML file you prop up on a phone and shoot par-time reps against.
 
+I built this for my own dry-fire training and put it online in case it helps
+anyone else. It's the tool I actually use, shared as-is - no support promised,
+no roadmap owed to anyone.
+
 **Live: https://torreld.urdr.dev/**
 
 ## What it is
