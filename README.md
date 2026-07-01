@@ -1,5 +1,12 @@
 # TORRELD
 
+[![build & deploy](https://github.com/mandakan/torreld/actions/workflows/deploy.yml/badge.svg)](https://github.com/mandakan/torreld/actions/workflows/deploy.yml)
+[![live](https://img.shields.io/website?url=https%3A%2F%2Ftorreld.urdr.dev%2F&label=live&up_message=online&down_message=offline)](https://torreld.urdr.dev/)
+[![code: MIT](https://img.shields.io/badge/code-MIT-blue.svg)](LICENSE)
+[![content: CC BY-SA 4.0](https://img.shields.io/badge/content-CC%20BY--SA%204.0-lightgrey.svg)](LICENSE-CONTENT.md)
+[![dependencies: none](https://img.shields.io/badge/dependencies-none-brightgreen.svg)](#how-it-works)
+[![Buy Me a Coffee](https://img.shields.io/badge/Buy_Me_a_Coffee-thias-ffdd00?logo=buymeacoffee&logoColor=black)](https://www.buymeacoffee.com/thias)
+
 A dry-fire training-pack runner. Mobile-first, offline, no backend - a single
 self-contained HTML file you prop up on a phone and shoot par-time reps against.
 
@@ -61,6 +68,14 @@ under [docs/](docs/) that fits your change.
 PRs run build tests, verify the built artifact, and screenshot every pack (see
 [docs/BUILD.md](docs/BUILD.md)). Merges to `main` auto-deploy to Cloudflare. See
 [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md).
+
+## Support
+
+TORRELD is free, open, and works offline. If it helps your training, you can chip
+in for the packaging, hosting, and framework upkeep - not the drill content, which
+builds on methods credited to the coaches and researchers in [CREDITS.md](CREDITS.md):
+
+[![Buy Me a Coffee](https://img.shields.io/badge/Buy_Me_a_Coffee-thias-ffdd00?logo=buymeacoffee&logoColor=black)](https://www.buymeacoffee.com/thias)
 
 ## License
 
