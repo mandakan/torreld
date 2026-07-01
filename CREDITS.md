@@ -15,13 +15,29 @@ notes and links. This file is the consolidated list.
 
 - **Practical Shooting Training Group** - Ben Stoeger, Hwansik Kim, Joel Park.
   Par-time dry-fire structure, grip/index/reload framing, stage planning.
-  https://www.practicalshootingtraininggroup.com
+  Joel Park's grip-pressure articles (firing hand light, support hand crushing)
+  and Hwansik Kim's joint-locking blog (recoil managed by locking the wrists,
+  elbows and shoulders over raw crush) ground the support-hand-dominant grip.
+  https://www.practicalshootingtraininggroup.com ,
+  https://benstoegerproshop.com/blog/grip-pressure-and-fitting-your-gun-to-your-hands-part-1/ ,
+  https://benstoegerproshop.com/blog/grip-pressure-and-fitting-your-gun-to-your-hands-part-2/ ,
+  https://www.hkimshooting.com/blog-1
 - **Steve Anderson** - *Refinement and Repetition* (the par-time dry-fire format
   this framework mirrors; several drills, including "Reload + 1", are re-expressed
   from its named drills) and the *That Shooting Show* podcast.
   https://www.andersonshooting.com
 - **Modern Samurai Project** - Scott Jedlinski. Red-dot presentation: the draw
-  delivers the dot to the eye. https://www.modernsamuraiproject.com
+  delivers the dot to the eye; the support hand does nearly all the work of
+  holding the gun steady (support-hand-dominant grip).
+  https://www.modernsamuraiproject.com ,
+  https://www.offgridweb.com/preparation/red-dot-pistol-fundamentals-with-modern-samurai-project/
+- **SSUSA (Shooting Sports USA)** - "Grip technique for action pistol": grip
+  strength is secondary to technique and not where training should start.
+  https://www.ssusa.org/content/grip-technique-for-action-pistol/
+- **Chris Sajnog** - a maximal equal 100/100 crush in both hands. A tactical /
+  former SEAL instructor, not an IPSC competitor; cited only as documented
+  dissent from the support-hand-dominant view, not as an endorsed method.
+  https://chrissajnog.com/blog/improve-your-grip-strength/dry-weapons-training/
 - **Brian Enos** - *Practical Shooting: Beyond Fundamentals* and the community
   forum. Visualization and being "in the moment" on stage. https://www.brianenos.com
 - **Lanny Bassham** - *With Winning in Mind*. Mental-management lineage behind the
@@ -43,6 +59,16 @@ notes and links. This file is the consolidated list.
 - Schmidt & Lee, *Motor Learning and Performance* (textbook).
 - Meta-analyses and reviews on contextual interference, mental practice, and
   specificity/variability of practice (linked per pack in-app).
+- Hand-strength training meta-analysis (Hedges g ~0.44, ~4 kg gain).
+  https://pmc.ncbi.nlm.nih.gov/articles/PMC12524766/
+- Grip-strengthener transfer review (device work mostly raises device scores).
+  https://marathonhandbook.com/do-grip-strengtheners-work/
+- Grip-force is configuration-specific (grip type as a main effect).
+  https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10563762/
+- Force reproduction and proprioception (less accurate at light load, more
+  reliable at higher force). https://pubmed.ncbi.nlm.nih.gov/38170961/
+- Police grip strength vs shooting qualification (correlational).
+  https://www.forcescience.com/2021/09/new-study-grip-strength-and-shooting-performance/
 
 ## Match data
 
