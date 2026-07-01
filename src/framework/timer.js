@@ -222,6 +222,10 @@
       consoleEl.querySelector(".console-panel").setAttribute("inert", "");
       document.body.classList.remove("console-open");
     }
+    /* Desktop reserves body padding for the dock; the collapsed slim bar is
+       shorter than the open panel. This class drives the desktop-only
+       --console-h override (no effect at mobile widths). */
+    document.body.classList.toggle("console-collapsed", !v);
   }
   function toggleExpanded(){
     setExpanded(consoleEl.getAttribute("aria-expanded") !== "true");
@@ -492,6 +496,19 @@
         if(barInfo) barInfo.focus();
       }
     });
+
+    /* Desktop is a non-modal dock that starts open, so its controls are live
+       from load (this also clears the panel's boot-time `inert`). Mobile keeps
+       the compact-bar default. Re-apply the per-side default whenever the
+       viewport crosses the desktop breakpoint. */
+    var desktopMQ = window.matchMedia("(min-width:860px)");
+    function applyConsoleDefault(mq){ setExpanded(mq.matches); }
+    applyConsoleDefault(desktopMQ);
+    if(desktopMQ.addEventListener){
+      desktopMQ.addEventListener("change", applyConsoleDefault);
+    } else if(desktopMQ.addListener){
+      desktopMQ.addListener(applyConsoleDefault);
+    }
 
     showReady();
   }
