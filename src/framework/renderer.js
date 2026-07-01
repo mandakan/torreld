@@ -60,6 +60,27 @@
       '<p class="weeknote">' + pr.note + '</p></section>';
   }
 
+  /* Optional per-drill corrective block: a collapsed <details> the shooter
+     opens between sessions when a result keeps coming out wrong. Structure is
+     gate-then-biases - read repeatability first (scatter -> regress), then the
+     directional reads that only mean something once the base repeats. Author-
+     trusted HTML, same as the rest of the pack copy. */
+  function readRow(r, isGate){
+    return '<div class="read-row' + (isGate ? " gate" : "") + '">' +
+      '<div class="sign">' + r.sign + '</div>' +
+      '<div class="cause">' + r.cause + '</div>' +
+      '<div class="fix">' + r.fix + '</div></div>';
+  }
+  function renderRead(read){
+    if(!read) return "";
+    var rows = "";
+    if(read.gate) rows += readRow(read.gate, true);
+    (read.biases || []).forEach(function(b){ rows += readRow(b, false); });
+    if(!rows) return "";
+    return '<details class="read"><summary>Reading the result</summary>' +
+      '<div class="read-body">' + rows + '</div></details>';
+  }
+
   function renderDrills(dr){
     var cards = dr.items.map(function(c){
       var chips = c.chips.map(function(ch){
@@ -89,6 +110,7 @@
         '<h3>' + c.title + '</h3>' +
         '<p class="why">' + c.why + '</p>' +
         '<ol>' + steps + '</ol>' +
+        renderRead(c.read) +
         '<div class="spec">' + spec + '</div>' +
         '<div class="arm">' + btn + '</div></div>';
     }).join("");

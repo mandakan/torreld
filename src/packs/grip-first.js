@@ -76,6 +76,26 @@ registerPack({
             "Freeze on arrival, check the grip against the Grip-reference checks. If it isn't perfect, the rep doesn't count.",
             "Slow and perfect first, then speed."
           ],
+          read: {
+            gate: {
+              sign: "The dot lands somewhere different on every arrival - no repeatable landing point.",
+              cause: "The support hand is finding the gun by feel of the moment, with no fixed reference to return to.",
+              fix: "Regress to <strong>Grip reference</strong> until the support hand hits the same tactile point 9 reps out of 10, then add the movement back.",
+              regressTo: "Grip reference"
+            },
+            biases: [
+              {
+                sign: "The support hand keeps landing low - on the freeze the index finger isn't against the trigger-guard underside and there's a gap under the palm.",
+                cause: "Movement interrupts the approach; the hand contacts low and settles instead of driving up to the reference.",
+                fix: "Drive the support hand to the trigger-guard underside first - feel the index finger reach the underside before the fingers wrap."
+              },
+              {
+                sign: "The thumb sits on its mark early in the circuit but has migrated forward or down by rep four or five.",
+                cause: "Once the reference is found, the hand re-uses the last landing instead of rebuilding the grip from scratch.",
+                fix: "Full reset between reps: release and re-find the reference from the start every time, as if each rep were the first."
+              }
+            ]
+          },
           timer: { mode: "circuit", par: "2.0", dmin: "1.5", dmax: "3.0", reps: "8", rest: "4", floor: "1.2" },
           label: "Move-and-regrip"
         },
@@ -88,6 +108,31 @@ registerPack({
             "Present. Open your eyes.",
             "The dot should sit where you were looking. Note the pattern in the miss."
           ],
+          read: {
+            gate: {
+              sign: "The dot lands in a different spot every rep - no cluster, no pattern.",
+              cause: "The grip is seating differently each rep, so the gun goes wherever the hand lands.",
+              fix: "Regress to <strong>Grip reference</strong> until the grip sets the same blind - you can't read a directional bias until the base repeats.",
+              regressTo: "Grip reference"
+            },
+            biases: [
+              {
+                sign: "Dot consistently low - below the point you fixed on.",
+                cause: "The gun stops short of the eye-target line; the muzzle never rises to where you were looking.",
+                fix: "Drive the gun all the way up until the dot arrives on the point, not below it."
+              },
+              {
+                sign: "Dot consistently off to the support side (left for a right-handed shooter).",
+                cause: "Uneven drive to the support side - often the support hand pressing in from the side rather than wrapping from the front.",
+                fix: "Send the gun straight to the point you fixed on; the dot belongs on that spot."
+              },
+              {
+                sign: "Dot consistently high - above the point.",
+                cause: "The gun overshoots the line, or the head drops to meet the gun instead of the gun rising to the eye.",
+                fix: "Keep the head still and let the dot rise into your gaze, not past it - the gun comes to the eye."
+              }
+            ]
+          },
           timer: { mode: "par", par: "1.5", dmin: "1.5", dmax: "3.5", reps: "1", rest: "0", floor: "1.0" },
           label: "Eyes-closed index"
         },
@@ -101,6 +146,31 @@ registerPack({
             "Break on the par beep.",
             "If the dot isn't on the aim point as the beep fires, the rep doesn't count."
           ],
+          read: {
+            gate: {
+              sign: "The dot appears somewhere different in the glass every rep.",
+              cause: "The eye anchor or the grip is varying rep to rep, so there's no fixed spot for the dot to arrive at.",
+              fix: "Slow down and isolate the index with <strong>Eyes-closed index</strong> until it repeats, then rebuild the speed.",
+              regressTo: "Eyes-closed index"
+            },
+            biases: [
+              {
+                sign: "You catch yourself scanning the glass for the dot after the gun arrives - the shot is late, or you don't take it.",
+                cause: "The eyes followed the gun up instead of staying locked on the aim point; the dot arrives but the eye is hunting for it.",
+                fix: "Lock the eye on one exact spot before the gun moves and hold it there - the dot appears in your gaze, you don't go find it."
+              },
+              {
+                sign: "Dot arrives low - below the locked aim point at full extension.",
+                cause: "The drive stops short of the eye-target line.",
+                fix: "Don't stop the drive until the dot is on the point the eye is holding."
+              },
+              {
+                sign: "Dot arrives off to the support side.",
+                cause: "The gun isn't tracking straight to the line.",
+                fix: "Drive straight at the point your eye is already holding."
+              }
+            ]
+          },
           timer: { mode: "par", par: "1.2", dmin: "1.5", dmax: "3.5", reps: "1", rest: "0", floor: "0.9" },
           label: "Target-focused presentation"
         },
@@ -114,6 +184,25 @@ registerPack({
             "Confirm the thumb is in the same place and the support hand has full contact on the same area of the gun.",
             "Repeat until the reference sets blind, every time."
           ],
+          read: {
+            gate: {
+              sign: "Thumb or palm contacts a different spot rep to rep - mark the grip and your hand with a felt-tip and the marks won't line up.",
+              cause: "The grip is built on 'feels right', with no fixed structural anchor, so the hand defaults to wherever it touches first.",
+              fix: "No drill sits below this one - halve the speed and seat one contact at a time: palm heel to the panel first, then the fingers wrap, then the thumb finds its mark. Full grip before every check."
+            },
+            biases: [
+              {
+                sign: "The palm heel leaves a gap against the grip panel on every rep - the fingers are on the gun but the heel rides high and forward.",
+                cause: "The build starts from the fingers before the palm commits, so the heel never seats.",
+                fix: "Reverse the order: palm heel flush to the panel first, then wrap the fingers, then the thumb. Driving the support pinky down and in pulls the heel into full contact."
+              },
+              {
+                sign: "The thumb lands the same place every time, but it's flat, featureless panel - nothing to actually find.",
+                cause: "The chosen reference has no tactile edge, so you're pattern-matching a position rather than confirming an anchor.",
+                fix: "Pick a reference you can feel blind - a texture edge, the slide-stop base, a thumb-rest shelf - and cue 'find the edge', not 'put the thumb here'."
+              }
+            ]
+          },
           timer: { mode: "par", par: "1.5", dmin: "1.5", dmax: "3.5", reps: "1", rest: "0", floor: "1.0" },
           label: "Grip reference"
         },
@@ -127,6 +216,26 @@ registerPack({
             "Freeze on arrival and check the grip against the Grip-reference checks - same thumb placement, same contact, same commitment.",
             "If the contact slipped or the thumb wandered, the rep doesn't count. Stop the circuit at the first rep you can't pass cleanly."
           ],
+          read: {
+            gate: {
+              sign: "The dot scatters on the first or second fatigued rep, from the start of the set - not late.",
+              cause: "The fresh-hands grip isn't reliable enough to survive any fatigue yet; it falls apart the moment the forearm loads.",
+              fix: "Stop the circuit and regress to <strong>Grip reference</strong> fresh. This drill stress-tests a grip that's already reliable when fresh - it can't build one under fatigue. Come back when Move-and-regrip passes 9 of 10 fresh.",
+              regressTo: "Grip reference"
+            },
+            biases: [
+              {
+                sign: "The first few reps pass clean, then around rep three or four the index finger drops off the trigger-guard underside or the thumb falls below its mark.",
+                cause: "Forearm burn pushes the support hand toward a lower, lower-effort hold - the pre-drill default.",
+                fix: "On every fatigued rep, find the trigger-guard underside reference first, before you grip. It's a contact point, not a force level - a burning forearm is fine as long as the reference is reached. Stop the moment it can't be."
+              },
+              {
+                sign: "The hand is in the right place - thumb on its mark, finger on the guard - but the grip feels springy and a squeeze finds almost no support-hand force.",
+                cause: "The forearm is spent: the motor program (which reference to find) survives but the physical capacity (force) is gone.",
+                fix: "This is the stop signal - end the circuit here. More reps in this state only train 'right place, no force', the exact failure to avoid late in a stage."
+              }
+            ]
+          },
           timer: { mode: "circuit", par: "2.2", dmin: "1.5", dmax: "3.5", reps: "10", rest: "5", floor: "1.4" },
           label: "Grip under load"
         }
@@ -141,7 +250,8 @@ registerPack({
         { map: "Dry vs live split",                     h: "You train what's present",          body: "Motor skill is largely task- and effector-specific. Dry fire trains the draw, grip, index and presentation that are actually present; recoil and follow-up aren't present without a shot, so they need live fire. Precision pistol is a different task and transfers little." },
         { map: "Eyes-closed index &middot; visualisation", h: "Mental rehearsal counts",         body: "Mental practice produces a small-to-moderate measurable gain in meta-analysis (SMD around 0.4). Rehearsing the index and the plan in your head is real practice, not a warm-up ritual." },
         { map: "Target-focused presentation &middot; vision-first", h: "Vision leads the hand",  body: "In aiming tasks, elite performers show a longer pre-action fixation on the target (the 'quiet eye'), and cueing on the movement <em>effect</em> - target, dot, gun trajectory - produces faster learning and better performance than cueing on body parts (external focus of attention). Lock the eye on the aim point first, then send the gun." },
-        { map: "Par timer &middot; log",                h: "Measure to learn",                   body: "Feedback on the result drives motor learning. A par time turns a vague rep into a measured one, and a log turns a hunch about progress into data." }
+        { map: "Par timer &middot; log",                h: "Measure to learn",                   body: "Feedback on the result drives motor learning. A par time turns a vague rep into a measured one, and a log turns a hunch about progress into data." },
+        { map: "Reading the result &middot; consistency before bias", h: "Read repeatability, then direction", body: "Feedback drives learning, but only a repeatable rep carries a readable signal. A scattered dot means the base isn't set - regress and rebuild it before reading any low-or-left bias. Once the rep repeats, a consistent miss points at one cause you can correct. Do it between sessions, not rep by rep - the par beep is the in-session feedback." }
       ],
       caveat: "<b>Honest limit.</b> The variable-practice advantage holds up in the lab but is less consistent in complex, real-world tasks, and almost none of it is measured specifically in dynamic pistol shooting. Treat the science as direction, not proof - let your own timer and target data settle it."
     },
@@ -161,7 +271,8 @@ registerPack({
         {
           tier: "Coaching reference",
           items: [
-            { src: "Charlie Delta Academy",                   grade: "Explainer",          body: "The grip &rarr; index link, and why tactile reference points produce a repeatable grip.", links: [{ label: "charliedeltaacademy.com - Grip", url: "https://charliedeltaacademy.com/blogs/tips-techniques/fundamentals-part-ii-grip" }] },
+            { src: "Charlie Delta Academy",                   grade: "Explainer",          body: "The grip &rarr; index link, and why tactile reference points produce a repeatable grip. Grounds the tactile reads in the drills' 'reading the result' blocks - the palm-gap and featureless-reference corrections.", links: [{ label: "charliedeltaacademy.com - Grip", url: "https://charliedeltaacademy.com/blogs/tips-techniques/fundamentals-part-ii-grip" }] },
+            { src: "Griffith Shooting Solutions",             grade: "Explainer",          body: "A red-dot diagnostic method: reading where the dot sits on presentation to separate a trajectory error (dot low - the gun isn't driven up to the eye line) from a support-side error (dot off to the support side). Grounds the directional dot reads in the drills' 'reading the result' blocks.", links: [{ label: "griffithshootingsolutions.com - RDS diagnostics", url: "https://www.griffithshootingsolutions.com/post/red-dot-pistol-diagnostics" }] },
             { src: "Lanny Bassham - With Winning in Mind", grade: "Olympic champion", body: "<em>With Winning in Mind</em> from an Olympic gold-medal shooter - the mental-management lineage behind the match-mode mindset, and the visualization basis the eyes-closed index drill draws on. Book, no single link.", links: [] }
           ]
         },

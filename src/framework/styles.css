@@ -480,6 +480,70 @@ section{padding:40px 0;border-bottom:1px solid var(--line)}
 }
 .card.armed .arm button{background:rgba(255,176,46,.1)}
 
+/* Corrective "reading the result" block - collapsed by default so the card
+   stays clean on a phone; opened between sessions when a result keeps coming
+   out wrong. Native <details>, zero JS, works from file://. Sits between the
+   steps and the timer spec. */
+.read{
+  margin:0 0 16px;
+  border:1px solid var(--line);
+  border-radius:var(--radius-sm);
+  background:var(--steel);
+}
+.read>summary{
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--amber-soft);
+  padding:0 14px;
+  min-height:var(--tap);
+  display:flex;
+  align-items:center;
+  gap:9px;
+  cursor:pointer;
+  list-style:none;
+}
+.read>summary::-webkit-details-marker{display:none}
+.read>summary::before{
+  content:"\203A";
+  display:inline-block;
+  color:var(--amber-soft);
+  transition:transform .15s;
+}
+.read[open]>summary::before{transform:rotate(90deg)}
+.read[open]>summary{border-bottom:1px solid var(--line)}
+.read>summary:focus-visible{outline:2px solid var(--amber);outline-offset:-2px}
+.read-body{padding:4px 14px 10px}
+.read-row{
+  padding:11px 0;
+  border-bottom:1px solid var(--line);
+  font-size:13.5px;
+  line-height:1.55;
+}
+.read-row:last-child{border-bottom:none}
+.read-row .sign{color:var(--text);font-weight:600}
+.read-row .cause{color:var(--muted);margin-top:3px}
+.read-row .fix{color:#c3cccf;margin-top:4px}
+.read-row .fix::before{
+  content:"Fix ";
+  font-family:var(--mono);
+  font-size:10px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--amber-soft);
+}
+/* Gate: the consistency check reads first, boxed with an amber-soft edge so
+   "is it even repeatable?" is visibly the prerequisite to the bias reads. */
+.read-row.gate{
+  border-bottom:none;
+  border-left:2px solid var(--amber-soft);
+  background:rgba(202,161,90,.05);
+  border-radius:var(--radius-sm);
+  padding:11px 12px;
+  margin-bottom:6px;
+}
+
 /* ===== Evidence ===== */
 .evidence-grid{
   display:grid;

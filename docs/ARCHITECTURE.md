@@ -82,6 +82,10 @@ drills:      { lane, title, intro,
                  primary?, span?,                 // span: full-width card
                  chips:[ { cls, label } ],        // cls: "prim" | "par" | "cyc" | ""
                  title, why, steps:[...],
+                 read:{                           // optional: corrective "reading the result" block
+                   gate:{ sign, cause, fix, regressTo? },   // consistency check, rendered first
+                   biases:[ { sign, cause, fix } ]          // 1-3 directional reads
+                 },
                  timer:{ mode, par, dmin, dmax, reps, rest },  // mode: "par" | "circuit"
                  label                            // shown in the timer when armed
                } ] }
@@ -94,6 +98,8 @@ footer:      string
 ```
 
 Strings may contain HTML and entities - content is author-trusted (see the constraint in [`../CLAUDE.md`](../CLAUDE.md)). Section ids referenced by `nav` are hard-coded in the renderer (`diagnosis`, `program`, `drills`, `evidence`, `references`); adding a brand-new *section type* means adding a render function in `renderer.js`, not just data.
+
+**The optional `read` block** is a per-drill corrective diagnostic, rendered by `renderRead()` as a collapsed native `<details>` between the steps and the timer spec (zero JS, works from `file://`). It is a between-session tool: consult it when a result keeps coming out wrong, not after every rep. Shape is gate-then-biases - the `gate` is the consistency check (scatter -> regress to a more-foundational drill named in `regressTo`), rendered first and boxed; the `biases` are the directional reads that only mean something once the rep repeats. Every `fix` is external-focus, and the pack's base drill has a `gate` with no `regressTo` (its fix is "slow down"). Authoring rules live in the `new-pack` skill.
 
 ---
 

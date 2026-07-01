@@ -169,6 +169,7 @@ Each drill card has five required fields:
 | `title`  | Two to four words, evocative. *"Move-and-regrip"*, *"Index-and-insert"*. | - |
 | `why`    | Two sentences. The mechanism: what fault, why it works. **Not** the steps. | If your *why* is internal-focused, re-cast it externally (#3). |
 | `steps`  | Three to five imperative bullets. Quality criteria explicit. | Steps use **external-focus language** (#3); include a **vision step** (#8); the quality criterion is binary pass/fail (#4, #7). |
+| `read`   | Optional corrective block: `gate` (consistency check) + 1-3 `biases`. Read the miss, name the cause, give one fix. | Every `fix` is external-focus (#3); read the *right modality* for the skill; consistency before bias. See "Reading the result" below. |
 | `timer`  | `{ mode, par, dmin, dmax, reps, rest }`. | Numbers come from the heuristic table above; deviations should be explainable. |
 
 ### Picking par times
@@ -196,6 +197,29 @@ A drill that reads as a body-parts checklist will teach the shooter to do exactl
 ### Every drill needs a vision step
 
 By lens #8 (quiet eye), the rep starts with the eyes, not with the hands. *"Lock your eyes on a small exact aim point before the gun comes up,"* *"keep your eye on the magwell until you feel the seat,"* *"fix your eyes on an exact point on the target, then close them."* If you can't write a vision step for a drill, double-check that it actually trains something.
+
+### Reading the result - the corrective layer
+
+The `steps` tell the shooter how to run the rep and what result to expect. The `read` block tells them what a *wrong* result means and what to do about it. It renders as a collapsed `<details>` on the card - a **between-session** tool, opened when a pattern persists, not a per-rep checklist. That framing is load-bearing: a per-rep "read your miss and fix it" habit is exactly the constant-KR (#4) and re-investment (#9) trap the lens warns against. Say "between sessions" in the drills intro or leave it implicit in the collapsed, diagnostic tone - never invite the shooter to consult it mid-string.
+
+Shape is **gate then biases**:
+
+```js
+read: {
+  gate:   { sign, cause, fix, regressTo },   // is the rep even repeatable? rendered first
+  biases: [ { sign, cause, fix } ]            // 1-3 directional reads, only valid once it repeats
+}
+```
+
+Rules, all enforced by the shape or the lens:
+
+- **Consistency before bias.** The `gate` is the repeatability check - the tell that the result *scatters* (a different miss every rep). You cannot read a directional bias off an unrepeatable base, so the gate always comes first and its fix is almost always "regress".
+- **Regression graph, one base per pack.** Each gate's `regressTo` names a more-foundational drill by its `label`. Exactly one drill is the **base** the chain bottoms out at - its gate has no `regressTo` and its fix is "slow down / halve the speed". Draw the chain before writing: every non-base drill must point at something closer to the root. (Grip-first: presentation -> eyes-closed index -> grip reference. Reloads: the clock/movement drills -> Reload + 1 -> Index-and-insert -> Eyes-on-the-mag.)
+- **Read the right modality.** The observable tell depends on the skill. Grip/tactile drills read by **feel** (scatter, thumb drift, a gap under the palm); vision/index drills read by **dot position**; a stage-planning drill reads by **plan outcome** (the plan came out different, fell apart under the beep). Match the tell to what the shooter can actually see or feel.
+- **Do not invent dot-direction for a grip drill.** The intuitive "support hand overpowering -> dot high-left" mapping is a myth. Heeling throws *high-right* for a right-hander and is a recoil flinch that does not occur in a dry-fire freeze. Dot-*high* is a trajectory error (muzzle overshoots, head drops), not a grip tell. When you do assert a direction, keep it to what a source supports - "off to the support side" beats a false-precise "left" if the direction is only inferred.
+- **`fix` is external-focus (#3), same as `steps`.** Cue on the dot, the target, the tactile reference, the mag path - never muscle effort. A `read` block full of "squeeze harder / rotate your wrist" teaches the body-parts fiddling that breaks under pressure.
+- **Same citation bar as everything else.** Every `cause`/`fix` traces to a tier-1/2 source or the lens. Research the reads the way you research the drills - and apply the confidence discipline: soften weakly-grounded direction claims, and drop any read you cannot ground rather than shipping a plausible guess. If a read introduces a source the pack doesn't already cite, add it to `references` and [`CREDITS.md`](../../../CREDITS.md).
+- **Optional.** A drill with no readable failure mode omits `read` entirely rather than forcing one.
 
 ### The five-session week
 
