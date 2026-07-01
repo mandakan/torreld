@@ -659,6 +659,7 @@ section{padding:40px 0;border-bottom:1px solid var(--line)}
 .console-grip:focus-visible .grip-bar{background:var(--amber-soft);width:54px}
 .console-grip:focus-visible{outline:2px solid var(--amber);outline-offset:-4px;border-radius:8px}
 .console[aria-expanded="true"] .grip-bar{background:var(--amber)}
+.grip-chevron{display:none}   /* desktop-only affordance; shown in the >=860px query */
 
 /* --- Compact bar --- */
 .console-bar{
@@ -954,15 +955,36 @@ section{padding:40px 0;border-bottom:1px solid var(--line)}
 /* === Desktop layout (>=860px) === */
 @media(min-width:860px){
   .console{max-height:none;display:block}
-  .console-grip,.console-bar{display:none !important}
-  .scrim{display:none !important}
+  .scrim{display:none !important}   /* non-modal dock: never dim on desktop */
 
-  .console-panel{
-    max-height:none !important;
-    opacity:1 !important;
-    overflow:visible;
-    transition:none;
+  /* Collapsed dock reserves only the slim-bar height. */
+  body.console-collapsed{ --console-h: 68px; }
+
+  /* Grip becomes a slim full-width strip with a chevron affordance. */
+  .console-grip{
+    display:flex;align-items:center;justify-content:center;
+    height:20px;min-height:20px;
   }
+  .console-grip .grip-bar{display:none}
+  .console-grip .grip-chevron{
+    display:block;color:var(--muted);
+    transition:transform .18s ease,color .15s;
+  }
+  .console-grip:hover .grip-chevron,
+  .console-grip:focus-visible .grip-chevron{color:var(--text)}
+  .console[aria-expanded="false"] .grip-chevron{transform:rotate(180deg)}
+
+  /* Expanded shows the panel; collapsed shows the compact bar. */
+  .console[aria-expanded="true"]  .console-panel{
+    max-height:none;opacity:1;overflow:visible;transition:none;
+  }
+  .console[aria-expanded="false"] .console-panel{display:none}
+  .console[aria-expanded="true"]  .console-bar{display:none}
+  .console[aria-expanded="false"] .console-bar{
+    display:grid;max-width:var(--wrap-max);margin:0 auto;
+    padding:6px var(--gutter) 10px;
+  }
+
   .console-panel .wrap{
     display:grid;
     grid-template-columns:auto 1fr auto;
