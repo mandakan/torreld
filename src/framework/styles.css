@@ -589,6 +589,7 @@ section{padding:40px 0;border-bottom:1px solid var(--line)}
 .colophon-link{
   display:inline-flex;
   align-items:center;
+  min-height:var(--tap);
   gap:7px;
   font-family:var(--mono);
   font-size:11px;
