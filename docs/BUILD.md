@@ -57,7 +57,7 @@ node --check /tmp/check.js
 ```sh
 make build                          # shot.mjs loads dist/index.html
 node scripts/shot.mjs               # -> .playwright-mcp/torreld-{mobile,desktop}.png
-node scripts/shot.mjs '?pack=hfo-masters'   # same file with a query string
+node scripts/shot.mjs '?pack=non-standard-starts'   # same file with a query string
 node scripts/shot.mjs https://torreld.urdr.dev/  # or any URL; --out <dir> to redirect
 ```
 

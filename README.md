@@ -27,8 +27,8 @@ protocol (diagnosis, weekly plan, drills with par timers, evidence, sources).
 
 The framework is content-agnostic - any "drills + evidence + references" curriculum
 fits. Adding a program is dropping one JS file in `src/packs/`; no framework changes.
-The current packs are grip-first dry fire and match-prep sets for IPSC Production
-Optics, but nothing in the data model is specific to shooting.
+The current packs cover grip, reloads, stage planning and non-standard starts for
+IPSC Production Optics, but nothing in the data model is specific to shooting.
 
 ## How it works
 
