@@ -72,23 +72,13 @@ On a headless host the Playwright MCP browser tools work too, once pointed at bu
 `.github/workflows/ci.yml` runs on every PR. It never deploys - it just gates merges.
 
 - **`verify` job** (fast, no browser): build tests, `make build`, `scripts/verify-dist.sh`, `scripts/check-js.mjs`. These are the same checks deploy runs pre-ship, so a green PR means a green deploy.
-- **`screenshots` job**: builds, installs Playwright + Chromium (cached), runs `node scripts/shot.mjs --all-packs`, and **always** uploads the PNGs as a `torreld-screenshots` artifact (download from the run's Artifacts).
+- **`screenshots` job**: builds, installs Playwright + Chromium (cached), runs `node scripts/shot.mjs --all-packs`, uploads the PNGs as a `torreld-screenshots` artifact, and posts a sticky PR comment linking to it. Download from the run's Artifacts section.
 
 `scripts/verify-dist.sh` and `scripts/check-js.mjs` are shared with `deploy.yml`, so the two workflows can't drift. `verify-dist.sh` discovers pack IDs from `dist/p/*` - a new pack is checked automatically, no hardcoded list.
 
-### Inline screenshot previews (optional)
+### Why a download link and not inline images
 
-When the R2 variables below are set, the `screenshots` job also uploads to a Cloudflare R2 bucket and posts a sticky PR comment embedding the images inline (one `<details>` block per pack, updated on each push). Without them the job still runs and the artifact is the fallback - nothing fails.
-
-One-time setup:
-
-1. Create an R2 bucket and enable public access (r2.dev) or bind a custom domain. Note the public base URL, e.g. `https://pub-xxxx.r2.dev`.
-2. Repo **secrets** (Settings -> Secrets and variables -> Actions): reuse the existing `CLOUDFLARE_API_TOKEN` (the token needs **Workers R2 Storage: Edit**, not just Workers) and `CLOUDFLARE_ACCOUNT_ID`.
-3. Repo **variables**: `R2_BUCKET` (bucket name) and `R2_PUBLIC_BASE_URL` (the public base URL from step 1). The inline steps key off `R2_PUBLIC_BASE_URL` being non-empty.
-
-Objects are written under `pr/<number>/<short-sha>/`. Add a lifecycle rule on the bucket if you want old PR previews auto-expired.
-
-**Fork PRs** don't get secrets or a writable token, so the inline comment is skipped there by design; the artifact still uploads.
+The repo is private. GitHub renders an inlined image only from a URL its image proxy can fetch anonymously, and a private repo has none: artifacts are auth-gated zips with no stable image URL, comment attachments have no API to create from CI, and `raw.githubusercontent.com` URLs 404 for the proxy on a private repo. True inline previews would need an external public host (e.g. a public Cloudflare R2 bucket) - real infra for a nicety, so CI links to the artifact instead. If the repo ever goes public, the `raw.githubusercontent.com` route becomes viable with no external host.
 
 ---
 
