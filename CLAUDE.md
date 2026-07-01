@@ -56,6 +56,19 @@ Plain ASCII, no LLM slop. Applies to all rendered pack copy and to the docs in t
 
 ---
 
+## Licensing and attribution (content)
+
+The repo is dual-licensed: **code MIT** ([LICENSE](LICENSE)), **pack content CC BY-SA 4.0** ([LICENSE-CONTENT.md](LICENSE-CONTENT.md)). When you write or edit any pack, this is non-negotiable:
+
+- **Original expression only.** Techniques and drills are methods - not copyrightable, free to reuse. Their *wording, diagrams, tables, and images* are not. Write every drill, diagnosis, and evidence line in your own words. Never paste a source's sentences, and never embed a third-party image - packs are text/CSS only, keep it that way.
+- **Credit the origin.** Every borrowed technique gets its practitioner/source in the pack's `references` tiers **and** in [CREDITS.md](CREDITS.md). Facts (stage briefings, match details) are free to state but still get a source line. Book/program/match names are used to credit only - no logos, no implied endorsement (nominative use).
+- **Cite, don't reproduce.** Link a source; don't quote its body text. Feeling the need for a verbatim quote is the signal to paraphrase instead.
+- **Keep CREDITS.md in sync in the same PR.** When a pack adds a source, update [CREDITS.md](CREDITS.md); the in-app References list and CREDITS.md must agree.
+
+CC BY-SA covers TORRELD's own expression - it does not relicense anyone else's work. When monetized (donations), the bar for clean, original content is higher, not lower.
+
+---
+
 ## Sub-agents: pick the cheapest model that fits
 
 When you delegate work via `Agent`, `Workflow`, or any other fan-out, **specify `model:` explicitly** - don't let sub-agents inherit the parent's model. Token cost in a fan-out multiplies by the number of agents, so the tier choice is the largest single lever. Default down, not up.

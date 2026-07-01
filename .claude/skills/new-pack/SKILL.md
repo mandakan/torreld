@@ -47,6 +47,19 @@ A pack that picks different numbers should say why.
 
 ---
 
+## Copyright and attribution - read before writing a word
+
+The pack content ships under **CC BY-SA 4.0** on a public, donation-supported repo (code is MIT). That license is honest only if the content is genuinely yours. Non-negotiable:
+
+- **Write original expression.** The *techniques* you research are methods - not copyrightable, free to reuse. Their *wording, diagrams, tables, and images* are not. Every diagnosis line, drill `why`, `steps` bullet, and `evidence` body must be your own words, not a source's sentences reshuffled. If a drill is "ported" from a named product (e.g. Anderson's *Reload + 1*), re-express the method and credit it - never copy the description.
+- **No third-party media.** Packs are text + CSS only. Never embed a source's image, diagram, or table. Keep it that way.
+- **Credit every source twice.** It goes in the pack's `references` tiers (Phase 2) **and** in [`CREDITS.md`](../../../CREDITS.md). Facts (stage briefings, match details) are free to state but still get a source line. Names of books/programs/matches are used to credit only - no logos, no implied endorsement.
+- **Cite, don't reproduce.** Link the source; don't quote its body. Wanting a verbatim quote is the signal to paraphrase.
+
+If you can't write a pack without leaning on a source's exact words, stop - that's a content problem, not a formatting one. See [`CLAUDE.md` Licensing and attribution](../../../CLAUDE.md).
+
+---
+
 ## Phase 1 — Frame the scenario
 
 **Goal:** Reduce the user's request to one named root fault and one constrained scope. Everything downstream rests on this.
@@ -220,6 +233,7 @@ If you've used the lens to **contradict** a practitioner-source claim, the evide
 4. **ASCII dashes; entities only for non-dash symbols.** The render path is `innerHTML`, so a literal ` - ` displays fine. Use a single hyphen `-` for dashes (never `&mdash;`, `&ndash;`, double hyphen, or a raw em-dash), `...` for an ellipsis, and straight quotes (not `&lsquo;`/`&rsquo;`). Keep `&middot;` for the chip/readout separator and `&rarr;` where an arrow is the meaning. See the Writing style rule in [`CLAUDE.md`](../../../CLAUDE.md). Existing packs are the reference; match them.
 5. **Author-trusted only.** Never wire runtime user input into pack data — it would be an XSS hole. If you ever need user-supplied strings in a drill name, switch that path to `textContent` in `renderer.js`.
 6. Leave the `footer` line as in the existing packs unless the pack genuinely needs a different one.
+7. **Update [`CREDITS.md`](../../../CREDITS.md)** in the same change - add any new practitioner, paper, or match-data source the pack introduces. The consolidated CREDITS list and the pack's in-app `references` must agree.
 
 ---
 
@@ -257,6 +271,7 @@ Full build/deploy detail in [`docs/BUILD.md`](../../../docs/BUILD.md). Branching
 - **Symptom-grade par times.** A GM time as the starting par teaches the user to fail. Start at intermediate; let them ratchet down (#5, #7).
 - **A `caveat` that hedges nothing.** If the section reads as if the science settles the question, the user will trust it too far. The lens is mostly from lab tasks and other sports — say so.
 - **Quoting practitioner advice the lens flags without contradicting it.** If a tier-1 source says "do 500 reps a day," either don't cite that claim or cite it and call it out.
+- **Copying a source's words or embedding its images.** Techniques are free to reuse; their expression is not. Paraphrase every line into your own voice, keep packs text-and-CSS only, and add the source to [`CREDITS.md`](../../../CREDITS.md). See the Copyright and attribution section above.
 
 ---
 

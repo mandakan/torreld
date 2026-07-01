@@ -64,5 +64,14 @@ PRs run build tests, verify the built artifact, and screenshot every pack (see
 
 ## License
 
-[MIT](LICENSE) (c) 2026 Mathias Axell. The training-pack copy references external
-sources by citation; those citations point to their own authors and licenses.
+Split by what it covers, both (c) 2026 Mathias Axell:
+
+- **Code** (framework, build tooling, `scripts/`): [MIT](LICENSE).
+- **Training-pack content** (the prose, drills, and curation in `src/packs/`):
+  [CC BY-SA 4.0](LICENSE-CONTENT.md) - reuse and adapt with attribution, keep it
+  share-alike.
+
+The drills describe widely-practiced techniques that are not owned by this
+project; those methods are credited to their originators, and the science is
+cited, in [CREDITS.md](CREDITS.md). TORRELD reproduces no third-party text or
+images - only its own expression and a citation.
