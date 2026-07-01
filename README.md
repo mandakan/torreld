@@ -1,4 +1,6 @@
-# TORRELD
+<p align="center">
+  <img src="docs/assets/logo.svg" alt="TORRELD" width="420">
+</p>
 
 [![build & deploy](https://github.com/mandakan/torreld/actions/workflows/deploy.yml/badge.svg)](https://github.com/mandakan/torreld/actions/workflows/deploy.yml)
 [![live](https://img.shields.io/website?url=https%3A%2F%2Ftorreld.urdr.dev%2F&label=live&up_message=online&down_message=offline)](https://torreld.urdr.dev/)

@@ -1,12 +1,13 @@
 #!/usr/bin/env bash
 # Host PR screenshot PNGs on the orphan `ci-previews` branch so a PR comment can embed
 # them inline via raw.githubusercontent.com. That URL only renders in comments on a
-# PUBLIC repo - on a private repo GitHub's image proxy can't fetch it. Called by CI
-# (.github/workflows/ci.yml on publish; pr-preview-cleanup.yml on remove).
+# PUBLIC repo - on a private repo GitHub's image proxy can't fetch it. `publish` is called
+# by CI (.github/workflows/ci.yml); `remove` is a manual pruning tool - no workflow runs it,
+# so previews persist after a PR closes and merged PRs keep their inline screenshots.
 #
 # Each PR owns a pr-<n>/ directory, overwritten on every push, so the branch holds at
-# most one image set per open PR; cleanup removes it when the PR closes. Uses the repo's
-# already-authenticated origin via a throwaway worktree, and retries on push races.
+# most one image set per PR. Uses the repo's already-authenticated origin via a throwaway
+# worktree, and retries on push races.
 #
 #   scripts/previews.sh publish <pr-number> <dir-of-pngs>
 #   scripts/previews.sh remove  <pr-number>
