@@ -77,6 +77,30 @@ registerPack({
             "Cues are stage features (port edge, wall corner, target anchor) - never body parts.",
             "Slow and explicit first, then trim the verbalization while keeping the structure. Rotate positions and stages across the circuit."
           ],
+          read: {
+            gate: {
+              sign: "Same position comes out differently across reps - anchor labels shift, a slot (usually RELOAD) drops, or the sentence hesitates and rebuilds instead of recalling.",
+              cause: "The position was taken in as one continuous impression, not four indexed slots. Each rep re-derives rather than retrieves - there's no stable structure to pull from.",
+              fix: "No drill sits below this one - slow down and rehearse in smaller chunks until one position comes out clean without a rebuild."
+            },
+            biases: [
+              {
+                sign: "Anchor names are generic or inconsistent across reps - 'that partial,' 'the one on the right' rather than a fixed feature.",
+                cause: "The visual anchor was never committed during encoding, so the eye re-locates the target each rep instead of retrieving a set label.",
+                fix: "Before the beep, pick one specific visible feature per target - head-box edge, A-zone past the no-shoot - and commit that name. If the label changes between reps, the anchor isn't set yet."
+              },
+              {
+                sign: "Verbalization passes clean but the plan dissolves at the first shot on the beep - order shifts, reload missed, exit cue gone.",
+                cause: "The plan is still consciously derived each rep, so under the beep the conscious mind is occupied by real-time demands and loses the thread. Deriving the plan on the start signal is exactly what breaks an autonomous skill (re-investment).",
+                fix: "Rehearse the same position 5x without the beep first - the rehearsal is the encoding. Run the mental program until the start cue triggers it rather than derives it. The beep rep only tests whether encoding is done."
+              },
+              {
+                sign: "RELOAD slot stays vague ('...somewhere after T2...') or marked to-be-decided.",
+                cause: "Reload placement is being treated as a live round-count calculation on the gun rather than a named element of the position plan.",
+                fix: "Decide and name the reload slot before the beep - 'reload after T2 on the transition' or 'no reload here.' If you can't name it, the position isn't planned yet."
+              }
+            ]
+          },
           timer: { mode: "circuit", par: "10", dmin: "2", dmax: "4", reps: "8", rest: "5" },
           label: "Chunk-and-anchor"
         },
@@ -90,6 +114,26 @@ registerPack({
             "Eye lands on the entry or exit cue (port edge, foot mark, wall corner) <em>before</em> moving to the next array's first aim point.",
             "End on the exit cue of the position. If the gaze slid past any anchor instead of landing deliberately, the rep doesn't count."
           ],
+          read: {
+            gate: {
+              sign: "Gaze scans continuously or slides past a cue instead of landing deliberately on each aim point and each transition cue in plan order.",
+              cause: "The chunk isn't built yet, so the eye is pulled to whatever is most salient - the biggest target, the brightest partial - not to plan-ordered anchors. There's no index for the eye to follow.",
+              fix: "Regress to <strong>Chunk-and-anchor</strong>. Build and verbalize the position chunk fully before running this drill - the walk-through tests an encoded plan, it can't build one.",
+              regressTo: "Chunk-and-anchor"
+            },
+            biases: [
+              {
+                sign: "Eye lands on each target fine but entry and exit cues get skipped - the rep ends on the last target, not on the exit cue.",
+                cause: "Entry and exit cues were never named as chunk elements, so they read as implicit timing ('when I'm ready to move') rather than fixed destinations.",
+                fix: "Say the entry and exit cue aloud before the rep - 'port edge,' 'wall corner left.' Build the visual flow so the eye moves through named cues in order and never stares absentmindedly at the first target."
+              },
+              {
+                sign: "Fixation keeps collapsing - each aim point gets a glance rather than a deliberate one-second land.",
+                cause: "Speed pressure is overriding fixation duration. Pre-action fixation shortens under time pressure and tracks worse outcomes; the shooter is optimising for finishing the rep, not for encoding.",
+                fix: "Count 'one' at each aim point; if the count doesn't finish before the eye moves, the rep doesn't count. If a one-second land per target won't fit the par, the position has too many targets for one rep - split it."
+              }
+            ]
+          },
           timer: { mode: "circuit", par: "6", dmin: "1.5", dmax: "3.5", reps: "8", rest: "4" },
           label: "Eye walk-through"
         },
@@ -103,6 +147,31 @@ registerPack({
             "End on the exit-cue moment. If you skipped a target, lost the order, or slipped into slow-motion, the rep doesn't count - PETTLEP imagery is real-time, full-sensory, gun-in-hand.",
             "Rotate position and stage across the circuit."
           ],
+          read: {
+            gate: {
+              sign: "Imagery is vague (targets are blurs, aim points unspecified), runs faster or slower than real time, or the order gets lost mid-sequence.",
+              cause: "The chunk isn't encoded cleanly enough to run as autonomous imagery - working memory is still navigating the plan each rep, so there's no script to follow.",
+              fix: "Regress to <strong>Chunk-and-anchor</strong>. Verbalize the position fully before imaging it - the imagery drill tests encoding, it doesn't create it.",
+              regressTo: "Chunk-and-anchor"
+            },
+            biases: [
+              {
+                sign: "Imagery stalls or drags at one specific target or transition while the rest of the position runs.",
+                cause: "That element was encoded vaguely or skipped in the chunk. Real-time imagery exposes the weak link in the verbalization.",
+                fix: "Back out to <strong>Chunk-and-anchor</strong> and verbalize the stalling element slowly and specifically 3x - 'reload after T2, transition left, mag change on the move' - before running the full imagery rep again."
+              },
+              {
+                sign: "The imagery is a silent visual movie - no felt footwork, no heard shots.",
+                cause: "Visual-only imagery breaks the physical and timing match to real execution and transfers weaker than full-sensory, real-time rehearsal.",
+                fix: "Start gun in hand, in the actual start stance, and let the feet move with the sequence. Run it at real stage pace and hear each shot. The rep is the imagery, not a picture of it."
+              },
+              {
+                sign: "Imagery rep is vivid but the plan still comes out different on the beep.",
+                cause: "One imagery rep isn't enough repetition to encode the plan; under the beep the conscious mind re-asserts and the plan reverts.",
+                fix: "Run the position in imagery 5x before adding the beep. Commit to the rehearsed program and let it run - if the plan still shifts, run more <strong>Chunk-and-anchor</strong>, not more imagery."
+              }
+            ]
+          },
           timer: { mode: "circuit", par: "8", dmin: "1.5", dmax: "3.5", reps: "8", rest: "4" },
           label: "PETTLEP rehearsal"
         },
@@ -116,6 +185,31 @@ registerPack({
             "If you hesitate or miss an anchor, the rep doesn't count - check yourself against the diagram and reset.",
             "Vary the stage and position each rep - identical look-ups lose the contextual-interference benefit."
           ],
+          read: {
+            gate: {
+              sign: "After the 5-second look, the verbal output is incomplete - anchors missing, RELOAD skipped, or the sequence hesitates then rebuilds from scratch.",
+              cause: "The look window was spent perceiving the position globally instead of encoding slot-by-slot, so it goes in as a continuous impression and doesn't survive the face-down interval.",
+              fix: "Regress to <strong>Chunk-and-anchor</strong>. Encode with no time limit until the four-slot structure is automatic, then bring it back under the 5-second clock.",
+              regressTo: "Chunk-and-anchor"
+            },
+            biases: [
+              {
+                sign: "Target order is right but anchors are absent or generic.",
+                cause: "During the 5-second look the gaze wandered instead of fixing on each target in engagement order, so specific features never got committed.",
+                fix: "Treat the 5 seconds as a timed encoding sequence, not passive observation - fix the eye on each target in order and name one specific feature before moving on. It's a Chunk-and-anchor rep on a clock."
+              },
+              {
+                sign: "Recall is solid on the first rep but degrades once the stage and position change each rep.",
+                cause: "Varied reps raise the processing load, so practice-day performance drops even as the retention benefit builds - the transfer payoff accrues across sessions, and in applied sport that payoff is plausible but modest, not proven.",
+                fix: "Hold the rotation rule and expect the harder reps. Only intervene if the shooter keeps resetting to a familiar stage to dodge the difficulty - that avoidance is what removes the benefit."
+              },
+              {
+                sign: "RELOAD slot is filled when a tactical moment is obvious but omitted when round count is ambiguous.",
+                cause: "Reload placement is still being calculated from round count during the look rather than decided and named as part of the chunk.",
+                fix: "Make the reload decision first in the look window - before the engagement order - and name it. If you can't decide inside the 5 seconds, mark 'no reload' and take the conservative plan rather than leaving the slot open."
+              }
+            ]
+          },
           timer: { mode: "par", par: "8", dmin: "1.5", dmax: "3.5", reps: "1", rest: "0" },
           label: "Position-snapshot recall"
         },
@@ -129,6 +223,31 @@ registerPack({
             "On the beep, re-anchor the eye on the changed cue and verbalize the affected position chunk(s) with the change baked in.",
             "If the patch breaks any unchanged chunk - engagement order, anchor, exit cue - the rep doesn't count. Reset."
           ],
+          read: {
+            gate: {
+              sign: "After the patch, an unchanged chunk loses an anchor, changes order, or comes out different from how it was verbalized before the change.",
+              cause: "The plan was held as one linked sequence, not independent indexed chunks, so patching one element forces you to re-derive its neighbours from the changed reference point.",
+              fix: "Regress to <strong>Chunk-and-anchor</strong>. Test independence by reciting chunks out of order (P3, then P1, then P2) - if a chunk changes when recited out of sequence, rebuild it with explicit independent naming before running this drill.",
+              regressTo: "Chunk-and-anchor"
+            },
+            biases: [
+              {
+                sign: "The patch is correct but takes longer than par.",
+                cause: "The changed chunk is being rebuilt from scratch rather than updated in place - with no named slot structure there's nowhere to install the patch, so the whole position re-derives from the change outward.",
+                fix: "Verbalize the changed chunk 3x with the change baked in before the patch rep. Commit the updated plan, then let the rep test retrieval under time - it shouldn't be building the plan on the clock."
+              },
+              {
+                sign: "Patch is clean on the rep but the plan reverts to the pre-change version in the next imagery rep or the next stage.",
+                cause: "A single patch rep doesn't encode the update as deeply as the original, so under real-time load the rehearsed original tends to reassert.",
+                fix: "After every patch, run a PETTLEP rep on the changed position before moving on. Commit to the updated program and let it run - don't continue until the imagery runs the patched version clean."
+              },
+              {
+                sign: "Fixing one chunk breaks an adjacent one - patching P2 shifts P1's exit or P3's entry.",
+                cause: "Entry and exit cues were encoded as references to neighbours ('move when P2 is done') rather than as independent stage features, so a change to one position drags the next.",
+                fix: "In <strong>Chunk-and-anchor</strong>, name entry and exit cues as stage features - 'port edge,' 'wall corner left' - never as references to adjacent positions. Then confirm the cues hold when you recite the chunks in any order."
+              }
+            ]
+          },
           timer: { mode: "circuit", par: "10", dmin: "2", dmax: "4", reps: "8", rest: "5" },
           label: "Re-plan under change"
         }

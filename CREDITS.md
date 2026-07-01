@@ -28,6 +28,9 @@ notes and links. This file is the consolidated list.
   match-mode mindset and rehearsal-as-practice.
 - **Charlie Delta Academy** - plain-language grip and support-hand reference
   points. https://charliedeltaacademy.com
+- **Griffith Shooting Solutions** - red-dot presentation diagnostics: reading
+  where the dot sits to separate a trajectory error from a support-side error.
+  https://www.griffithshootingsolutions.com
 
 ## Research
 

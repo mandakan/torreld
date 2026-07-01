@@ -83,6 +83,30 @@ registerPack({
             "Build the cleanest one-handed platform you can, break the shot, then drive the gun to the next steel point - eyes lead, the gun follows.",
             "Call every hit. If the dot swam off the point or you chased it, the rep doesn't count."
           ],
+          read: {
+            gate: {
+              sign: "Across the session the dot keeps arriving on a different part of the first plate and the platform never feels the same twice - hits scatter around the steel instead of clustering.",
+              cause: "No repeatable one-handed base. The stance and grip aren't set the same way each rep, so there's nothing for the dot to arrive into.",
+              fix: "No drill sits below this one - slow down, halve the speed, and rebuild one clean platform at a time until the dot lands on the same point rep after rep."
+            },
+            biases: [
+              {
+                sign: "The dot settles the same way every rep but low on the plate - you dip your head or drop your eyes to find it.",
+                cause: "The gun stops short of the eye line, so the dot presents below where you're looking. A trajectory error, not a grip tell.",
+                fix: "Drive the gun up until the dot drops into view on the point - keep the eyes on the plate and bring the dot to them, don't chase it down."
+              },
+              {
+                sign: "The gun arrives and the eyes hunt the dot in the glass before the shot breaks.",
+                cause: "Vision isn't leading - the eyes search the optic instead of holding the target.",
+                fix: "Fix the eye on one exact point on the plate <em>before</em> the gun moves and hold it there - the dot comes to a locked eye, not a searching one."
+              },
+              {
+                sign: "The eyes leave for the next plate before the shot on this one breaks - steel gets chased, not called.",
+                cause: "Vision runs ahead of the platform, so the gun is still settling when you break.",
+                fix: "Hold the eye on the point until the hit is called, then send the eye to the next point and let the gun follow it."
+              }
+            ]
+          },
           timer: { mode: "circuit", par: "2.5", dmin: "1.5", dmax: "3.0", reps: "8", rest: "4", floor: "1.8" },
           label: "One-handed steel (Stage 3)"
         },
@@ -97,6 +121,31 @@ registerPack({
             "The firing grip is set as the gun arrives - nothing to re-grip. Break on the par beep.",
             "Dry fire can't chamber a round; rehearse the motion and the grip, not the feed. If the grip shifted during the rack, the rep doesn't count."
           ],
+          read: {
+            gate: {
+              sign: "The draw-and-rack comes out different every rep - the hands take a new path, the rack lands at a different moment, the dot shows up somewhere new.",
+              cause: "No repeatable firing grip for the draw to deliver into, so each rep improvises.",
+              fix: "Regress to <strong>One-handed steel</strong> to groove the strong-hand platform the draw has to arrive into, then rebuild the draw onto it.",
+              regressTo: "One-handed steel"
+            },
+            biases: [
+              {
+                sign: "Rep after rep the hands break off the mark just before the beep - the foot leaves the mark early.",
+                cause: "You're reacting to the expected buzzer, not the buzzer.",
+                fix: "Hold on the mark with the eyes on the first target until the beep actually fires - let the sound start the draw, nothing sooner."
+              },
+              {
+                sign: "The firing grip shifts during the overhand rack and gets fixed on the way up, every rep.",
+                cause: "The firing grip isn't set before the rack, so the support-hand rack disrupts it.",
+                fix: "Rack and send the gun to the eye line as one motion with the firing grip already set - cue the gun's path to the target, nothing to re-grip on arrival."
+              },
+              {
+                sign: "The dot arrives low after the rack, the same amount every rep.",
+                cause: "The gun stops short of the eye line coming out of the rack.",
+                fix: "Drive the gun up until the dot drops into view on the target - eyes stay on the target, bring the dot to them."
+              }
+            ]
+          },
           timer: { mode: "par", par: "1.7", dmin: "1.5", dmax: "3.5", reps: "1", rest: "0", floor: "1.2" },
           label: "Empty-chamber draw (Stage 1)"
         },
@@ -111,6 +160,31 @@ registerPack({
             "Present and engage the statics; mind the no-shoot - take only the visible scoring zone past it.",
             "The mover is visible at rest: take it early while it still sits, or track and break on it moving. A swinger will not settle again inside the stage - never plan to wait it out. If you had to re-grip after the load, the rep doesn't count."
           ],
+          read: {
+            gate: {
+              sign: "The pick-up-load-grip flow is different every rep - the hands find the gun and mag differently, the grip builds in a new order, the dot lands somewhere new.",
+              cause: "The flow isn't grooved onto a repeatable firing grip, so each rep re-solves the load.",
+              fix: "Regress to <strong>One-handed steel</strong> to build a firing grip you can recreate blind, then layer the load onto it.",
+              regressTo: "One-handed steel"
+            },
+            biases: [
+              {
+                sign: "The eyes ride the gun up from the table instead of already being on the target.",
+                cause: "Vision follows the hands through the load and never gets back downrange first.",
+                fix: "Lock the eye on the first target before the hands move and get it back there the instant the grip is set - the pick-up and load run by feel."
+              },
+              {
+                sign: "The grip comes off the table loose and gets re-gripped on presentation, rep after rep.",
+                cause: "The firing grip is built only well enough to lift the gun, not to its reference.",
+                fix: "Build the grip to the same contact <em>during</em> the load - the reference set before the gun leaves the table, nothing to fix on the way up."
+              },
+              {
+                sign: "The dot arrives low or off the point on presentation, consistently.",
+                cause: "The gun is driven up out of the load without settling to the eye line.",
+                fix: "Present until the dot drops into view on the target - drive the dot to the eye, don't lift and hope."
+              }
+            ]
+          },
           timer: { mode: "par", par: "3.0", dmin: "1.5", dmax: "3.5", reps: "1", rest: "0", floor: "2.2" },
           label: "Table start (Stage 9)"
         }

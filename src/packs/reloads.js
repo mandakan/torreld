@@ -77,6 +77,26 @@ registerPack({
             "Press out and re-acquire the aim point. Freeze. If the grip on the mag or the eye path slipped, the rep doesn't count.",
             "Slow and perfect first, then speed."
           ],
+          read: {
+            gate: {
+              sign: "Seats land differently rep to rep; times bounce, no two inserts feel the same.",
+              cause: "The carrier index isn't repeatable yet - the support hand finds the mag a new way each time, so there's no base to speed up.",
+              fix: "Regress to <strong>Eyes-on-the-mag</strong> to rebuild the look-in, then re-add the index.",
+              regressTo: "Eyes-on-the-mag"
+            },
+            biases: [
+              {
+                sign: "Mag fumbles or misses the seat.",
+                cause: "Gripping the base pad and pushing, instead of indexing off the front of the mag.",
+                fix: "Index finger flat on the front edge of the mag; send the toe of the mag into the well."
+              },
+              {
+                sign: "Mag hits the front strap or the side of the well.",
+                cause: "Arriving off-angle - the mag reaches the well before the eye does.",
+                fix: "Look into the well first; send the mag toe to the back wall of the magwell."
+              }
+            ]
+          },
           timer: { mode: "circuit", par: "2.0", dmin: "1.5", dmax: "3.0", reps: "8", rest: "4" },
           label: "Index-and-insert"
         },
@@ -90,6 +110,20 @@ registerPack({
             "<em>Only then</em> release the eye to the target and press out.",
             "If you caught yourself looking up early, reset - the rep doesn't count."
           ],
+          read: {
+            gate: {
+              sign: "The look-in is hit or miss - some reps you catch the well, some you don't.",
+              cause: "You're running faster than the eye can settle on the magwell.",
+              fix: "No drill sits below this one - halve the speed and hold the eye on the well to contact, every rep, before adding pace."
+            },
+            biases: [
+              {
+                sign: "Eyes snap to the target before the mag is committed.",
+                cause: "Vision releases the well early, so the hand finishes without a target.",
+                fix: "Keep the eye on the magwell until you feel the seat, then release to the aim point."
+              }
+            ]
+          },
           timer: { mode: "par", par: "1.2", dmin: "1.5", dmax: "3.5", reps: "1", rest: "0" },
           label: "Eyes-on-the-mag"
         },
@@ -102,6 +136,21 @@ registerPack({
             "On the start beep, run the reload and break a single dry shot on the same aim point.",
             "Break must coincide with the par beep. Early is wasted; late is the real diagnosis."
           ],
+          read: {
+            gate: {
+              sign: "The full rep is inconsistent - seat, press-out and shot land in a different order each time.",
+              cause: "The isolated index and look-in haven't fused; under the shot they come apart.",
+              fix: "Regress to <strong>Index-and-insert</strong> to groove the eye-and-index weld before adding the shot.",
+              regressTo: "Index-and-insert"
+            },
+            biases: [
+              {
+                sign: "Eyes jump to the target ahead of the seat.",
+                cause: "First-shot urgency pulls vision off the well early.",
+                fix: "Hold the eye on the magwell to contact; let the dot find the target after the seat."
+              }
+            ]
+          },
           timer: { mode: "par", par: "2.0", dmin: "1.5", dmax: "3.5", reps: "1", rest: "0" },
           label: "Reload + 1"
         },
@@ -115,6 +164,26 @@ registerPack({
             "Settle into position, mount the gun, break the dry shot on arrival.",
             "If the seat lands after the foot, you paid for the reload twice. Reset."
           ],
+          read: {
+            gate: {
+              sign: "Seat timing relative to the feet varies - sometimes before the foot lands, sometimes after.",
+              cause: "The reload isn't repeatable enough to overlap the movement; the base breaks when the body moves.",
+              fix: "Regress to <strong>Reload + 1</strong> to rebuild the static seat before layering movement on it.",
+              regressTo: "Reload + 1"
+            },
+            biases: [
+              {
+                sign: "Eyes go to the next position before the mag is seated.",
+                cause: "Vision leads the feet instead of finishing the well.",
+                fix: "Hold the eye on the magwell to contact, then release it to the next aim point."
+              },
+              {
+                sign: "The seat lands after the foot; the reload is paid for twice.",
+                cause: "The insert started late - the mag path didn't begin as the position was left.",
+                fix: "Start the mag toward the well as you leave; seat it before the foot arrives."
+              }
+            ]
+          },
           timer: { mode: "par", par: "3.5", dmin: "1.5", dmax: "3.5", reps: "1", rest: "0" },
           label: "Position-to-position reload"
         },
@@ -128,6 +197,26 @@ registerPack({
             "Back the par off by 0.2&nbsp;s and finish the circuit there. Every rep at that par must pass the same binary look-in check.",
             "Reset between reps - eyes off the gun, eyes back to a fresh aim point, then re-arm."
           ],
+          read: {
+            gate: {
+              sign: "Pass/fail on the look-in check goes random as the par tightens - no stable ceiling.",
+              cause: "The look-in and index aren't grooved enough to hold under speed; no repeatable base to compress.",
+              fix: "Regress to <strong>Reload + 1</strong> to re-groove the sequence, then bring the clock back.",
+              regressTo: "Reload + 1"
+            },
+            biases: [
+              {
+                sign: "The eye goes lazy on the well - it releases early under the clock.",
+                cause: "Speed pressure pulls vision off the magwell before contact.",
+                fix: "Keep the eye on the well to the seat; if it can't hold, back the par off one step."
+              },
+              {
+                sign: "The mag drifts into the front or side of the well as pace climbs.",
+                cause: "The index loosens under speed - the mag arrives off-angle.",
+                fix: "Send the mag toe to the back wall; index the front edge, not the base pad."
+              }
+            ]
+          },
           timer: { mode: "circuit", par: "2.0", dmin: "1.5", dmax: "3.5", reps: "8", rest: "5" },
           label: "Reload on a tightening clock"
         }
