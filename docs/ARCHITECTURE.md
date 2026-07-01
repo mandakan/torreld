@@ -15,7 +15,7 @@ How TORRELD assembles, boots, and renders. Read [`../CLAUDE.md`](../CLAUDE.md) f
 
 The timer **console markup is static HTML** in the shell (`#console`), not rendered from pack data - it's shared UI, not content.
 
-Page section order: top bar (brand → pack switcher → section nav) → hero → diagnosis → program → drills → evidence → references → footer → fixed timer console.
+Page section order: top bar (brand → pack switcher → section nav) → hero → diagnosis → program → drills → evidence → references → footer → colophon (source + support links) → fixed timer console.
 
 ---
 
@@ -121,7 +121,7 @@ The choice persists via `?sound=quiet` (`?sound=match` is the implicit default a
 The fixed timer console renders two layouts off the same DOM, switched by a `min-width: 860px` media query:
 
 - **Mobile (default):** a compact ~80 px bar at the bottom (drill label, mini readout, Start/Stop). Tapping the grip handle or the label expands a bottom-sheet panel with the mode toggle, the big readout, fields, and Reset. A scrim dims the page behind the sheet; scrim-tap, ESC, or grip-tap collapses it. Arming a drill auto-expands the sheet so the user can verify the new par. State is driven by `aria-expanded` on `#console`; the panel gets the `inert` attribute when collapsed so focus and screen readers skip it. Body gets `console-open` to lock scroll while the sheet is up.
-- **Desktop (≥ 860 px):** grip, bar, and scrim are hidden; the panel is always visible and laid out as a single horizontal row (mode + label / big readout + status / fields + actions).
+- **Desktop (≥ 860 px):** a collapsible non-modal dock, open by default. A chevron grip toggles between the full panel (single horizontal row: mode + label / big readout + status / fields + actions) and the slim compact bar; the scrim stays hidden so page content is never dimmed. `--console-h` drops to the slim-bar height via `body.console-collapsed` when collapsed. The dock opens at boot (which also clears the panel's `inert`), and resizing across the breakpoint resets to that side's default.
 
 The bar and panel share state via four pairs of synced elements (`#readout`/`#readoutMini`, `#armedLabel`/`#armedLabelFull`, `#go`/`#goMini`). `timer.js` updates all of them in lockstep via `setReadoutText`, `setReadoutClass`, `setGo`, `setLabel` - never poke one without the other.
 
