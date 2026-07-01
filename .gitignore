@@ -7,3 +7,7 @@
 # Python bytecode cache from the build test suite.
 __pycache__/
 *.pyc
+
+# Playwright screenshots and MCP scratch (scripts/shot.mjs output; CI uses shots/).
+.playwright-mcp/
+shots/

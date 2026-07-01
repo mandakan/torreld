@@ -52,7 +52,43 @@ PY
 node --check /tmp/check.js
 ```
 
-**Headless cross-viewport check** - drive Playwright at multiple viewports to exercise the mobile sheet and the desktop strip. The Cloudflare verification in PR #1 / #4 has been done this way; see those PRs' verification sections for the script shape.
+**Headless cross-viewport check** - `scripts/shot.mjs` drives Playwright at a phone (390x844) and a desktop (1280x800) viewport and writes a PNG for each, so you can eyeball the mobile sheet and the desktop strip after a change:
+
+```sh
+make build                          # shot.mjs loads dist/index.html
+node scripts/shot.mjs               # -> .playwright-mcp/torreld-{mobile,desktop}.png
+node scripts/shot.mjs '?pack=hfo-masters'   # same file with a query string
+node scripts/shot.mjs https://torreld.urdr.dev/  # or any URL; --out <dir> to redirect
+```
+
+The repo ships no `node_modules`, so the script locates Playwright from a local, global, or npx-cached install and needs the Chromium binary once: `npx playwright install chromium`. Output lands in `.playwright-mcp/` (gitignored).
+
+On a headless host the Playwright MCP browser tools work too, once pointed at bundled Chromium: set `PLAYWRIGHT_MCP_BROWSER=chromium` and `PLAYWRIGHT_MCP_HEADLESS=true` (e.g. in `~/.claude/settings.json` `env`), then `npx @playwright/mcp@latest install-browser chrome-for-testing`. The MCP blocks `file://` by default, so serve `dist/` over `http://localhost` for it (the standalone `shot.mjs` above has no such limit).
+
+---
+
+## CI (pull requests)
+
+`.github/workflows/ci.yml` runs on every PR. It never deploys - it just gates merges.
+
+- **`verify` job** (fast, no browser): build tests, `make build`, `scripts/verify-dist.sh`, `scripts/check-js.mjs`. These are the same checks deploy runs pre-ship, so a green PR means a green deploy.
+- **`screenshots` job**: builds, installs Playwright + Chromium (cached), runs `node scripts/shot.mjs --all-packs`, and **always** uploads the PNGs as a `torreld-screenshots` artifact (download from the run's Artifacts).
+
+`scripts/verify-dist.sh` and `scripts/check-js.mjs` are shared with `deploy.yml`, so the two workflows can't drift. `verify-dist.sh` discovers pack IDs from `dist/p/*` - a new pack is checked automatically, no hardcoded list.
+
+### Inline screenshot previews (optional)
+
+When the R2 variables below are set, the `screenshots` job also uploads to a Cloudflare R2 bucket and posts a sticky PR comment embedding the images inline (one `<details>` block per pack, updated on each push). Without them the job still runs and the artifact is the fallback - nothing fails.
+
+One-time setup:
+
+1. Create an R2 bucket and enable public access (r2.dev) or bind a custom domain. Note the public base URL, e.g. `https://pub-xxxx.r2.dev`.
+2. Repo **secrets** (Settings -> Secrets and variables -> Actions): reuse the existing `CLOUDFLARE_API_TOKEN` (the token needs **Workers R2 Storage: Edit**, not just Workers) and `CLOUDFLARE_ACCOUNT_ID`.
+3. Repo **variables**: `R2_BUCKET` (bucket name) and `R2_PUBLIC_BASE_URL` (the public base URL from step 1). The inline steps key off `R2_PUBLIC_BASE_URL` being non-empty.
+
+Objects are written under `pr/<number>/<short-sha>/`. Add a lifecycle rule on the bucket if you want old PR previews auto-expired.
+
+**Fork PRs** don't get secrets or a writable token, so the inline comment is skipped there by design; the artifact still uploads.
 
 ---
 
@@ -67,8 +103,8 @@ Every push to `main` triggers `.github/workflows/deploy.yml`:
 3. `sudo apt-get install -y librsvg2-bin` (SVG rasterizer; needed for OG and favicon PNGs)
 4. `python3 -m unittest discover -s tests -t .` (build unit + integration tests)
 5. `make build`
-6. Verify: no unresolved `<!-- INJECT:* -->` tokens; `favicon.png`, `og/default.png`, and every pack's PNG and stub exist
-7. `node --check` on the inline JS
+6. `scripts/verify-dist.sh` - no unresolved `<!-- INJECT:* -->` tokens; `favicon.png`, `og/default.png`, and every pack's PNG and stub exist
+7. `scripts/check-js.mjs` - syntax-check the inline JS
 8. `cloudflare/wrangler-action@v3` with **`wranglerVersion: '4'`** (pinned - wrangler 3 doesn't support assets-only Workers and will fail with `Missing entry-point`)
 
 **Required repo secrets:** `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`. The token needs:
