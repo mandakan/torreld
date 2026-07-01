@@ -37,7 +37,7 @@ registerPack({
     diagnosis: {
       lane: "CASE",
       title: "The diagnosis behind the program",
-      intro: "The program is built from a concrete fault analysis of a Production Optics competitor: the grip holds from the holster, but the <em>support hand degrades after movement</em>, which in turn makes the dot hard to find on presentation. The conclusion generalizes - the chain looks the same for most shooters.",
+      intro: "The program is built from a concrete fault analysis of a Production Optics competitor: the grip holds from the holster, but the <em>support hand degrades after movement</em>, which in turn makes the dot hard to find on presentation. A consistent support hand means the support hand carries the crush while the firing hand stays light and just runs the trigger. The conclusion generalizes - the chain looks the same for most shooters.",
       chain: [
         { root: true, tag: "Root",      title: "Grip",                  body: "Inconsistent support hand after movement. Everything below rests on this." },
         {              tag: "Symptom",   title: "Index",                 body: "The dot isn't there on presentation. ~80% a consequence of the grip." },
@@ -182,6 +182,7 @@ registerPack({
             "Eyes up on a distant aim point - the grip is built by feel, not by looking down at the gun.",
             "Build the grip; the support hand finds the same reference point every time.",
             "Confirm the thumb is in the same place and the support hand has full contact on the same area of the gun.",
+            "Set the pressure with the placement: the support hand carries the crush, the firing hand stays light and just runs the trigger.",
             "Repeat until the reference sets blind, every time."
           ],
           read: {
@@ -262,10 +263,10 @@ registerPack({
         {
           tier: "Elite practitioners",
           items: [
-            { src: "Practical Shooting Training Group", grade: "World champ / GM",      body: "Stoeger, Hwansik Kim and Joel Park. Stoeger's <em>Dryfire Reloaded</em> drill set codifies the par-time grip-and-presentation cycle this format mirrors, and the 'no-friction' grip framing recurs across the published class videos. Much is paywalled; the free clips are the value.", links: [{ label: "practicalshootingtraininggroup.com", url: "https://www.practicalshootingtraininggroup.com" }] },
+            { src: "Practical Shooting Training Group", grade: "World champ / GM",      body: "Stoeger, Hwansik Kim and Joel Park. Stoeger's <em>Dryfire Reloaded</em> drill set codifies the par-time grip-and-presentation cycle this format mirrors, and the 'no-friction' grip framing recurs across the published class videos. Joel Park's grip-pressure articles spell out the pressure split - firing hand light, support hand crushing. Much is paywalled; the free clips are the value.", links: [{ label: "practicalshootingtraininggroup.com", url: "https://www.practicalshootingtraininggroup.com" }, { label: "Park - grip pressure, part 1", url: "https://benstoegerproshop.com/blog/grip-pressure-and-fitting-your-gun-to-your-hands-part-1/" }, { label: "part 2", url: "https://benstoegerproshop.com/blog/grip-pressure-and-fitting-your-gun-to-your-hands-part-2/" }] },
             { src: "Modern Samurai Project",             grade: "Red-dot specialist",    body: "Scott Jedlinski's system for presentation: the draw delivers the dot to the eye rather than leaving you to hunt for it in the glass.", links: [{ label: "modernsamuraiproject.com", url: "https://www.modernsamuraiproject.com/path-to-performance" }] },
             { src: "Steve Anderson",                     grade: "USPSA GM",              body: "<em>Refinement and Repetition</em> is the par-time dry-fire format this framework mirrors - grip-build and presentation cycles run through it. <em>That Shooting Show</em> returns to grip mechanics and dot-find on presentation across episodes.", links: [{ label: "andersonshooting.com", url: "https://www.andersonshooting.com/product-page/refinement-and-repetition" }] },
-            { src: "Hwansik Kim",                        grade: "Top GM",                body: "Analytical recoil management broken into grip, joints and stance - why locking often matters more than raw crush.", links: [{ label: "No-friction grip (YouTube)", url: "https://www.youtube.com/watch?v=qYxjwAx2MD4" }] }
+            { src: "Hwansik Kim",                        grade: "Top GM",                body: "Analytical recoil management broken into grip, joints and stance - why locking the wrists, elbows and shoulders often matters more than raw crush.", links: [{ label: "No-friction grip (YouTube)", url: "https://www.youtube.com/watch?v=qYxjwAx2MD4" }, { label: "hkimshooting.com - blog", url: "https://www.hkimshooting.com/blog-1" }] }
           ]
         },
         {
