@@ -575,6 +575,34 @@ section{padding:40px 0;border-bottom:1px solid var(--line)}
   letter-spacing:.1em;
   line-height:1.7;
 }
+.colophon{
+  max-width:var(--wrap-max);
+  margin:0 auto;
+  padding:20px var(--gutter) 32px;
+  border-top:1px solid var(--line);
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:center;
+  gap:20px;
+}
+.colophon-link{
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--muted2);
+  border:0;
+  padding:8px 4px;
+  transition:color .15s;
+}
+.colophon-link svg{flex:0 0 auto}
+.colophon-link:hover{color:var(--text);border:0}
+.colophon-link.coffee:hover{color:var(--amber)}
+.colophon-link:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
 
 /* =========================================================================
    TIMER CONSOLE

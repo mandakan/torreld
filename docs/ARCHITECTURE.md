@@ -15,7 +15,7 @@ How TORRELD assembles, boots, and renders. Read [`../CLAUDE.md`](../CLAUDE.md) f
 
 The timer **console markup is static HTML** in the shell (`#console`), not rendered from pack data - it's shared UI, not content.
 
-Page section order: top bar (brand → pack switcher → section nav) → hero → diagnosis → program → drills → evidence → references → footer → fixed timer console.
+Page section order: top bar (brand → pack switcher → section nav) → hero → diagnosis → program → drills → evidence → references → footer → colophon (source + support links) → fixed timer console.
 
 ---
 
