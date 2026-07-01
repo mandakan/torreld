@@ -45,6 +45,8 @@ The whole point of the framework is that adding a training program is a content 
 4. Verify per [BUILD.md → Verify](BUILD.md#verify-local).
 5. Commit, open a PR, merge → auto-deploys.
 
+**Licensing and attribution.** Pack content ships under CC BY-SA 4.0 (code is MIT) on a public repo - see [CREDITS.md](../CREDITS.md) and [LICENSE-CONTENT.md](../LICENSE-CONTENT.md). Write every line in your own words: techniques are free to reuse but their wording, diagrams, and images are not. Never copy a source's text or embed its images (packs are text/CSS only). Credit each borrowed technique in the pack's `references` and in `CREDITS.md` in the same PR. Full rule in [CLAUDE.md → Licensing and attribution](../CLAUDE.md).
+
 **Default-pack ordering:** packs load alphabetically by filename. Prefix with `00-`, `10-`, etc. if you need the default-pack fallback (`packs[0]`) to land on a specific one.
 
 **Drill labels must stay quote-free.** A drill's `label` is the adaptive-par key and flows into a CSS attribute selector (`.now[data-label="..."]`) for the per-card par indicator. A `"` in a label would break that selector. Use plain text - the existing labels (`Move-and-regrip`, `Grip under load`) are the model. Optional per-drill `floor` (string seconds, e.g. `floor: "1.2"`) on a `timer` spec sets the lowest par adaptive tightening can reach; omit it to use the 0.6s default.

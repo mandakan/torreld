@@ -2,14 +2,14 @@
 
 A standing reference for pack authors. Read [`SKILL.md`](SKILL.md) first for the playbook; this file is the knowledge it leans on.
 
-There is very little peer-reviewed research on dynamic-pistol skill acquisition specifically. There is a **large**, **mature** body of research on how athletes learn motor skills in general — practice scheduling, attentional focus, feedback timing, the structure of expertise. The principles in that literature transfer to dry-fire training under one assumption: the dry-fire rep is a discrete motor skill with vision-led aiming and small-target precision. That's a defensible assumption — dry fire is exactly that.
+There is very little peer-reviewed research on dynamic-pistol skill acquisition specifically. There is a **large**, **mature** body of research on how athletes learn motor skills in general - practice scheduling, attentional focus, feedback timing, the structure of expertise. The principles in that literature transfer to dry-fire training under one assumption: the dry-fire rep is a discrete motor skill with vision-led aiming and small-target precision. That's a defensible assumption - dry fire is exactly that.
 
 Use this lens two ways:
 
 1. **As a judging filter on shooting-specific sources.** When a respected practitioner says *"do 500 reps a day"* or *"talk yourself through every step on the start beep,"* the lens tells you which advice is supported by motor-learning research and which contradicts it. Practitioner intuition is real, but it isn't infallible; the lens is the second opinion.
 2. **As a source of design heuristics.** When picking rep counts, rest intervals, random-delay ranges, cueing language, and session spacing for a pack, the lens gives you defensible numbers and language even when shooting-specific evidence is absent.
 
-Below: the ten principles with the strongest cross-skill evidence. Each has the same shape — **principle → design heuristic → judging question → citation**.
+Below: the ten principles with the strongest cross-skill evidence. Each has the same shape - **principle → design heuristic → judging question → citation**.
 
 ---
 
@@ -17,23 +17,23 @@ Below: the ten principles with the strongest cross-skill evidence. Each has the 
 
 **Principle.** Multiple short sessions spread across days produce better retention and transfer than the same total practice time massed in one session. Sleep between sessions consolidates motor memory.
 
-**Design heuristic.** The TORRELD "week" is five short sessions of 10–15 minutes each — that's not arbitrary. Don't design a pack as one 90-minute mega-session; don't tell the user to "drill until you can't anymore."
+**Design heuristic.** The TORRELD "week" is five short sessions of 10-15 minutes each - that's not arbitrary. Don't design a pack as one 90-minute mega-session; don't tell the user to "drill until you can't anymore."
 
 **Judging question.** Does the source treat practice as a recurring schedule or a one-shot? Beware *"spend a Saturday drilling until you have it."*
 
-**Citation.** Walker M.P., Stickgold R., Alsop D., Gaab N., Schlaug G. (2005). *Sleep-dependent motor memory plasticity in the human brain.* Neuroscience 133(4):911–917. [PubMed 15964485](https://pubmed.ncbi.nlm.nih.gov/15964485/). And: Schmidt & Lee, *Motor Learning and Performance*, the standard textbook chapter on distribution of practice.
+**Citation.** Walker M.P., Stickgold R., Alsop D., Gaab N., Schlaug G. (2005). *Sleep-dependent motor memory plasticity in the human brain.* Neuroscience 133(4):911-917. [PubMed 15964485](https://pubmed.ncbi.nlm.nih.gov/15964485/). And: Schmidt & Lee, *Motor Learning and Performance*, the standard textbook chapter on distribution of practice.
 
 ---
 
 ## 2. Variable / random practice beats blocked repetition (contextual interference)
 
-**Principle.** When the practice schedule varies the rep — random start delay, varied positions, interleaved drills — practice-day performance is worse, but retention and transfer to novel conditions (the unpredictable match) are better than under blocked repetition of identical reps. This is the **contextual-interference effect**.
+**Principle.** When the practice schedule varies the rep - random start delay, varied positions, interleaved drills - practice-day performance is worse, but retention and transfer to novel conditions (the unpredictable match) are better than under blocked repetition of identical reps. This is the **contextual-interference effect**.
 
-**Design heuristic.** Every drill that runs on the timer uses a random delay (typically 1.5–3.5 s range). Sessions interleave the primary drill with one or two supporting drills, not 50 identical reps. A pack with no variation in its prescribed structure is missing the point.
+**Design heuristic.** Every drill that runs on the timer uses a random delay (typically 1.5-3.5 s range). Sessions interleave the primary drill with one or two supporting drills, not 50 identical reps. A pack with no variation in its prescribed structure is missing the point.
 
 **Judging question.** Does the source insist on identical reps in identical order, or does it vary deliberately? Treat *"do exactly this drill 100 times"* with suspicion.
 
-**Citation.** Contextual interference meta-analysis, [Frontiers in Psychology 2024](https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2024.1377122/full); and [Scientific Reports 2024](https://www.nature.com/articles/s41598-024-65753-3). Effect is robust in lab tasks, **less consistent** in complex applied skills — note the caveat.
+**Citation.** Contextual interference meta-analysis, [Frontiers in Psychology 2024](https://www.frontiersin.org/journals/psychology/articles/10.3389/fpsyg.2024.1377122/full); and [Scientific Reports 2024](https://www.nature.com/articles/s41598-024-65753-3). Effect holds up in lab tasks, **less consistent** in complex applied skills - note the caveat.
 
 ---
 
@@ -43,19 +43,19 @@ Below: the ten principles with the strongest cross-skill evidence. Each has the 
 
 **Design heuristic.** Drill steps use external language. *"Drive the dot to the aim point,"* *"send the mag to the well,"* *"break the shot on the par beep."* **Not** *"rotate your wrist 15 degrees,"* *"crush with the support hand at 60% pressure,"* *"isolate the trigger finger."* Internal cues are sometimes useful early in learning a specific mechanic, but the default for a drill is external.
 
-**Judging question.** How does the source cue? A coach who cues *"think about your support-hand pressure on every shot"* is — by the literature — making the shooter slower to learn and slower to perform under pressure.
+**Judging question.** How does the source cue? A coach who cues *"think about your support-hand pressure on every shot"* is - by the literature - making the shooter slower to learn and slower to perform under pressure.
 
-**Citation.** Wulf G. (2013). *Attentional focus and motor learning: a review of 15 years.* International Review of Sport and Exercise Psychology 6(1):77–104. [DOI 10.1080/1750984X.2012.723728](https://doi.org/10.1080/1750984X.2012.723728).
+**Citation.** Wulf G. (2013). *Attentional focus and motor learning: a review of 15 years.* International Review of Sport and Exercise Psychology 6(1):77-104. [DOI 10.1080/1750984X.2012.723728](https://doi.org/10.1080/1750984X.2012.723728).
 
 ---
 
 ## 4. Feedback: bandwidth and faded, not constant
 
-**Principle.** Constant knowledge-of-results after every rep **helps** acquisition (the rep feels good on the day) but **hurts** retention — the learner becomes dependent on external feedback and underdevelops self-detection of error. Bandwidth feedback (only when outside an acceptable range) and faded schedules (less feedback as skill develops) produce better long-term learning.
+**Principle.** Constant knowledge-of-results after every rep **helps** acquisition (the rep feels good on the day) but **hurts** retention - the learner becomes dependent on external feedback and underdevelops self-detection of error. Bandwidth feedback (only when outside an acceptable range) and faded schedules (less feedback as skill develops) produce better long-term learning.
 
-**Design heuristic.** The par beep **is** bandwidth feedback — it fires on a deadline, not on every rep. Drill steps don't ask the shooter to score every rep ("how did that feel?"); they ask for a binary pass/fail against an explicit criterion ("if the grip slipped, the rep doesn't count"). Logging is periodic, not moment-to-moment.
+**Design heuristic.** The par beep **is** bandwidth feedback - it fires on a deadline, not on every rep. Drill steps don't ask the shooter to score every rep ("how did that feel?"); they ask for a binary pass/fail against an explicit criterion ("if the grip slipped, the rep doesn't count"). Logging is periodic, not moment-to-moment.
 
-**Judging question.** Does the source push moment-to-moment self-analysis ("after every rep, ask yourself…") or measured feedback at a sensible cadence?
+**Judging question.** Does the source push moment-to-moment self-analysis ("after every rep, ask yourself...") or measured feedback at a sensible cadence?
 
 **Citation.** Schmidt & Lee, *Motor Learning and Performance,* chapter on augmented feedback. Bandwidth-KR literature traces to Sherwood 1988 and many follow-ups.
 
@@ -63,7 +63,7 @@ Below: the ten principles with the strongest cross-skill evidence. Each has the 
 
 ## 5. Self-controlled / autonomy-supportive practice
 
-**Principle.** When learners control aspects of their practice — when feedback is delivered, drill order, rep count — retention improves vs. yoked controls under identical objective conditions. Autonomy support is one of the three pillars of self-determination theory, and the effect generalises to motor learning.
+**Principle.** When learners control aspects of their practice - when feedback is delivered, drill order, rep count - retention improves vs. yoked controls under identical objective conditions. Autonomy support is one of the three pillars of self-determination theory, and the effect generalises to motor learning.
 
 **Design heuristic.** Par times are stated as **starting values**; users adjust and log their own. Drills can be picked in any order within a session. The skill itself says "the pack is a template, not a prescription."
 
@@ -77,7 +77,7 @@ Below: the ten principles with the strongest cross-skill evidence. Each has the 
 
 **Principle.** Motor skills are largely **task-specific**. Transfer to untrained variations of the task is real but limited and often suboptimal. You practice what you want to perform; practising something adjacent transfers worse than you'd hope.
 
-**Design heuristic.** Drills include the cues present in competition — random start signal, a deadline (par), match-realistic grip, gun, position. Don't train in artificial conditions that strip out match-relevant constraints. The honest **what-dry-fire-can't** list in every pack's diagnosis section comes from this principle.
+**Design heuristic.** Drills include the cues present in competition - random start signal, a deadline (par), match-realistic grip, gun, position. Don't train in artificial conditions that strip out match-relevant constraints. The honest **what-dry-fire-can't** list in every pack's diagnosis section comes from this principle.
 
 **Judging question.** Does the source explicitly map the drill to match conditions, or does it train a stylised version of the skill?
 
@@ -87,13 +87,13 @@ Below: the ten principles with the strongest cross-skill evidence. Each has the 
 
 ## 7. Stages of learning + deliberate practice
 
-**Principle.** Skill acquisition has stages (Fitts & Posner's **Cognitive → Associative → Autonomous**). Different cueing and rep design serve each stage. Within the cognitive and associative stages, **deliberate practice** — focused, with specific goals, at the edge of current ability, with immediate feedback — produces gains; mindless reps in the comfort zone do not.
+**Principle.** Skill acquisition has stages (Fitts & Posner's **Cognitive → Associative → Autonomous**). Different cueing and rep design serve each stage. Within the cognitive and associative stages, **deliberate practice** - focused, with specific goals, at the edge of current ability, with immediate feedback - produces gains; mindless reps in the comfort zone do not.
 
-**Design heuristic.** A new drill starts slow and deliberate (cognitive — the shooter thinks through each step), then runs under par (associative — the shooter executes against a deadline). The line *"slow and perfect first, then speed"* is exactly this. Par times are pitched at the **edge** of current capability, not in the comfort zone — that's what makes the rep deliberate.
+**Design heuristic.** A new drill starts slow and deliberate (cognitive - the shooter thinks through each step), then runs under par (associative - the shooter executes against a deadline). The line *"slow and perfect first, then speed"* is exactly this. Par times are pitched at the **edge** of current capability, not in the comfort zone - that's what makes the rep deliberate.
 
 **Judging question.** Does the source distinguish mindful, edge-of-ability reps from mindless volume? Does the cueing change as the shooter gets better?
 
-**Citation.** Ericsson K.A., Krampe R.Th., Tesch-Römer C. (1993). *The role of deliberate practice in the acquisition of expert performance.* Psychological Review 100(3):363–406. [DOI 10.1037/0033-295X.100.3.363](https://doi.org/10.1037/0033-295X.100.3.363). Original stages model: Fitts & Posner (1967), *Human Performance.*
+**Citation.** Ericsson K.A., Krampe R.Th., Tesch-Römer C. (1993). *The role of deliberate practice in the acquisition of expert performance.* Psychological Review 100(3):363-406. [DOI 10.1037/0033-295X.100.3.363](https://doi.org/10.1037/0033-295X.100.3.363). Original stages model: Fitts & Posner (1967), *Human Performance.*
 
 ---
 
@@ -105,7 +105,7 @@ Below: the ten principles with the strongest cross-skill evidence. Each has the 
 
 **Judging question.** Does the source talk about vision? A drill that doesn't tell the shooter where to look is missing the cue that elite-performer research keeps surfacing.
 
-**Citation.** Vickers J.N. (1996). *Visual control when aiming at a far target.* Journal of Experimental Psychology: Human Perception and Performance 22(2):342–354. [PubMed 8934848](https://pubmed.ncbi.nlm.nih.gov/8934848/). Book-length treatment in Vickers (2007), *Perception, Cognition, and Decision Training: The Quiet Eye in Action.*
+**Citation.** Vickers J.N. (1996). *Visual control when aiming at a far target.* Journal of Experimental Psychology: Human Perception and Performance 22(2):342-354. [PubMed 8934848](https://pubmed.ncbi.nlm.nih.gov/8934848/). Book-length treatment in Vickers (2007), *Perception, Cognition, and Decision Training: The Quiet Eye in Action.*
 
 ---
 
@@ -117,19 +117,19 @@ Below: the ten principles with the strongest cross-skill evidence. Each has the 
 
 **Judging question.** Does the source train autonomy and then trust it, or does it over-coach the autonomous phase by prescribing conscious step-by-step thought during match performance?
 
-**Citation.** Masters R.S.W. (1992). *Knowledge, knerves and know-how: The role of explicit versus implicit knowledge in the breakdown of a complex motor skill under pressure.* British Journal of Psychology 83(3):343–358. [DOI 10.1111/j.2044-8295.1992.tb02446.x](https://doi.org/10.1111/j.2044-8295.1992.tb02446.x).
+**Citation.** Masters R.S.W. (1992). *Knowledge, knerves and know-how: The role of explicit versus implicit knowledge in the breakdown of a complex motor skill under pressure.* British Journal of Psychology 83(3):343-358. [DOI 10.1111/j.2044-8295.1992.tb02446.x](https://doi.org/10.1111/j.2044-8295.1992.tb02446.x).
 
 ---
 
 ## 10. Mental rehearsal counts as practice
 
-**Principle.** Imagined motor rehearsal — running the rep in the head with full sensory detail (PETTLEP: Physical, Environment, Task, Timing, Learning, Emotion, Perspective) — produces a measurable post-acquisition gain. Meta-analytic effect sizes around SMD 0.4 — smaller than physical practice, but real, and additive.
+**Principle.** Imagined motor rehearsal - running the rep in the head with full sensory detail (PETTLEP: Physical, Environment, Task, Timing, Learning, Emotion, Perspective) - produces a measurable post-acquisition gain. Meta-analytic effect sizes around SMD 0.4 - smaller than physical practice, but real, and additive.
 
 **Design heuristic.** Rehearse the rep between physical reps; rehearse the stage plan before walking through it. Treat imagery as practice in the program note, not as a warm-up ritual. *"Eyes-closed index"* in the grip-first pack uses this directly.
 
 **Judging question.** Does the source treat mental rehearsal as real training, or as something elite athletes do "for confidence"?
 
-**Citation.** Mental practice meta-analysis, [PMC4714441](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4714441/). PETTLEP model: Holmes & Collins (2001), *The PETTLEP approach to motor imagery,* Journal of Applied Sport Psychology 13(1):60–83.
+**Citation.** Mental practice meta-analysis, [PMC4714441](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4714441/). PETTLEP model: Holmes & Collins (2001), *The PETTLEP approach to motor imagery,* Journal of Applied Sport Psychology 13(1):60-83.
 
 ---
 
@@ -139,12 +139,12 @@ Use these defaults when designing a pack and override only with reason:
 
 | Decision | Default | Lens principle |
 |---|---|---|
-| Sessions per week | 4–6 | Distributed practice (#1) |
-| Session length | 10–15 min | Deliberate practice (#7), distributed (#1) |
-| Reps per circuit | 8–12 | Edge-of-ability quality (#7), avoid mindless volume |
-| Max reps per skill per session | ~30–50 | Power law of practice; gains shrink past this |
-| Rest between circuit reps | 3–5 s | Long enough for deliberate reset |
-| Random start delay range | 1.5–3.5 s (≥2 s spread) | Contextual interference (#2) |
+| Sessions per week | 4-6 | Distributed practice (#1) |
+| Session length | 10-15 min | Deliberate practice (#7), distributed (#1) |
+| Reps per circuit | 8-12 | Edge-of-ability quality (#7), avoid mindless volume |
+| Max reps per skill per session | ~30-50 | Power law of practice; gains shrink past this |
+| Rest between circuit reps | 3-5 s | Long enough for deliberate reset |
+| Random start delay range | 1.5-3.5 s (≥2 s spread) | Contextual interference (#2) |
 | Cueing language | External / outcome | External focus (#3) |
 | Feedback cadence | Per-rep bandwidth (the par beep); periodic logging | Bandwidth KR (#4) |
 | Rep quality criterion | Explicit pass/fail | Deliberate practice (#7), bandwidth KR (#4) |
@@ -173,7 +173,7 @@ And green flags:
 - Distributed schedules.
 - Pre-action vision cues.
 - Quality criteria you can pass or fail without ambiguity.
-- Acknowledged limits — "this is what dry fire can't fix."
+- Acknowledged limits - "this is what dry fire can't fix."
 
 ---
 

@@ -42,31 +42,11 @@ jobs:
       - name: Build dist/index.html
         run: make build
 
-      - name: Verify build outputs
-        run: |
-          if grep -n 'INJECT:' dist/index.html; then
-            echo "::error::dist/index.html contains unresolved <!-- INJECT:* --> tokens"
-            exit 1
-          fi
-          test -f dist/favicon.png || { echo "::error::missing dist/favicon.png"; exit 1; }
-          test -f dist/og/default.png || { echo "::error::missing dist/og/default.png"; exit 1; }
-          for pid in grip-first reloads stage-planning; do
-            test -f "dist/og/$pid.png" || { echo "::error::missing dist/og/$pid.png"; exit 1; }
-            test -f "dist/p/$pid/index.html" || { echo "::error::missing stub for $pid"; exit 1; }
-            grep -q "https://torreld.urdr.dev/og/$pid.png" "dist/p/$pid/index.html" \
-              || { echo "::error::stub $pid missing absolute og:image"; exit 1; }
-          done
+      - name: Verify dist tree
+        run: bash scripts/verify-dist.sh
 
       - name: Syntax-check inline JS
-        run: |
-          python3 - <<'PY'
-          import re, sys
-          src = open('dist/index.html', encoding='utf-8').read()
-          m = re.search(r'<script>(.*?)</script>', src, re.S)
-          assert m, 'no <script> found in dist/index.html'
-          open('/tmp/check.js', 'w').write(m.group(1))
-          PY
-          node --check /tmp/check.js
+        run: node scripts/check-js.mjs
 
       - name: Deploy with Wrangler
         uses: cloudflare/wrangler-action@v3

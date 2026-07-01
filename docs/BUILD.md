@@ -52,7 +52,39 @@ PY
 node --check /tmp/check.js
 ```
 
-**Headless cross-viewport check** - drive Playwright at multiple viewports to exercise the mobile sheet and the desktop strip. The Cloudflare verification in PR #1 / #4 has been done this way; see those PRs' verification sections for the script shape.
+**Headless cross-viewport check** - `scripts/shot.mjs` drives Playwright at a phone (390x844) and a desktop (1280x800) viewport and writes a PNG for each, so you can eyeball the mobile sheet and the desktop strip after a change:
+
+```sh
+make build                          # shot.mjs loads dist/index.html
+node scripts/shot.mjs               # -> .playwright-mcp/torreld-{mobile,desktop}.png
+node scripts/shot.mjs '?pack=hfo-masters'   # same file with a query string
+node scripts/shot.mjs https://torreld.urdr.dev/  # or any URL; --out <dir> to redirect
+```
+
+The repo ships no `node_modules`, so the script locates Playwright from a local, global, or npx-cached install and needs the Chromium binary once: `npx playwright install chromium`. Output lands in `.playwright-mcp/` (gitignored).
+
+On a headless host the Playwright MCP browser tools work too, once pointed at bundled Chromium: set `PLAYWRIGHT_MCP_BROWSER=chromium` and `PLAYWRIGHT_MCP_HEADLESS=true` (e.g. in `~/.claude/settings.json` `env`), then `npx @playwright/mcp@latest install-browser chrome-for-testing`. The MCP blocks `file://` by default, so serve `dist/` over `http://localhost` for it (the standalone `shot.mjs` above has no such limit).
+
+---
+
+## CI (pull requests)
+
+`.github/workflows/ci.yml` runs on every PR. It never deploys - it just gates merges.
+
+- **`verify` job** (fast, no browser): build tests, `make build`, `scripts/verify-dist.sh`, `scripts/check-js.mjs`. These are the same checks deploy runs pre-ship, so a green PR means a green deploy.
+- **`screenshots` job**: builds, installs Playwright + Chromium (cached), runs `node scripts/shot.mjs --all-packs`, uploads the PNGs as a `torreld-screenshots` artifact, and posts a sticky PR comment showing them inline (one `<details>` block per pack).
+
+`scripts/verify-dist.sh` and `scripts/check-js.mjs` are shared with `deploy.yml`, so the two workflows can't drift. `verify-dist.sh` discovers pack IDs from `dist/p/*` - a new pack is checked automatically, no hardcoded list.
+
+### How the inline previews are hosted
+
+GitHub renders an inlined image only from a URL its image proxy can fetch anonymously. This repo is public, so the images are committed to the orphan **`ci-previews`** branch and embedded via `https://raw.githubusercontent.com/<owner>/<repo>/ci-previews/pr-<n>/<file>.png`. No external host, no secrets.
+
+- `scripts/previews.sh publish <pr> <dir>` pushes a PR's PNGs to `pr-<n>/` on that branch (overwritten each run, so it holds at most one set per open PR). Uses a throwaway worktree and the run's own token; retries on push races.
+- `pr-preview-cleanup.yml` runs on PR close and calls `scripts/previews.sh remove <pr>` to delete that directory.
+- The `torreld-screenshots` artifact stays as a download fallback (no branch/JS needed to grab it).
+
+`ci-previews` is machine-managed - never branch off it or merge it. If the repo goes private again, the inline images stop rendering (the proxy can't fetch a private raw URL) and you'd fall back to the artifact.
 
 ---
 
@@ -67,8 +99,8 @@ Every push to `main` triggers `.github/workflows/deploy.yml`:
 3. `sudo apt-get install -y librsvg2-bin` (SVG rasterizer; needed for OG and favicon PNGs)
 4. `python3 -m unittest discover -s tests -t .` (build unit + integration tests)
 5. `make build`
-6. Verify: no unresolved `<!-- INJECT:* -->` tokens; `favicon.png`, `og/default.png`, and every pack's PNG and stub exist
-7. `node --check` on the inline JS
+6. `scripts/verify-dist.sh` - no unresolved `<!-- INJECT:* -->` tokens; `favicon.png`, `og/default.png`, and every pack's PNG and stub exist
+7. `scripts/check-js.mjs` - syntax-check the inline JS
 8. `cloudflare/wrangler-action@v3` with **`wranglerVersion: '4'`** (pinned - wrangler 3 doesn't support assets-only Workers and will fail with `Missing entry-point`)
 
 **Required repo secrets:** `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`. The token needs:
