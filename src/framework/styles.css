@@ -25,10 +25,11 @@
   --console-h: 92px;
 }
 @media(min-width:860px){
-  /* Desktop keeps the full timer panel pinned open, so the reservation must
-     match its real height (~204px) - otherwise the last page content slips
-     into the dead zone beneath the fixed console. */
-  :root{ --console-h: 204px; --gutter: 24px; }
+  /* Desktop dock defaults open; the reservation must match the open console's
+     real height (grip strip + panel, ~224px) so the last page content never
+     slips into the dead zone beneath it. The collapsed override is in the
+     desktop-layout block below. */
+  :root{ --console-h: 228px; --gutter: 24px; }
 }
 
 /* ===== Reset / base ===== */
@@ -958,7 +959,7 @@ section{padding:40px 0;border-bottom:1px solid var(--line)}
   .scrim{display:none !important}   /* non-modal dock: never dim on desktop */
 
   /* Collapsed dock reserves only the slim-bar height. */
-  body.console-collapsed{ --console-h: 68px; }
+  body.console-collapsed{ --console-h: 84px; }
 
   /* Grip becomes a slim full-width strip with a chevron affordance. */
   .console-grip{
