@@ -7,8 +7,10 @@ name: CI
 #
 # Inline images live on the orphan `ci-previews` branch and are embedded via
 # raw.githubusercontent.com, which renders in comments only because the repo is PUBLIC.
-# scripts/previews.sh pushes each PR's shots there; pr-preview-cleanup.yml removes them
-# when the PR closes. The artifact upload stays as a no-JS-needed fallback.
+# scripts/previews.sh pushes each PR's shots there under pr-<n>/. Previews are kept after
+# the PR closes so merged PRs keep their inline screenshots; prune manually with
+# `scripts/previews.sh remove <n>` if the branch ever needs trimming. The artifact upload
+# stays as a no-JS-needed fallback.
 
 on:
   pull_request:

@@ -80,8 +80,8 @@ On a headless host the Playwright MCP browser tools work too, once pointed at bu
 
 GitHub renders an inlined image only from a URL its image proxy can fetch anonymously. This repo is public, so the images are committed to the orphan **`ci-previews`** branch and embedded via `https://raw.githubusercontent.com/<owner>/<repo>/ci-previews/pr-<n>/<file>.png`. No external host, no secrets.
 
-- `scripts/previews.sh publish <pr> <dir>` pushes a PR's PNGs to `pr-<n>/` on that branch (overwritten each run, so it holds at most one set per open PR). Uses a throwaway worktree and the run's own token; retries on push races.
-- `pr-preview-cleanup.yml` runs on PR close and calls `scripts/previews.sh remove <pr>` to delete that directory.
+- `scripts/previews.sh publish <pr> <dir>` pushes a PR's PNGs to `pr-<n>/` on that branch (overwritten each run, so it holds at most one set per PR). Uses a throwaway worktree and the run's own token; retries on push races.
+- Previews are kept after the PR closes, so a merged PR keeps its inline screenshots. Nothing deletes them automatically; run `scripts/previews.sh remove <pr>` by hand if the branch ever needs trimming.
 - The `torreld-screenshots` artifact stays as a download fallback (no branch/JS needed to grab it).
 
 `ci-previews` is machine-managed - never branch off it or merge it. If the repo goes private again, the inline images stop rendering (the proxy can't fetch a private raw URL) and you'd fall back to the artifact.
