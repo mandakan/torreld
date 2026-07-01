@@ -1,0 +1,23 @@
+name: PR preview cleanup
+
+# When a PR closes (merged or not), drop its pr-<n>/ directory from the orphan
+# ci-previews branch so that branch only ever holds previews for open PRs.
+
+on:
+  pull_request:
+    types: [closed]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: ci-previews-branch
+  cancel-in-progress: false
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Remove this PR's previews
+        run: bash scripts/previews.sh remove "${{ github.event.number }}"

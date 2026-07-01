@@ -72,13 +72,19 @@ On a headless host the Playwright MCP browser tools work too, once pointed at bu
 `.github/workflows/ci.yml` runs on every PR. It never deploys - it just gates merges.
 
 - **`verify` job** (fast, no browser): build tests, `make build`, `scripts/verify-dist.sh`, `scripts/check-js.mjs`. These are the same checks deploy runs pre-ship, so a green PR means a green deploy.
-- **`screenshots` job**: builds, installs Playwright + Chromium (cached), runs `node scripts/shot.mjs --all-packs`, uploads the PNGs as a `torreld-screenshots` artifact, and posts a sticky PR comment linking to it. Download from the run's Artifacts section.
+- **`screenshots` job**: builds, installs Playwright + Chromium (cached), runs `node scripts/shot.mjs --all-packs`, uploads the PNGs as a `torreld-screenshots` artifact, and posts a sticky PR comment showing them inline (one `<details>` block per pack).
 
 `scripts/verify-dist.sh` and `scripts/check-js.mjs` are shared with `deploy.yml`, so the two workflows can't drift. `verify-dist.sh` discovers pack IDs from `dist/p/*` - a new pack is checked automatically, no hardcoded list.
 
-### Why a download link and not inline images
+### How the inline previews are hosted
 
-The repo is private. GitHub renders an inlined image only from a URL its image proxy can fetch anonymously, and a private repo has none: artifacts are auth-gated zips with no stable image URL, comment attachments have no API to create from CI, and `raw.githubusercontent.com` URLs 404 for the proxy on a private repo. True inline previews would need an external public host (e.g. a public Cloudflare R2 bucket) - real infra for a nicety, so CI links to the artifact instead. If the repo ever goes public, the `raw.githubusercontent.com` route becomes viable with no external host.
+GitHub renders an inlined image only from a URL its image proxy can fetch anonymously. This repo is public, so the images are committed to the orphan **`ci-previews`** branch and embedded via `https://raw.githubusercontent.com/<owner>/<repo>/ci-previews/pr-<n>/<file>.png`. No external host, no secrets.
+
+- `scripts/previews.sh publish <pr> <dir>` pushes a PR's PNGs to `pr-<n>/` on that branch (overwritten each run, so it holds at most one set per open PR). Uses a throwaway worktree and the run's own token; retries on push races.
+- `pr-preview-cleanup.yml` runs on PR close and calls `scripts/previews.sh remove <pr>` to delete that directory.
+- The `torreld-screenshots` artifact stays as a download fallback (no branch/JS needed to grab it).
+
+`ci-previews` is machine-managed - never branch off it or merge it. If the repo goes private again, the inline images stop rendering (the proxy can't fetch a private raw URL) and you'd fall back to the artifact.
 
 ---
 
