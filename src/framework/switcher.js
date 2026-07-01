@@ -25,6 +25,24 @@
     } catch(e) {}
   }
 
+  // Toggle the edge fades from scroll position: fade the right only while
+  // more chips lie ahead, the left only once scrolled past the start. A row
+  // that fits (no overflow) reads as at-both-ends, so neither edge fades.
+  function updateFades(el){
+    var max = el.scrollWidth - el.clientWidth;
+    var x = el.scrollLeft;
+    el.style.setProperty("--fade-l", x <= 1 ? "0px" : "18px");
+    el.style.setProperty("--fade-r", x >= max - 1 ? "0px" : "18px");
+  }
+
+  function bindFades(el){
+    if(el._fadesBound) return;
+    el._fadesBound = true;
+    var tick = function(){ updateFades(el); };
+    el.addEventListener("scroll", tick, { passive: true });
+    window.addEventListener("resize", tick);
+  }
+
   function renderSwitcher(){
     var el = document.getElementById("packSwitcher");
     if(!el) return;
@@ -42,6 +60,8 @@
         setActivePack(id);
       });
     });
+    bindFades(el);
+    updateFades(el);
   }
 
   function setActivePack(id){

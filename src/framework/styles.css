@@ -123,10 +123,15 @@ h1,h2,h3,h4{font-weight:800;letter-spacing:.02em;line-height:1.1;margin:0}
   scroll-snap-type:x proximity;
   margin:0;
   min-width:0;
-  /* Fade the trailing edge so a chip cut off by scroll reads as "more ->".
-     When the chips fit, the fade falls over empty space and is invisible. */
-  -webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 18px),transparent);
-  mask-image:linear-gradient(90deg,#000 calc(100% - 18px),transparent);
+  /* Edge fades hint at off-screen chips: right when more chips lie ahead,
+     left once scrolled past the start. switcher.js drives --fade-l/--fade-r
+     from scroll position, so at either end the near edge reads as flush, not
+     "more ->". Both default off; the trailing fade only turns on when the row
+     actually overflows, so a fitting row stays clean. */
+  --fade-l:0px;
+  --fade-r:0px;
+  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 var(--fade-l),#000 calc(100% - var(--fade-r)),transparent 100%);
+  mask-image:linear-gradient(90deg,transparent 0,#000 var(--fade-l),#000 calc(100% - var(--fade-r)),transparent 100%);
 }
 .packs::-webkit-scrollbar{display:none}
 .packs:empty{display:none}
