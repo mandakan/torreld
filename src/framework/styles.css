@@ -96,14 +96,13 @@ h1,h2,h3,h4{font-weight:800;letter-spacing:.02em;line-height:1.1;margin:0}
   border-bottom:1px solid var(--line);
   padding-top:var(--safe-top);
 }
-/* Mobile-first: brand on its own line, the pack rail full-width below it.
-   At phone widths the chips fit the content box without scrolling; on
-   narrower devices the rail scrolls within its own row (see .packs) and
-   never collides with the brand. Desktop restores a single row below. */
+/* Single flex row at every width: brand on the left, section nav on the right
+   (the nav is hidden below 860px, leaving the brand alone). The old pack-chip
+   rail is gone - pack selection lives on the landing view now. */
 .topbar .wrap{
-  display:grid;
-  grid-template-columns:minmax(0,1fr);
+  display:flex;
   align-items:center;
+  justify-content:space-between;
   gap:10px;
   padding-block:9px;
   min-height:52px;
@@ -118,56 +117,30 @@ h1,h2,h3,h4{font-weight:800;letter-spacing:.02em;line-height:1.1;margin:0}
 }
 .brandmark b{color:var(--amber)}
 
-.packs{
-  display:flex;
+/* Inside a pack the brandmark is the return-to-landing control. The chevron
+   marks it tappable so it does not rely on the logo-as-home convention alone. */
+.brand-home{
+  display:inline-flex;
+  align-items:center;
   gap:6px;
-  overflow-x:auto;
-  scrollbar-width:none;
-  -ms-overflow-style:none;
-  scroll-snap-type:x proximity;
-  margin:0;
-  min-width:0;
-  /* Edge fades hint at off-screen chips: right when more chips lie ahead,
-     left once scrolled past the start. switcher.js drives --fade-l/--fade-r
-     from scroll position, so at either end the near edge reads as flush, not
-     "more ->". Both default off; the trailing fade only turns on when the row
-     actually overflows, so a fitting row stays clean. */
-  --fade-l:0px;
-  --fade-r:0px;
-  -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 var(--fade-l),#000 calc(100% - var(--fade-r)),transparent 100%);
-  mask-image:linear-gradient(90deg,transparent 0,#000 var(--fade-l),#000 calc(100% - var(--fade-r)),transparent 100%);
+  color:inherit;
+  border:0;
+  transition:color .15s;
 }
-.packs::-webkit-scrollbar{display:none}
-.packs:empty{display:none}
-.packs button{
-  flex:0 0 auto;
-  font-family:var(--mono);
-  font-size:11px;
-  letter-spacing:.14em;
-  text-transform:uppercase;
-  background:transparent;
+.brand-home:hover{color:var(--muted)}
+.brand-home:hover b{color:var(--amber-soft)}
+.brand-home:focus-visible{outline:2px solid var(--amber);outline-offset:4px;border-radius:3px}
+.brand-chevron{
   color:var(--muted);
-  border:1px solid var(--line2);
-  border-radius:999px;
-  padding:7px 12px;
-  min-height:32px;
-  cursor:pointer;
-  scroll-snap-align:start;
-  transition:color .15s,border-color .15s,background .15s;
-  white-space:nowrap;
+  font-size:18px;
+  line-height:1;
+  transition:transform .15s,color .15s;
 }
-.packs button:hover{color:var(--text)}
-.packs button:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
-.packs button[aria-pressed="true"]{
-  background:var(--amber);
-  color:#150f02;
-  border-color:var(--amber);
-  font-weight:700;
-}
+.brand-home:hover .brand-chevron{color:var(--amber);transform:translateX(-2px)}
 
 .topnav{display:none}
 @media(min-width:860px){
-  .topbar .wrap{grid-template-columns:auto minmax(0,1fr) auto;gap:22px;padding-block:0}
+  .topbar .wrap{padding-block:0}
   .topnav{
     display:flex;
     gap:22px;
@@ -184,7 +157,6 @@ h1,h2,h3,h4{font-weight:800;letter-spacing:.02em;line-height:1.1;margin:0}
     min-height:32px;
   }
   .topnav a:hover{color:var(--text)}
-  .packs{justify-self:start}
 }
 
 /* ===== Hero ===== */
@@ -238,6 +210,83 @@ h1,h2,h3,h4{font-weight:800;letter-spacing:.02em;line-height:1.1;margin:0}
   .lede{margin-top:24px}
   .hero-readout{margin-top:36px;padding:18px 26px;gap:16px}
 }
+
+/* ===== Landing pack picker =====
+   Home view when no pack is active. The masthead reuses .hero; the card grid
+   replaces the sections. body.is-landing hides pack-only chrome. */
+.hero-count{
+  margin-top:24px;
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:.24em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+.landing{padding:36px 0 64px}
+.pcards{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:14px;
+}
+@media(min-width:640px){
+  .pcards{grid-template-columns:repeat(2,1fr);gap:18px}
+}
+.pcard{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  padding:22px;
+  background:linear-gradient(180deg,var(--steel2),var(--steel));
+  border:1px solid var(--line2);
+  border-radius:var(--radius-sm);
+  color:var(--text);
+  text-decoration:none;
+  transition:border-color .15s,transform .15s,background .15s;
+}
+.pcard:hover{
+  border-color:var(--amber);
+  transform:translateY(-2px);
+}
+.pcard:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
+.pcard-eyebrow{
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+.pcard-name{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:10px;
+  font-weight:800;
+  letter-spacing:.01em;
+  line-height:1.1;
+  font-size:clamp(22px,4.5vw,28px);
+  text-transform:uppercase;
+}
+.pcard-arrow{
+  color:var(--muted);
+  font-weight:400;
+  transition:transform .15s,color .15s;
+}
+.pcard:hover .pcard-arrow{color:var(--amber);transform:translateX(3px)}
+.pcard-tagline{
+  color:var(--amber-soft);
+  font-weight:700;
+  font-size:15px;
+}
+.pcard-desc{
+  color:#c3cccf;
+  font-size:14px;
+  line-height:1.5;
+}
+
+/* On the landing there is no drill to time and no pack to leave. */
+body.is-landing{padding-bottom:0}
+body.is-landing .console,
+body.is-landing .scrim{display:none}
 
 /* ===== Sections ===== */
 section{padding:40px 0;border-bottom:1px solid var(--line)}

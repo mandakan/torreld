@@ -11,8 +11,15 @@
   }
 
   function renderTopbar(P){
+    /* Inside a pack the brandmark returns to the landing picker. It is a real
+       control (anchor + back-chevron + aria-label), not a bare clickable logo -
+       switcher.js intercepts the click. The chevron marks it as tappable so it
+       does not lean on the weak logo-as-home convention alone. */
     document.getElementById("brand").innerHTML =
-      '<b>' + P.brand.pre + '</b>' + P.brand.post;
+      '<a class="brand-home" href="./" aria-label="All programs">' +
+        '<span class="brand-chevron" aria-hidden="true">&#8249;</span>' +
+        '<span class="brand-word"><b>' + P.brand.pre + '</b>' + P.brand.post + '</span>' +
+      '</a>';
 
     var navHTML = P.nav.map(function(n){
       return '<a href="#' + n.id + '">' + n.label + '</a>';
@@ -212,10 +219,46 @@
     }
   }
 
+  /* Landing pack picker - the home view when no pack is active. Lists every
+     registered pack as a card (name + tagline + description) built from the
+     pack's share block. Whole card is an <a href="?pack=id"> so it works
+     without JS and supports open-in-new-tab; switcher.js intercepts the click
+     for in-page navigation. Content is author-trusted, same as render(). */
+  function renderLanding(){
+    T.activeId = null;
+    document.body.classList.add("is-landing");
+    document.title = "TORRELD - Dry-fire training packs";
+
+    document.getElementById("brand").innerHTML = "<b>TORR</b>ELD";
+    document.getElementById("topnav").innerHTML = "";
+
+    var n = T.packs.length;
+    document.getElementById("hero").innerHTML =
+      '<div class="wrap"><p class="eyebrow">Dry-fire training</p>' +
+      '<h1>Pick a<br><span class="dim">program.</span></h1>' +
+      '<p class="lede">Par-time-driven dry-fire packs. Commit to one and run it; ' +
+      'each is a self-contained protocol - diagnosis, plan, drills, evidence.</p>' +
+      '<div class="hero-count">' + n + ' program' + (n === 1 ? "" : "s") + '</div></div>';
+
+    var cards = T.packs.map(function(p){
+      var s = p.share || {};
+      return '<a class="pcard" href="?pack=' + p.id + '" data-pack="' + p.id + '">' +
+        '<span class="pcard-eyebrow">Program</span>' +
+        '<span class="pcard-name">' + p.name +
+          '<span class="pcard-arrow" aria-hidden="true">&rarr;</span></span>' +
+        (s.tagline ? '<span class="pcard-tagline">' + s.tagline + '</span>' : "") +
+        (s.description ? '<span class="pcard-desc">' + s.description + '</span>' : "") +
+      '</a>';
+    }).join("");
+    document.getElementById("app").innerHTML =
+      '<section class="landing"><div class="pcards">' + cards + '</div></section>';
+  }
+
   function render(packId){
     var pack = T.packs.find(function(p){ return p.id === packId; });
     if(!pack) return;
     T.activeId = packId;
+    document.body.classList.remove("is-landing");
 
     var P = pack.data;
 
@@ -238,6 +281,7 @@
   }
 
   T.render = render;
+  T.renderLanding = renderLanding;
   T.updateCardNow = updateCardNow;
   T.refreshAllCardNow = refreshAllCardNow;
 })();

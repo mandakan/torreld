@@ -116,6 +116,10 @@
 
   load();
 
+  /* Shared with switcher.js (lastPack) so storage is feature-detected once,
+     from one place, and both callers degrade identically when it is blocked. */
+  T.storage = storage;
+
   T.progress = {
     getPar: getPar,
     getStreak: getStreak,
