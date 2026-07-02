@@ -583,7 +583,10 @@ section{padding:40px 0;border-bottom:1px solid var(--line)}
   color:var(--amber-soft);
 }
 /* Gate: the consistency check reads first, boxed with an amber-soft edge so
-   "is it even repeatable?" is visibly the prerequisite to the bias reads. */
+   "is it even repeatable?" is visibly the prerequisite to the bias reads. A
+   mono "Check first" eyebrow (same treatment as the "Fix" label) carries that
+   meaning in text, not color/shape alone - otherwise the box reads as a
+   selected state rather than a prerequisite. */
 .read-row.gate{
   border-bottom:none;
   border-left:2px solid var(--amber-soft);
@@ -591,6 +594,17 @@ section{padding:40px 0;border-bottom:1px solid var(--line)}
   border-radius:var(--radius-sm);
   padding:11px 12px;
   margin-bottom:6px;
+}
+.read-row.gate .sign::before{
+  content:"Check first";
+  display:block;
+  font-family:var(--mono);
+  font-size:10px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--amber-soft);
+  font-weight:normal;
+  margin-bottom:3px;
 }
 
 /* ===== Evidence ===== */
