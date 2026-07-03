@@ -98,7 +98,7 @@ registerPack({
               {
                 sign: "The gun arrives and the eyes hunt the dot in the glass before the shot breaks.",
                 cause: "Vision isn't leading - the eyes search the optic instead of holding the target.",
-                fix: "Fix the eye on one exact point on the plate <em>before</em> the gun moves and hold it there - the dot comes to a locked eye, not a searching one."
+                fix: "Lock the eye on one exact point on the plate <em>before</em> the gun moves and hold it through the shot - if the eyes flick into the glass even once, the rep doesn't count."
               },
               {
                 sign: "The eyes leave for the next plate before the shot on this one breaks - steel gets chased, not called.",
@@ -126,7 +126,7 @@ registerPack({
               sign: "The draw-and-rack comes out different every rep - the hands take a new path, the rack lands at a different moment, the dot shows up somewhere new.",
               cause: "No repeatable firing grip for the draw to deliver into, so each rep improvises.",
               fix: "Regress to <strong>One-handed steel</strong> to groove the strong-hand platform the draw has to arrive into, then rebuild the draw onto it.",
-              regressTo: "One-handed steel"
+              regressTo: "One-handed steel (Stage 3)"
             },
             biases: [
               {
@@ -165,13 +165,13 @@ registerPack({
               sign: "The pick-up-load-grip flow is different every rep - the hands find the gun and mag differently, the grip builds in a new order, the dot lands somewhere new.",
               cause: "The flow isn't grooved onto a repeatable firing grip, so each rep re-solves the load.",
               fix: "Regress to <strong>One-handed steel</strong> to build a firing grip you can recreate blind, then layer the load onto it.",
-              regressTo: "One-handed steel"
+              regressTo: "One-handed steel (Stage 3)"
             },
             biases: [
               {
                 sign: "The eyes ride the gun up from the table instead of already being on the target.",
                 cause: "Vision follows the hands through the load and never gets back downrange first.",
-                fix: "Lock the eye on the first target before the hands move and get it back there the instant the grip is set - the pick-up and load run by feel."
+                fix: "Lock the eye on the first target before the hands move and get it back there the instant the grip is set - if the eyes were still on the gun when it left the table, the rep doesn't count."
               },
               {
                 sign: "The grip comes off the table loose and gets re-gripped on presentation, rep after rep.",

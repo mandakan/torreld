@@ -169,7 +169,7 @@ Each drill card has five required fields:
 | `title`  | Two to four words, evocative. *"Move-and-regrip"*, *"Index-and-insert"*. | - |
 | `why`    | Two sentences. The mechanism: what fault, why it works. **Not** the steps. | If your *why* is internal-focused, re-cast it externally (#3). |
 | `steps`  | Three to five imperative bullets. Quality criteria explicit. | Steps use **external-focus language** (#3); include a **vision step** (#8); the quality criterion is binary pass/fail (#4, #7). |
-| `read`   | Optional corrective block: `gate` (consistency check) + 1-3 `biases`. Read the miss, name the cause, give one fix. | Every `fix` is external-focus (#3); read the *right modality* for the skill; consistency before bias. See "Reading the result" below. |
+| `read`   | Optional corrective block: `gate` (consistency check) + 1-3 `biases`. Read the miss, name the cause, give one fix. Optional `ref` on a gate/bias row cites a `references` entry by exact `src`; a gate's `regressTo` renders as a jump link to that drill's card. | Every `fix` is external-focus (#3), names a concrete action, and ends in something checkable; read the *right modality* for the skill; consistency before bias. See "Reading the result" below. |
 | `timer`  | `{ mode, par, dmin, dmax, reps, rest }`. | Numbers come from the heuristic table above; deviations should be explainable. |
 
 ### Picking par times
@@ -206,8 +206,8 @@ Shape is **gate then biases**:
 
 ```js
 read: {
-  gate:   { sign, cause, fix, regressTo },   // is the rep even repeatable? rendered first
-  biases: [ { sign, cause, fix } ]            // 1-3 directional reads, only valid once it repeats
+  gate:   { sign, cause, fix, regressTo, ref },   // is the rep even repeatable? rendered first
+  biases: [ { sign, cause, fix, ref } ]            // 1-3 directional reads, only valid once it repeats
 }
 ```
 
@@ -217,7 +217,11 @@ Rules, all enforced by the shape or the lens:
 - **Regression graph, one base per pack.** Each gate's `regressTo` names a more-foundational drill by its `label`. Exactly one drill is the **base** the chain bottoms out at - its gate has no `regressTo` and its fix is "slow down / halve the speed". Draw the chain before writing: every non-base drill must point at something closer to the root. (Grip-first: presentation -> eyes-closed index -> grip reference. Reloads: the clock/movement drills -> Reload + 1 -> Index-and-insert -> Eyes-on-the-mag.)
 - **Read the right modality.** The observable tell depends on the skill. Grip/tactile drills read by **feel** (scatter, thumb drift, a gap under the palm); vision/index drills read by **dot position**; a stage-planning drill reads by **plan outcome** (the plan came out different, fell apart under the beep). Match the tell to what the shooter can actually see or feel.
 - **Do not invent dot-direction for a grip drill.** The intuitive "support hand overpowering -> dot high-left" mapping is a myth. Heeling throws *high-right* for a right-hander and is a recoil flinch that does not occur in a dry-fire freeze. Dot-*high* is a trajectory error (muzzle overshoots, head drops), not a grip tell. When you do assert a direction, keep it to what a source supports - "off to the support side" beats a false-precise "left" if the direction is only inferred.
-- **`fix` is external-focus (#3), same as `steps`.** Cue on the dot, the target, the tactile reference, the mag path - never muscle effort. A `read` block full of "squeeze harder / rotate your wrist" teaches the body-parts fiddling that breaks under pressure.
+- **`fix` is external-focus (#3), same as `steps`, and ends in something checkable.** Cue on the dot, the target, the tactile reference, the mag path - never muscle effort. Every fix names a concrete external-focus action and closes on something the shooter can check: a felt contact, a dot position, a plan outcome, or a count ("9 of 10 blind"). A `read` block full of "squeeze harder / rotate your wrist" teaches the body-parts fiddling that breaks under pressure, and a fix that only names a goal ("drive the gun all the way up") leaves the shooter guessing when it's done.
+- **A terse fix earns its brevity from `cause`.** "Stop the circuit and go to X" is fine only when `cause` states the mechanism plainly enough that the order explains itself - the shooter must always see *why*, never just receive a command. If the why isn't legible in `cause`, that's the field to grow, not `fix`.
+- **`ref` cites exactly one nameable source.** An optional `ref: "<src>"` on a gate or bias row holds the exact `src` string of an existing `references` entry, character-for-character - it resolves to a jump link at that entry. Add it only to rows genuinely grounded in that one source; never on a motor-learning-lens row, and never a raw external URL in drill data - the References section stays the one citation home.
+- **`regressTo` renders as a working jump, not just a name.** The renderer turns a gate's `regressTo` into a "Go to `<drill>`" link that scrolls to that drill's card. Still name the drill in the fix prose - the shooter reads why before they follow the link.
+- **Cross-pack pointers live in fix prose, not a new field.** When the real fix is a drill in a different pack (grip capacity gone under fatigue -> grip-conditioning), the fix text carries a plain `<a href="?pack=<id>">` anchor - the same mechanism the diagnosis copy already uses. Use it sparingly: one or two across the whole pack collection, not a habit.
 - **Same citation bar as everything else.** Every `cause`/`fix` traces to a tier-1/2 source or the lens. Research the reads the way you research the drills - and apply the confidence discipline: soften weakly-grounded direction claims, and drop any read you cannot ground rather than shipping a plausible guess. If a read introduces a source the pack doesn't already cite, add it to `references` and [`CREDITS.md`](../../../CREDITS.md).
 - **Optional.** A drill with no readable failure mode omits `read` entirely rather than forcing one.
 
@@ -295,6 +299,9 @@ Full build/deploy detail in [`docs/BUILD.md`](../../../docs/BUILD.md). Branching
 - **Symptom-grade par times.** A GM time as the starting par teaches the user to fail. Start at intermediate; let them ratchet down (#5, #7).
 - **A `caveat` that hedges nothing.** If the section reads as if the science settles the question, the user will trust it too far. The lens is mostly from lab tasks and other sports - say so.
 - **Quoting practitioner advice the lens flags without contradicting it.** If a tier-1 source says "do 500 reps a day," either don't cite that claim or cite it and call it out.
+- **An abstract `read` fix with no checkable end-state.** "Drive the gun all the way up" names a goal, not a stopping point - end on a felt contact, a dot position, a plan outcome, or a count.
+- **A bare-command fix whose `cause` doesn't carry the why.** "Stop and go to X" only works when `cause` states the mechanism plainly enough that the order explains itself. If the shooter can't see why, grow `cause` - don't leave `fix` as an unexplained order.
+- **A `ref` string that doesn't exactly match a `references` entry.** It has to resolve character-for-character to that entry's `src`, or the jump link breaks.
 - **Copying a source's words or embedding its images.** Techniques are free to reuse; their expression is not. Paraphrase every line into your own voice, keep packs text-and-CSS only, and add the source to [`CREDITS.md`](../../../CREDITS.md). See the Copyright and attribution section above.
 
 ---

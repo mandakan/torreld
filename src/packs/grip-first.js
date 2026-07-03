@@ -92,7 +92,7 @@ registerPack({
               {
                 sign: "The thumb sits on its mark early in the circuit but has migrated forward or down by rep four or five.",
                 cause: "Once the reference is found, the hand re-uses the last landing instead of rebuilding the grip from scratch.",
-                fix: "Full reset between reps: release and re-find the reference from the start every time, as if each rep were the first."
+                fix: "Full reset between reps: release the grip and re-find the reference from zero, confirming the thumb lands on its exact mark before you count the rep."
               }
             ]
           },
@@ -112,19 +112,21 @@ registerPack({
             gate: {
               sign: "The dot lands in a different spot every rep - no cluster, no pattern.",
               cause: "The grip is seating differently each rep, so the gun goes wherever the hand lands.",
-              fix: "Regress to <strong>Grip reference</strong> until the grip sets the same blind - you can't read a directional bias until the base repeats.",
+              fix: "Regress to <strong>Grip reference</strong> until the grip sets the same blind 9 reps out of 10, then return to this drill.",
               regressTo: "Grip reference"
             },
             biases: [
               {
                 sign: "Dot consistently low - below the point you fixed on.",
                 cause: "The gun stops short of the eye-target line; the muzzle never rises to where you were looking.",
-                fix: "Drive the gun all the way up until the dot arrives on the point, not below it."
+                fix: "Send the gun to the point you fixed your eyes on - don't stop until the dot arrives there, not below it.",
+                ref: "Griffith Shooting Solutions"
               },
               {
                 sign: "Dot consistently off to the support side (left for a right-handed shooter).",
                 cause: "Uneven drive to the support side - often the support hand pressing in from the side rather than wrapping from the front.",
-                fix: "Send the gun straight to the point you fixed on; the dot belongs on that spot."
+                fix: "Send the gun straight to the point you fixed on; the dot belongs on that spot.",
+                ref: "Griffith Shooting Solutions"
               },
               {
                 sign: "Dot consistently high - above the point.",
@@ -150,7 +152,7 @@ registerPack({
             gate: {
               sign: "The dot appears somewhere different in the glass every rep.",
               cause: "The eye anchor or the grip is varying rep to rep, so there's no fixed spot for the dot to arrive at.",
-              fix: "Slow down and isolate the index with <strong>Eyes-closed index</strong> until it repeats, then rebuild the speed.",
+              fix: "Slow down and isolate the index with <strong>Eyes-closed index</strong> until it repeats 9 reps out of 10, then rebuild the speed.",
               regressTo: "Eyes-closed index"
             },
             biases: [
@@ -162,12 +164,14 @@ registerPack({
               {
                 sign: "Dot arrives low - below the locked aim point at full extension.",
                 cause: "The drive stops short of the eye-target line.",
-                fix: "Don't stop the drive until the dot is on the point the eye is holding."
+                fix: "Don't stop the drive until the dot is on the point the eye is holding.",
+                ref: "Griffith Shooting Solutions"
               },
               {
                 sign: "Dot arrives off to the support side.",
                 cause: "The gun isn't tracking straight to the line.",
-                fix: "Drive straight at the point your eye is already holding."
+                fix: "Drive straight at the point your eye is already holding until the dot sits on it, not off to the side.",
+                ref: "Griffith Shooting Solutions"
               }
             ]
           },
@@ -189,18 +193,20 @@ registerPack({
             gate: {
               sign: "Thumb or palm contacts a different spot rep to rep - mark the grip and your hand with a felt-tip and the marks won't line up.",
               cause: "The grip is built on 'feels right', with no fixed structural anchor, so the hand defaults to wherever it touches first.",
-              fix: "No drill sits below this one - halve the speed and seat one contact at a time: palm heel to the panel first, then the fingers wrap, then the thumb finds its mark. Full grip before every check."
+              fix: "No drill sits below this one - halve the speed and seat one contact at a time: palm heel to the panel first, then the fingers wrap, then the thumb finds its mark. Check all three contacts are touching before you count the rep."
             },
             biases: [
               {
                 sign: "The palm heel leaves a gap against the grip panel on every rep - the fingers are on the gun but the heel rides high and forward.",
                 cause: "The build starts from the fingers before the palm commits, so the heel never seats.",
-                fix: "Reverse the order: palm heel flush to the panel first, then wrap the fingers, then the thumb. Driving the support pinky down and in pulls the heel into full contact."
+                fix: "Reverse the order: palm heel flush to the panel first, then wrap the fingers, then the thumb. Driving the support pinky down and in pulls the heel into full contact.",
+                ref: "Charlie Delta Academy"
               },
               {
                 sign: "The thumb lands the same place every time, but it's flat, featureless panel - nothing to actually find.",
                 cause: "The chosen reference has no tactile edge, so you're pattern-matching a position rather than confirming an anchor.",
-                fix: "Pick a reference you can feel blind - a texture edge, the slide-stop base, a thumb-rest shelf - and cue 'find the edge', not 'put the thumb here'."
+                fix: "Pick a reference you can feel blind - a texture edge, the slide-stop base, a thumb-rest shelf - and cue 'find the edge' every time you build the grip.",
+                ref: "Charlie Delta Academy"
               }
             ]
           },
@@ -233,7 +239,7 @@ registerPack({
               {
                 sign: "The hand is in the right place - thumb on its mark, finger on the guard - but the grip feels springy and a squeeze finds almost no support-hand force.",
                 cause: "The forearm is spent: the motor program (which reference to find) survives but the physical capacity (force) is gone.",
-                fix: "This is the stop signal - end the circuit here. More reps in this state only train 'right place, no force', the exact failure to avoid late in a stage."
+                fix: "This is the stop signal - end the circuit here. Build the missing capacity instead with <a href=\"?pack=grip-conditioning\">off-range grip conditioning</a> - more reps in this state only train 'right place, no force', the exact failure to avoid late in a stage."
               }
             ]
           },

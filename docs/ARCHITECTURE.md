@@ -89,8 +89,8 @@ drills:      { lane, title, intro,
                  chips:[ { cls, label } ],        // cls: "prim" | "par" | "cyc" | ""
                  title, why, steps:[...],
                  read:{                           // optional: corrective "reading the result" block
-                   gate:{ sign, cause, fix, regressTo? },   // consistency check, rendered first
-                   biases:[ { sign, cause, fix } ]          // 1-3 directional reads
+                   gate:{ sign, cause, fix, regressTo?, ref? },   // consistency check, rendered first
+                   biases:[ { sign, cause, fix, ref? } ]          // 1-3 directional reads
                  },
                  timer:{ mode, par, dmin, dmax, reps, rest },  // mode: "par" | "circuit"
                  label                            // shown in the timer when armed
@@ -106,6 +106,12 @@ footer:      string
 Strings may contain HTML and entities - content is author-trusted (see the constraint in [`../CLAUDE.md`](../CLAUDE.md)). Section ids referenced by `nav` are hard-coded in the renderer (`diagnosis`, `program`, `drills`, `evidence`, `references`); adding a brand-new *section type* means adding a render function in `renderer.js`, not just data.
 
 **The optional `read` block** is a per-drill corrective diagnostic, rendered by `renderRead()` as a collapsed native `<details>` between the steps and the timer spec (zero JS, works from `file://`). It is a between-session tool: consult it when a result keeps coming out wrong, not after every rep. Shape is gate-then-biases - the `gate` is the consistency check (scatter -> regress to a more-foundational drill named in `regressTo`), rendered first and boxed; the `biases` are the directional reads that only mean something once the rep repeats. Every `fix` is external-focus, and the pack's base drill has a `gate` with no `regressTo` (its fix is "slow down"). Authoring rules live in the `new-pack` skill.
+
+A row's optional `ref` holds the exact `src` string of a references entry; `readRow()` renders it as a tail link, "Source: `<src>`", jumping to that entry in the in-page References section. Only rows grounded in one nameable source get it - no new external links, no new CREDITS.md surface.
+
+`gate.regressTo` renders as a working jump: `readRow()` emits `<a class="read-jump" href="#drill-<slug>">Go to <regressTo> &rarr;</a>` after the gate's rows. `renderDrills()` gives every drill card `id="drill-<slug(label)>"` and `renderReferences()` gives every references entry `id="ref-<slug(src)>"`, both derived from the one shared `slug()` function in `renderer.js` so the two id spaces always agree. Arrival at either target is a CSS-only `:target` flash (see `styles.css`) - no JS wiring, works from `file://`.
+
+Where a fix genuinely lives in another program, the fix string carries a plain `<a href="?pack=<id>">` anchor - no new data field, used sparingly (one or two cross-pack pointers across all packs).
 
 ---
 
