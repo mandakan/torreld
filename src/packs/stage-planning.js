@@ -92,7 +92,7 @@ registerPack({
               {
                 sign: "Verbalization passes clean but the plan dissolves at the first shot on the beep - order shifts, reload missed, exit cue gone.",
                 cause: "The plan is still consciously derived each rep, so under the beep the conscious mind is occupied by real-time demands and loses the thread. Deriving the plan on the start signal is exactly what breaks an autonomous skill (re-investment).",
-                fix: "Rehearse the same position 5x without the beep first - the rehearsal is the encoding. Run the mental program until the start cue triggers it rather than derives it. The beep rep only tests whether encoding is done."
+                fix: "Rehearse the same position 5x without the beep first - the rehearsal is the encoding. Only bring the beep back once the plan comes out identical on all 5 reps without it."
               },
               {
                 sign: "RELOAD slot stays vague ('...somewhere after T2...') or marked to-be-decided.",
@@ -125,12 +125,13 @@ registerPack({
               {
                 sign: "Eye lands on each target fine but entry and exit cues get skipped - the rep ends on the last target, not on the exit cue.",
                 cause: "Entry and exit cues were never named as chunk elements, so they read as implicit timing ('when I'm ready to move') rather than fixed destinations.",
-                fix: "Say the entry and exit cue aloud before the rep - 'port edge,' 'wall corner left.' Build the visual flow so the eye moves through named cues in order and never stares absentmindedly at the first target."
+                fix: "Say the entry and exit cue aloud before the rep - 'port edge,' 'wall corner left' - so they're named destinations, not afterthoughts. The rep counts only if the eye lands on the exit cue last, not on the final target."
               },
               {
                 sign: "Fixation keeps collapsing - each aim point gets a glance rather than a deliberate one-second land.",
                 cause: "Speed pressure is overriding fixation duration. Pre-action fixation shortens under time pressure and tracks worse outcomes; the shooter is optimising for finishing the rep, not for encoding.",
-                fix: "Count 'one' at each aim point; if the count doesn't finish before the eye moves, the rep doesn't count. If a one-second land per target won't fit the par, the position has too many targets for one rep - split it."
+                fix: "Count 'one' at each aim point; if the count doesn't finish before the eye moves, the rep doesn't count. If a one-second land per target won't fit the par, the position has too many targets for one rep - split it.",
+                ref: "Vickers (1996) - Visual control when aiming at a far target"
               }
             ]
           },
@@ -163,7 +164,8 @@ registerPack({
               {
                 sign: "The imagery is a silent visual movie - no felt footwork, no heard shots.",
                 cause: "Visual-only imagery breaks the physical and timing match to real execution and transfers weaker than full-sensory, real-time rehearsal.",
-                fix: "Start gun in hand, in the actual start stance, and let the feet move with the sequence. Run it at real stage pace and hear each shot. The rep is the imagery, not a picture of it."
+                fix: "Start gun in hand, in the actual start stance, and let the feet move with the sequence. Run it at real stage pace and hear each shot fire in your head. If any part plays back silent or motionless, the rep doesn't count.",
+                ref: "Mental practice - meta-analysis"
               },
               {
                 sign: "Imagery rep is vivid but the plan still comes out different on the beep.",
@@ -196,12 +198,13 @@ registerPack({
               {
                 sign: "Target order is right but anchors are absent or generic.",
                 cause: "During the 5-second look the gaze wandered instead of fixing on each target in engagement order, so specific features never got committed.",
-                fix: "Treat the 5 seconds as a timed encoding sequence, not passive observation - fix the eye on each target in order and name one specific feature before moving on. It's a Chunk-and-anchor rep on a clock."
+                fix: "Fix the eye on each target in engagement order during the 5-second look and name one specific feature before moving to the next. If the anchor names come out generic afterward, the eye wandered instead of landing."
               },
               {
                 sign: "Recall is solid on the first rep but degrades once the stage and position change each rep.",
                 cause: "Varied reps raise the processing load, so practice-day performance drops even as the retention benefit builds - the transfer payoff accrues across sessions, and in applied sport that payoff is plausible but modest, not proven.",
-                fix: "Hold the rotation rule and expect the harder reps. Only intervene if the shooter keeps resetting to a familiar stage to dodge the difficulty - that avoidance is what removes the benefit."
+                fix: "Hold the rotation rule and expect the harder reps. Only intervene if the shooter keeps resetting to a familiar stage to dodge the difficulty - that avoidance is what removes the benefit.",
+                ref: "Contextual interference - meta-analysis"
               },
               {
                 sign: "RELOAD slot is filled when a tactical moment is obvious but omitted when round count is ambiguous.",

@@ -606,6 +606,34 @@ section{padding:40px 0;border-bottom:1px solid var(--line)}
   font-weight:normal;
   margin-bottom:3px;
 }
+/* Tail links on a read row: the regressTo jump (gate) and the per-read source
+   pointer into References. Both are in-page anchors - block-level so each gets
+   its own tap-sized line on a phone. */
+.read-jump,.read-src{
+  display:inline-block;
+  margin-top:8px;
+  margin-right:16px;
+  font-family:var(--mono);
+  font-size:11px;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  padding:4px 0;
+}
+.read-src{color:var(--muted);border-bottom-color:var(--line)}
+.read-src:hover{color:var(--amber)}
+
+/* Landing highlight for in-page jumps (regressTo -> card, ref -> References
+   entry). A one-shot fade so it marks arrival and decays - persistent amber
+   stays reserved for .card.armed. scroll-margin keeps the sticky topbar from
+   covering the landing point. */
+.card,.ref{scroll-margin-top:calc(64px + var(--safe-top))}
+/* Only a "from" frame: the browser animates back to each element's own
+   computed border (plain card --line, primary card --line2, armed amber),
+   so the flash never fights another card state. */
+@keyframes target-flash{
+  from{border-color:var(--amber);box-shadow:0 0 0 1px var(--amber-glow)}
+}
+.card:target,.ref:target{animation:target-flash 1.6s ease-out 1}
 
 /* ===== Evidence ===== */
 .evidence-grid{

@@ -88,7 +88,8 @@ registerPack({
               {
                 sign: "Mag fumbles or misses the seat.",
                 cause: "Gripping the base pad and pushing, instead of indexing off the front of the mag.",
-                fix: "Index finger flat on the front edge of the mag; send the toe of the mag into the well."
+                fix: "Index finger flat on the front edge of the mag, thumb on the body instead of the base pad, until you feel the toe land square against the back wall.",
+                ref: "Charlie Delta Academy"
               },
               {
                 sign: "Mag hits the front strap or the side of the well.",
@@ -114,13 +115,13 @@ registerPack({
             gate: {
               sign: "The look-in is hit or miss - some reps you catch the well, some you don't.",
               cause: "You're running faster than the eye can settle on the magwell.",
-              fix: "No drill sits below this one - halve the speed and hold the eye on the well to contact, every rep, before adding pace."
+              fix: "No drill sits below this one - halve the speed, and don't add pace back until you feel the seat with the eye still on the well for 10 straight reps."
             },
             biases: [
               {
                 sign: "Eyes snap to the target before the mag is committed.",
                 cause: "Vision releases the well early, so the hand finishes without a target.",
-                fix: "Keep the eye on the magwell until you feel the seat, then release to the aim point."
+                fix: "Release the eye to the aim point only after you feel the seat."
               }
             ]
           },
@@ -147,7 +148,7 @@ registerPack({
               {
                 sign: "Eyes jump to the target ahead of the seat.",
                 cause: "First-shot urgency pulls vision off the well early.",
-                fix: "Hold the eye on the magwell to contact; let the dot find the target after the seat."
+                fix: "Let the dot move to the target only after you feel the seat."
               }
             ]
           },
@@ -175,7 +176,7 @@ registerPack({
               {
                 sign: "Eyes go to the next position before the mag is seated.",
                 cause: "Vision leads the feet instead of finishing the well.",
-                fix: "Hold the eye on the magwell to contact, then release it to the next aim point."
+                fix: "Release the eye to the next aim point only after you feel the seat."
               },
               {
                 sign: "The seat lands after the foot; the reload is paid for twice.",
@@ -213,7 +214,8 @@ registerPack({
               {
                 sign: "The mag drifts into the front or side of the well as pace climbs.",
                 cause: "The index loosens under speed - the mag arrives off-angle.",
-                fix: "Send the mag toe to the back wall; index the front edge, not the base pad."
+                fix: "Index the front edge of the mag, not the base pad, and send the toe to the back wall.",
+                ref: "Charlie Delta Academy"
               }
             ]
           },

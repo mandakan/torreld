@@ -79,7 +79,7 @@ registerPack({
             gate: {
               sign: "You can't hold to par even on rep 1, fresh.",
               cause: "The starting hold is longer than your current endurance.",
-              fix: "Cut the hold time until rep 1 is clean, then rebuild the length rep by rep over sessions. If rep 1 fresh is a struggle at any length, add the tiered strength work until there's a floor to build on."
+              fix: "Cut the hold time until you can hold rep 1 to the beep, then add seconds back rep by rep as sessions pass. If rep 1 still fails at any length fresh, add the tiered strength work from the steps until you can hold to the beep at all."
             },
             biases: [
               {
@@ -112,7 +112,8 @@ registerPack({
             gate: {
               sign: "Only the hand tightens - the forearm never engages and the wrist isn't locking.",
               cause: "The lock is being driven from the hand instead of the forearm, so there's nothing setting the joint.",
-              fix: "Regress to isolating the wrist lock with no load until you can feel the forearm set, then add load back."
+              fix: "Regress to isolating the wrist lock with no load until you can feel the forearm set, then add load back.",
+              ref: "Hwansik Kim"
             },
             biases: [
               {

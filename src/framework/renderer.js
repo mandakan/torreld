@@ -10,6 +10,14 @@
     return '<div class="section-head"><span class="lane">' + lane + '</span><h2>' + title + '</h2></div>';
   }
 
+  /* In-page anchor ids. Drill cards get "drill-<slug(label)>", references
+     entries "ref-<slug(src)>", so read blocks can link to both with plain
+     anchors (regressTo jumps, per-read source pointers). One slug function
+     for both sides so the ids always agree. */
+  function slug(s){
+    return String(s).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+  }
+
   function renderTopbar(P){
     /* Inside a pack the brandmark returns to the landing picker. It is a real
        control (anchor + back-chevron + aria-label), not a bare clickable logo -
@@ -73,10 +81,22 @@
      directional reads that only mean something once the base repeats. Author-
      trusted HTML, same as the rest of the pack copy. */
   function readRow(r, isGate){
+    /* regressTo (gate only) renders as a real jump to the target card; the
+       fix prose still names the drill so the row reads standalone. ref points
+       at the References entry that grounds the row - the external URL lives
+       there, never inline in the card. */
+    var tail = "";
+    if(isGate && r.regressTo){
+      tail += '<a class="read-jump" href="#drill-' + slug(r.regressTo) + '">' +
+        'Go to ' + r.regressTo + ' &rarr;</a>';
+    }
+    if(r.ref){
+      tail += '<a class="read-src" href="#ref-' + slug(r.ref) + '">Source: ' + r.ref + '</a>';
+    }
     return '<div class="read-row' + (isGate ? " gate" : "") + '">' +
       '<div class="sign">' + r.sign + '</div>' +
       '<div class="cause">' + r.cause + '</div>' +
-      '<div class="fix">' + r.fix + '</div></div>';
+      '<div class="fix">' + r.fix + '</div>' + tail + '</div>';
   }
   function renderRead(read){
     if(!read) return "";
@@ -112,7 +132,8 @@
         ' data-rest="' + t.rest + '"' +
         ' data-floor="' + (t.floor != null ? t.floor : "") + '"' +
         ' data-label="' + c.label + '">Arm timer</button>';
-      return '<div class="card' + (c.primary ? " primary" : "") + (c.span ? " span" : "") + '">' +
+      return '<div class="card' + (c.primary ? " primary" : "") + (c.span ? " span" : "") +
+        '" id="drill-' + slug(c.label) + '">' +
         '<div class="card-top">' + chips + '</div>' +
         '<h3>' + c.title + '</h3>' +
         '<p class="why">' + c.why + '</p>' +
@@ -145,7 +166,7 @@
         var links = r.links.map(function(l){
           return '<a href="' + l.url + '" target="_blank" rel="noopener noreferrer">' + l.label + '</a>';
         }).join("");
-        return '<div class="ref">' +
+        return '<div class="ref" id="ref-' + slug(r.src) + '">' +
           '<div class="rhead"><span class="src">' + r.src + '</span><span class="grade">' + r.grade + '</span></div>' +
           '<p>' + r.body + '</p>' + links + '</div>';
       }).join("");
