@@ -64,7 +64,7 @@ registerPack({
         { n: "Session 04", primary: false, focus: "Presentation",   items: ["Target-focused presentation"] },
         { n: "Session 05", primary: false, focus: "Movement",       items: ["Move-and-regrip", "Grip under load"] }
       ],
-      note: "10-15 min/session. Quality over volume - a bad rep doesn't count. <b>Spend ~70% of the time on Move-and-regrip</b>: it attacks the root fault, the rest follows."
+      note: "10-15 min/session. Quality over volume - a bad rep doesn't count. <b>Spend ~70% of the time on Move-and-regrip</b>: it attacks the root fault, the rest follows. On days with no gun to hand, <a href=\"?pack=grip-conditioning\">off-range grip conditioning</a> is the companion that keeps the hands working."
     },
     drills: {
       lane: "ARM",
