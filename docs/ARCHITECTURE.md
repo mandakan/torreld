@@ -9,7 +9,7 @@ How TORRELD assembles, boots, and renders. Read [`../CLAUDE.md`](../CLAUDE.md) f
 `dist/index.html` is assembled from `src/` at build time. Inside the single `<script>` at runtime, the layers initialize in this order:
 
 1. **Pack registry bootstrap** - `window.TORRELD = { packs: [], activeId: null }` and the `registerPack(p)` helper.
-2. **Packs** (`src/packs/*.js`) - each file calls `registerPack({ id, name, documentTitle, share?, data })`. The `share` block holds `{ title, tagline, description }`. The build uses it to generate per-pack OG images and share stubs; at runtime the landing picker reads `share.tagline` and `share.description` for each pack card. `data` is the PROGRAM object (see "Data model" below).
+2. **Packs** (`src/packs/*.js`) - each file calls `registerPack({ id, name, documentTitle, kind?, symptom?, share?, data })`. The `share` block holds `{ title, tagline, description }`. The build uses it to generate per-pack OG images and share stubs; at runtime the landing picker reads `share.tagline` and `share.description` for each pack card. `data` is the PROGRAM object (see "Data model" below). `kind` ("protocol" | "overlay" | "supplement", default protocol) groups the pack on the landing picker; `symptom` is the one-sentence "run this if" line on its landing card.
 3. **Framework** (`src/framework/progress.js`, `timer.js`, `renderer.js`, `switcher.js`, in that load order) - attach `TORRELD.progress`, `TORRELD.storage`, `TORRELD.timer`, `TORRELD.render`, `TORRELD.renderLanding`, `TORRELD.setActivePack`, `TORRELD.showLanding`, and `TORRELD.boot`.
 4. **Boot** - `TORRELD.boot()` picks the initial view three ways: a valid `?pack=<id>` in the URL enters that pack; otherwise a remembered pack (`torreld.lastPack.v1`, read through `TORRELD.storage()`) resumes it; otherwise the **landing picker** renders. It then wires the timer.
 
@@ -19,7 +19,7 @@ Page section order (pack view): top bar (brand-home → section nav) → hero �
 
 ### Landing picker and pack navigation
 
-There is no in-topbar pack switcher. Pack selection is a **landing view** (`renderer.renderLanding`): a masthead plus one card per registered pack, each an `<a href="?pack=<id>">` that `switcher.js` intercepts for in-page navigation while leaving modified-clicks (open-in-new-tab) to the browser. Inside a pack the **brandmark is the return control** - an `<a class="brand-home">` with a back-chevron and `aria-label="All programs"`; clicking it calls `showLanding()`, which strips `?pack` from the URL and renders the picker.
+There is no in-topbar pack switcher. Pack selection is a **landing view** (`renderer.renderLanding`): a masthead plus one card per registered pack, grouped by `kind` in fixed order - Protocols, Overlays, Supplements - each group with a mono heading and a one-line hint; empty groups render nothing, and a missing or unknown `kind` falls back to protocol, each an `<a href="?pack=<id>">` that `switcher.js` intercepts for in-page navigation while leaving modified-clicks (open-in-new-tab) to the browser. Inside a pack the **brandmark is the return control** - an `<a class="brand-home">` with a back-chevron and `aria-label="All programs"`; clicking it calls `showLanding()`, which strips `?pack` from the URL and renders the picker.
 
 `switcher.js` mirrors the last-entered pack to feature-detected `localStorage` under `torreld.lastPack.v1`, via the shared `TORRELD.storage()` probe that `progress.js` exposes (one storage-detection path for both features). When storage is blocked (the no-storage preview sandbox) the mirror is skipped and every bare visit shows the landing - a clean degradation. Deep links, bookmarks, and the per-pack share stubs all use `?pack=<id>`, which always enters the pack directly.
 
@@ -62,6 +62,8 @@ Top-level pack fields registered with `registerPack()`:
 ```
 id:            string   // stable; used in ?pack=<id> URLs and as the stem for OG/stub paths
 name:          string   // short label shown on the landing card and brand-home wordmark
+kind?:         string   // "protocol" | "overlay" | "supplement"; landing group (default protocol)
+symptom?:      string   // one "run this if" sentence on the landing card; the user's fault, not the pack
 documentTitle: string   // applied to <title> when this pack is active
 share?:        {        // used at build time (OG/stubs) and at runtime (landing cards)
   title:       string,  // pack headline for the OG card (plain ASCII, one line)
