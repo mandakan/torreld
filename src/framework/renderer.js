@@ -240,11 +240,23 @@
     }
   }
 
-  /* Landing pack picker - the home view when no pack is active. Lists every
-     registered pack as a card (name + tagline + description) built from the
-     pack's share block. Whole card is an <a href="?pack=id"> so it works
-     without JS and supports open-in-new-tab; switcher.js intercepts the click
-     for in-page navigation. Content is author-trusted, same as render(). */
+  /* Landing pack picker - the home view when no pack is active. Groups
+     registered packs by kind (Protocols, Overlays, Supplements) and renders
+     each as a card: kind eyebrow, name, tagline, "Run this if" symptom line,
+     description. Whole card is an <a href="?pack=id"> so it works without JS
+     and supports open-in-new-tab; switcher.js intercepts the click for
+     in-page navigation. Content is author-trusted, same as render(). */
+  var KIND_GROUPS = [
+    { kind: "protocol",   head: "Protocols",   hint: "standalone programs - pick one and run it" },
+    { kind: "overlay",    head: "Overlays",    hint: "short blocks that ride on your base program" },
+    { kind: "supplement", head: "Supplements", hint: "no gun needed - runs alongside a protocol" }
+  ];
+
+  function packKind(p){
+    var known = KIND_GROUPS.some(function(g){ return g.kind === p.kind; });
+    return known ? p.kind : "protocol";
+  }
+
   function renderLanding(){
     T.activeId = null;
     document.body.classList.add("is-landing");
@@ -257,22 +269,33 @@
     document.getElementById("hero").innerHTML =
       '<div class="wrap"><p class="eyebrow">Dry-fire training</p>' +
       '<h1>Pick a<br><span class="dim">program.</span></h1>' +
-      '<p class="lede">Par-time-driven dry-fire packs. Commit to one and run it; ' +
-      'each is a self-contained protocol - diagnosis, plan, drills, evidence.</p>' +
+      '<p class="lede">Par-time-driven dry-fire packs. Pick the protocol that matches ' +
+      'your fault and run it; overlays and supplements ride alongside. Each pack is a ' +
+      'full case - diagnosis, plan, drills, evidence.</p>' +
       '<div class="hero-count">' + n + ' program' + (n === 1 ? "" : "s") + '</div></div>';
 
-    var cards = T.packs.map(function(p){
-      var s = p.share || {};
-      return '<a class="pcard" href="?pack=' + p.id + '" data-pack="' + p.id + '">' +
-        '<span class="pcard-eyebrow">Program</span>' +
-        '<span class="pcard-name">' + p.name +
-          '<span class="pcard-arrow" aria-hidden="true">&rarr;</span></span>' +
-        (s.tagline ? '<span class="pcard-tagline">' + s.tagline + '</span>' : "") +
-        (s.description ? '<span class="pcard-desc">' + s.description + '</span>' : "") +
-      '</a>';
+    var groups = KIND_GROUPS.map(function(g){
+      var packs = T.packs.filter(function(p){ return packKind(p) === g.kind; });
+      if(!packs.length) return "";
+      var cards = packs.map(function(p){
+        var s = p.share || {};
+        return '<a class="pcard" href="?pack=' + p.id + '" data-pack="' + p.id + '">' +
+          '<span class="pcard-eyebrow">' + g.kind + '</span>' +
+          '<span class="pcard-name">' + p.name +
+            '<span class="pcard-arrow" aria-hidden="true">&rarr;</span></span>' +
+          (s.tagline ? '<span class="pcard-tagline">' + s.tagline + '</span>' : "") +
+          (p.symptom ? '<span class="pcard-symptom"><b>Run this if</b>' + p.symptom + '</span>' : "") +
+          (s.description ? '<span class="pcard-desc">' + s.description + '</span>' : "") +
+        '</a>';
+      }).join("");
+      return '<div class="pgroup">' +
+        '<h2 class="pgroup-head">' + g.head +
+          '<span class="pgroup-hint">' + g.hint + '</span></h2>' +
+        '<div class="pcards">' + cards + '</div></div>';
     }).join("");
+
     document.getElementById("app").innerHTML =
-      '<section class="landing"><div class="pcards">' + cards + '</div></section>';
+      '<section class="landing">' + groups + '</section>';
   }
 
   function render(packId){

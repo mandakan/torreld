@@ -12,6 +12,10 @@
  *   id            - stable identifier used in ?pack=<id> URLs
  *   name          - short label shown in the switcher chip
  *   documentTitle - full title applied to <title> when this pack is active
+ *   kind          - "protocol" | "overlay" | "supplement"; groups the pack
+ *                   on the landing picker (missing defaults to protocol)
+ *   symptom       - one "run this if" sentence shown on the landing card;
+ *                   describes the user's fault, not the pack
  *   data          - PROGRAM object (brand, nav, hero, diagnosis, program,
  *                   drills, evidence, references, footer)
  *
@@ -22,6 +26,8 @@ registerPack({
   id: "non-standard-starts",
   name: "Non-standard starts",
   documentTitle: "TORRELD - Non-standard starts dry-fire",
+  kind: "overlay",
+  symptom: "Unloaded starts, table pick-ups, or an occupied support hand wrecks your first shots.",
   share: {
     title: "Non-standard starts dry-fire",
     tagline: "Grip the start, hold the steel",
@@ -45,7 +51,7 @@ registerPack({
     diagnosis: {
       lane: "CASE",
       title: "The diagnosis behind the pack",
-      intro: "This pack is built for one Production Optics shooter's leak - a support hand that degrades under disruption, and steel that gets missed or chased rather than called - read against the HFO Masters 2026 stages that punish it hardest. Three stages deny the normal draw: Stage 1 folds a rack into it, Stage 9 builds the grip during a table load, Stage 3 ties up the support hand entirely.",
+      intro: "This pack is built for one Production Optics shooter's leak - a support hand that degrades under disruption, and steel that gets missed or chased rather than called - read against the HFO Masters 2026 stages that punish it hardest. Three stages deny the normal draw: Stage 1 folds a rack into it, Stage 9 builds the grip during a table load, Stage 3 ties up the support hand entirely. The base grip build this overlay rides on is <a href=\"?pack=grip-first\">grip-first</a>.",
       chain: [
         { root: true, tag: "Root",      title: "Grip through a non-standard start", body: "The support hand doesn't reach its reference when the start denies a clean draw. Everything below rests on this." },
         {              tag: "Symptom",   title: "Fumbled start / weak platform",     body: "Time bled on the load, or a strong-hand-dominant grip that can't hold a steel array. ~80% a consequence of the start." },

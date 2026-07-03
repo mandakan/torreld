@@ -4,6 +4,10 @@
  *   id            - stable identifier used in ?pack=<id> URLs
  *   name          - short label shown in the switcher chip
  *   documentTitle - full title applied to <title> when this pack is active
+ *   kind          - "protocol" | "overlay" | "supplement"; groups the pack
+ *                   on the landing picker (missing defaults to protocol)
+ *   symptom       - one "run this if" sentence shown on the landing card;
+ *                   describes the user's fault, not the pack
  *   data          - PROGRAM object (brand, nav, hero, diagnosis, program,
  *                   drills, evidence, references, footer)
  *
@@ -14,6 +18,8 @@ registerPack({
   id: "grip-first",
   name: "Grip-first",
   documentTitle: "TORRELD - Grip-first dry-fire",
+  kind: "protocol",
+  symptom: "The dot isn't where you expect after you move - or you don't know your fault yet.",
   share: {
     title: "Grip-first dry-fire",
     tagline: "The one lever when range time is rare",
@@ -58,7 +64,7 @@ registerPack({
         { n: "Session 04", primary: false, focus: "Presentation",   items: ["Target-focused presentation"] },
         { n: "Session 05", primary: false, focus: "Movement",       items: ["Move-and-regrip", "Grip under load"] }
       ],
-      note: "10-15 min/session. Quality over volume - a bad rep doesn't count. <b>Spend ~70% of the time on Move-and-regrip</b>: it attacks the root fault, the rest follows."
+      note: "10-15 min/session. Quality over volume - a bad rep doesn't count. <b>Spend ~70% of the time on Move-and-regrip</b>: it attacks the root fault, the rest follows. On days with no gun to hand, <a href=\"?pack=grip-conditioning\">off-range grip conditioning</a> is the companion that keeps the hands working."
     },
     drills: {
       lane: "ARM",

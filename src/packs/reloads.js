@@ -4,6 +4,10 @@
  *   id            - stable identifier used in ?pack=<id> URLs
  *   name          - short label shown in the switcher chip
  *   documentTitle - full title applied to <title> when this pack is active
+ *   kind          - "protocol" | "overlay" | "supplement"; groups the pack
+ *                   on the landing picker (missing defaults to protocol)
+ *   symptom       - one "run this if" sentence shown on the landing card;
+ *                   describes the user's fault, not the pack
  *   data          - PROGRAM object (brand, nav, hero, diagnosis, program,
  *                   drills, evidence, references, footer)
  *
@@ -14,6 +18,8 @@ registerPack({
   id: "reloads",
   name: "Reloads",
   documentTitle: "TORRELD - Reloads dry-fire",
+  kind: "protocol",
+  symptom: "Reloads feel like a pause - eyes leave the mag early and the seat is a gamble.",
   share: {
     title: "Reloads dry-fire",
     tagline: "The mag goes where you look",
