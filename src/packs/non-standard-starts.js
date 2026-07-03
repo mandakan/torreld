@@ -27,7 +27,7 @@ registerPack({
   name: "Non-standard starts",
   documentTitle: "TORRELD - Non-standard starts dry-fire",
   kind: "overlay",
-  symptom: "Unloaded starts, table pick-ups, or an occupied support hand wreck your first shots.",
+  symptom: "Unloaded starts, table pick-ups, or an occupied support hand wrecks your first shots.",
   share: {
     title: "Non-standard starts dry-fire",
     tagline: "Grip the start, hold the steel",

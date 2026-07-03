@@ -240,11 +240,12 @@
     }
   }
 
-  /* Landing pack picker - the home view when no pack is active. Lists every
-     registered pack as a card (name + tagline + description) built from the
-     pack's share block. Whole card is an <a href="?pack=id"> so it works
-     without JS and supports open-in-new-tab; switcher.js intercepts the click
-     for in-page navigation. Content is author-trusted, same as render(). */
+  /* Landing pack picker - the home view when no pack is active. Groups
+     registered packs by kind (Protocols, Overlays, Supplements) and renders
+     each as a card: kind eyebrow, name, tagline, "Run this if" symptom line,
+     description. Whole card is an <a href="?pack=id"> so it works without JS
+     and supports open-in-new-tab; switcher.js intercepts the click for
+     in-page navigation. Content is author-trusted, same as render(). */
   var KIND_GROUPS = [
     { kind: "protocol",   head: "Protocols",   hint: "standalone programs - pick one and run it" },
     { kind: "overlay",    head: "Overlays",    hint: "short blocks that ride on your base program" },
