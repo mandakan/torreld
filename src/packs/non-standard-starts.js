@@ -12,6 +12,10 @@
  *   id            - stable identifier used in ?pack=<id> URLs
  *   name          - short label shown in the switcher chip
  *   documentTitle - full title applied to <title> when this pack is active
+ *   kind          - "protocol" | "overlay" | "supplement"; groups the pack
+ *                   on the landing picker (missing defaults to protocol)
+ *   symptom       - one "run this if" sentence shown on the landing card;
+ *                   describes the user's fault, not the pack
  *   data          - PROGRAM object (brand, nav, hero, diagnosis, program,
  *                   drills, evidence, references, footer)
  *
@@ -22,6 +26,8 @@ registerPack({
   id: "non-standard-starts",
   name: "Non-standard starts",
   documentTitle: "TORRELD - Non-standard starts dry-fire",
+  kind: "overlay",
+  symptom: "Unloaded starts, table pick-ups, or an occupied support hand wreck your first shots.",
   share: {
     title: "Non-standard starts dry-fire",
     tagline: "Grip the start, hold the steel",

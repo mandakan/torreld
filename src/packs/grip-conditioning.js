@@ -4,6 +4,10 @@
  *   id            - stable identifier used in ?pack=<id> URLs
  *   name          - short label shown in the switcher chip
  *   documentTitle - full title applied to <title> when this pack is active
+ *   kind          - "protocol" | "overlay" | "supplement"; groups the pack
+ *                   on the landing picker (missing defaults to protocol)
+ *   symptom       - one "run this if" sentence shown on the landing card;
+ *                   describes the user's fault, not the pack
  *   data          - PROGRAM object (brand, nav, hero, diagnosis, program,
  *                   drills, evidence, references, footer)
  *
@@ -14,6 +18,8 @@ registerPack({
   id: "grip-conditioning",
   name: "Grip conditioning",
   documentTitle: "TORRELD - Off-range grip conditioning",
+  kind: "supplement",
+  symptom: "Grip is right on the first array and gone by the last. No gun needed; pairs with grip-first.",
   share: {
     title: "Off-range grip conditioning",
     tagline: "Grip work for when there's no gun to hand",
